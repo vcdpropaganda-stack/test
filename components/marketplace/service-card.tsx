@@ -30,7 +30,7 @@ export function ServiceCard({
   location,
 }: ServiceCardProps) {
   return (
-    <Link href={href} aria-label={`Ver serviço ${title}`} className="block h-full">
+    <Link href={href} prefetch aria-label={`Ver serviço ${title}`} className="block h-full">
       <article className="elevated-card group h-full overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-[0_20px_55px_rgba(15,23,42,0.08)] transition duration-200 hover:-translate-y-1 hover:shadow-[0_24px_65px_rgba(15,23,42,0.14)]">
         <div className="relative aspect-[4/3] overflow-hidden bg-slate-200">
           {imageUrl ? (

@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import Image from "next/image";
 import Link from "next/link";
 import { Clock3, MapPin, ShieldCheck, Star } from "lucide-react";
 import { createBookingAction } from "@/app/servicos/[slug]/actions";
+import { QueryNotice } from "@/components/shared/query-notice";
 import { Button } from "@/components/ui/button";
-import { Notice } from "@/components/ui/notice";
 import {
   formatPrice,
   getMarketplaceServiceBySlug,
@@ -15,10 +16,10 @@ import {
 
 type ServiceDetailPageProps = {
   params: Promise<{ slug: string }>;
-  searchParams: Promise<{ message?: string }>;
 };
 
 export const revalidate = 120;
+export const dynamic = "force-static";
 
 function humanizeSlug(slug: string) {
   return slug
@@ -56,10 +57,8 @@ export async function generateMetadata({
 
 export default async function ServiceDetailPage({
   params,
-  searchParams,
 }: ServiceDetailPageProps) {
   const { slug } = await params;
-  const { message } = await searchParams;
   const service = await getMarketplaceServiceBySlug(slug);
 
   if (!service) {
@@ -176,7 +175,11 @@ export default async function ServiceDetailPage({
             <h2 className="font-sans text-2xl font-bold tracking-tight text-slate-950">
               Próximos horários disponíveis
             </h2>
-            {message ? <div className="mt-5"><Notice>{message}</Notice></div> : null}
+            <Suspense fallback={null}>
+              <div className="mt-5">
+                <QueryNotice />
+              </div>
+            </Suspense>
             <div className="mt-6 space-y-3">
               {availability.length > 0 ? (
                 availability.slice(0, 8).map((slot) => (
