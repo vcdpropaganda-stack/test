@@ -63,6 +63,13 @@ with demo_users as (
         'Carla Beauty'
       ),
       (
+        '00000000-0000-4000-8000-000000000014'::uuid,
+        'vocedigitalpropaganda@gmail.com',
+        'Voce Digital Propaganda',
+        'provider'::public.user_role,
+        'Voce Digital Propaganda'
+      ),
+      (
         '00000000-0000-4000-8000-000000000021'::uuid,
         'vitrinelojas+cliente1@gmail.com',
         'Mariana Souza',
@@ -141,6 +148,7 @@ with demo_users as (
       ('00000000-0000-4000-8000-000000000011'::uuid, 'vitrinelojas+ana@gmail.com'),
       ('00000000-0000-4000-8000-000000000012'::uuid, 'vitrinelojas+bruno@gmail.com'),
       ('00000000-0000-4000-8000-000000000013'::uuid, 'vitrinelojas+carla@gmail.com'),
+      ('00000000-0000-4000-8000-000000000014'::uuid, 'vocedigitalpropaganda@gmail.com'),
       ('00000000-0000-4000-8000-000000000021'::uuid, 'vitrinelojas+cliente1@gmail.com'),
       ('00000000-0000-4000-8000-000000000022'::uuid, 'vitrinelojas+cliente2@gmail.com'),
       ('00000000-0000-4000-8000-000000000023'::uuid, 'vitrinelojas+cliente3@gmail.com'),
@@ -179,6 +187,7 @@ set
     when '00000000-0000-4000-8000-000000000011'::uuid then 'Ana Silva'
     when '00000000-0000-4000-8000-000000000012'::uuid then 'Bruno Costa'
     when '00000000-0000-4000-8000-000000000013'::uuid then 'Carla Oliveira'
+    when '00000000-0000-4000-8000-000000000014'::uuid then 'Voce Digital Propaganda'
     when '00000000-0000-4000-8000-000000000021'::uuid then 'Mariana Souza'
     when '00000000-0000-4000-8000-000000000022'::uuid then 'Lucas Pereira'
     when '00000000-0000-4000-8000-000000000023'::uuid then 'Fernanda Lima'
@@ -189,6 +198,7 @@ set
     when '00000000-0000-4000-8000-000000000011'::uuid then '11980000011'
     when '00000000-0000-4000-8000-000000000012'::uuid then '11980000012'
     when '00000000-0000-4000-8000-000000000013'::uuid then '11980000013'
+    when '00000000-0000-4000-8000-000000000014'::uuid then '1140000000'
     else phone
   end,
   role = case id
@@ -196,6 +206,7 @@ set
     when '00000000-0000-4000-8000-000000000011'::uuid then 'provider'::public.user_role
     when '00000000-0000-4000-8000-000000000012'::uuid then 'provider'::public.user_role
     when '00000000-0000-4000-8000-000000000013'::uuid then 'provider'::public.user_role
+    when '00000000-0000-4000-8000-000000000014'::uuid then 'provider'::public.user_role
     else 'client'::public.user_role
   end
 where id in (
@@ -203,6 +214,7 @@ where id in (
   '00000000-0000-4000-8000-000000000011'::uuid,
   '00000000-0000-4000-8000-000000000012'::uuid,
   '00000000-0000-4000-8000-000000000013'::uuid,
+  '00000000-0000-4000-8000-000000000014'::uuid,
   '00000000-0000-4000-8000-000000000021'::uuid,
   '00000000-0000-4000-8000-000000000022'::uuid,
   '00000000-0000-4000-8000-000000000023'::uuid,
@@ -215,24 +227,28 @@ set
     when '00000000-0000-4000-8000-000000000011'::uuid then 'Ana Clean'
     when '00000000-0000-4000-8000-000000000012'::uuid then 'Bruno Tech'
     when '00000000-0000-4000-8000-000000000013'::uuid then 'Carla Beauty'
+    when '00000000-0000-4000-8000-000000000014'::uuid then 'Voce Digital Propaganda'
     else display_name
   end,
   bio = case profile_id
     when '00000000-0000-4000-8000-000000000011'::uuid then 'Especialista em limpeza residencial premium com atendimento agendado e recorrente.'
     when '00000000-0000-4000-8000-000000000012'::uuid then 'Suporte tecnico para computadores, redes e pequenos negocios com atendimento local.'
     when '00000000-0000-4000-8000-000000000013'::uuid then 'Servicos de beleza e autocuidado com experiencia sob medida para eventos e rotina.'
+    when '00000000-0000-4000-8000-000000000014'::uuid then 'Agencia de marketing digital de Jundiai focada em conversao, posicionamento de marca e crescimento de negocios.'
     else bio
   end,
   city = case profile_id
     when '00000000-0000-4000-8000-000000000011'::uuid then 'Sao Paulo'
     when '00000000-0000-4000-8000-000000000012'::uuid then 'Campinas'
     when '00000000-0000-4000-8000-000000000013'::uuid then 'Sao Paulo'
+    when '00000000-0000-4000-8000-000000000014'::uuid then 'Jundiai'
     else city
   end,
   state = case profile_id
     when '00000000-0000-4000-8000-000000000011'::uuid then 'SP'
     when '00000000-0000-4000-8000-000000000012'::uuid then 'SP'
     when '00000000-0000-4000-8000-000000000013'::uuid then 'SP'
+    when '00000000-0000-4000-8000-000000000014'::uuid then 'SP'
     else state
   end,
   is_verified = true,
@@ -240,12 +256,14 @@ set
     when '00000000-0000-4000-8000-000000000011'::uuid then 'premium'::public.subscription_plan
     when '00000000-0000-4000-8000-000000000012'::uuid then 'pro'::public.subscription_plan
     when '00000000-0000-4000-8000-000000000013'::uuid then 'pro'::public.subscription_plan
+    when '00000000-0000-4000-8000-000000000014'::uuid then 'premium'::public.subscription_plan
     else plan
   end
 where profile_id in (
   '00000000-0000-4000-8000-000000000011'::uuid,
   '00000000-0000-4000-8000-000000000012'::uuid,
-  '00000000-0000-4000-8000-000000000013'::uuid
+  '00000000-0000-4000-8000-000000000013'::uuid,
+  '00000000-0000-4000-8000-000000000014'::uuid
 );
 
 insert into public.service_categories (name, slug)
@@ -255,7 +273,11 @@ values
   ('Beleza', 'beleza'),
   ('Manutencao', 'manutencao'),
   ('Consultoria', 'consultoria'),
-  ('Eventos', 'eventos')
+  ('Eventos', 'eventos'),
+  ('Design', 'design'),
+  ('Webdesign', 'webdesign'),
+  ('Gestao de Trafego', 'gestao-de-trafego'),
+  ('Social Media', 'social-media')
 on conflict (slug) do update
 set name = excluded.name;
 
@@ -267,7 +289,8 @@ with provider_refs as (
   where profile_id in (
     '00000000-0000-4000-8000-000000000011'::uuid,
     '00000000-0000-4000-8000-000000000012'::uuid,
-    '00000000-0000-4000-8000-000000000013'::uuid
+    '00000000-0000-4000-8000-000000000013'::uuid,
+    '00000000-0000-4000-8000-000000000014'::uuid
   )
 )
 insert into public.services (
@@ -416,6 +439,116 @@ join (
       9500,
       45,
       11
+    ),
+    (
+      '00000000-0000-4000-8000-000000000014'::uuid,
+      'design',
+      'Cartao de visita',
+      'cartao-de-visita-vcd',
+      'Cartao de visita profissional com diagramação comercial, versoes para impressao e refinamento visual da marca.',
+      '/service-thumbs/cartao-de-visita-vcd.svg',
+      12000,
+      7,
+      12
+    ),
+    (
+      '00000000-0000-4000-8000-000000000014'::uuid,
+      'design',
+      'Cartao de visita digital',
+      'cartao-de-visita-digital-vcd',
+      'Versao digital do seu cartao com layout pensado para WhatsApp, QR code e apresentacao rapida da empresa.',
+      '/service-thumbs/cartao-de-visita-digital-vcd.svg',
+      9000,
+      5,
+      13
+    ),
+    (
+      '00000000-0000-4000-8000-000000000014'::uuid,
+      'design',
+      'Marca',
+      'marca-vcd',
+      'Criacao de marca com conceito visual, estudo de aplicacao e direcao de posicionamento para o negocio.',
+      '/service-thumbs/marca-vcd.svg',
+      180000,
+      20,
+      14
+    ),
+    (
+      '00000000-0000-4000-8000-000000000014'::uuid,
+      'design',
+      'Identidade visual',
+      'identidade-visual-vcd',
+      'Sistema visual completo com logo, paleta, tipografia, padroes e materiais base para comunicar a empresa com consistencia.',
+      '/service-thumbs/identidade-visual-vcd.svg',
+      250000,
+      30,
+      15
+    ),
+    (
+      '00000000-0000-4000-8000-000000000014'::uuid,
+      'webdesign',
+      'Onepage',
+      'onepage-vcd',
+      'Pagina unica objetiva para apresentar negocio, proposta, prova social e captar leads com rapidez.',
+      '/service-thumbs/onepage-vcd.svg',
+      180000,
+      20,
+      16
+    ),
+    (
+      '00000000-0000-4000-8000-000000000014'::uuid,
+      'webdesign',
+      'Landing page',
+      'landing-page-vcd',
+      'Landing page focada em conversao com estrutura de oferta, copy, CTA e integracao para campanhas.',
+      '/service-thumbs/landing-page-vcd.svg',
+      220000,
+      25,
+      17
+    ),
+    (
+      '00000000-0000-4000-8000-000000000014'::uuid,
+      'webdesign',
+      'Site full',
+      'site-full-vcd',
+      'Site institucional completo com arquitetura de paginas, apresentacao da empresa e experiencia profissional.',
+      '/service-thumbs/site-full-vcd.svg',
+      450000,
+      40,
+      18
+    ),
+    (
+      '00000000-0000-4000-8000-000000000014'::uuid,
+      'webdesign',
+      'Ecommerce',
+      'ecommerce-vcd',
+      'Loja virtual com estrutura para catalogo, vendas online, meios de pagamento e crescimento digital.',
+      '/service-thumbs/ecommerce-vcd.svg',
+      650000,
+      50,
+      19
+    ),
+    (
+      '00000000-0000-4000-8000-000000000014'::uuid,
+      'gestao-de-trafego',
+      'Gestao de trafego',
+      'gestao-de-trafego-vcd',
+      'Planejamento, criacao e otimizacao de campanhas em Meta e Google com foco em retorno e vendas.',
+      '/service-thumbs/gestao-de-trafego-vcd.svg',
+      180000,
+      30,
+      20
+    ),
+    (
+      '00000000-0000-4000-8000-000000000014'::uuid,
+      'social-media',
+      'Social media',
+      'social-media-vcd',
+      'Planejamento editorial, criacao de conteudo e gestao de redes sociais para fortalecer a marca e gerar demanda.',
+      '/service-thumbs/social-media-vcd.svg',
+      160000,
+      30,
+      21
     )
 ) as svc(profile_id, category_slug, title, slug, description, cover_image_url, price_cents, duration_minutes, featured_rank)
   on svc.profile_id = pr.profile_id
@@ -446,7 +579,17 @@ where service_id in (
     'producao-de-penteado-para-eventos',
     'organizacao-e-limpeza-de-closets',
     'configuracao-de-home-office',
-    'design-de-sobrancelhas-premium'
+    'design-de-sobrancelhas-premium',
+    'cartao-de-visita-vcd',
+    'cartao-de-visita-digital-vcd',
+    'marca-vcd',
+    'identidade-visual-vcd',
+    'onepage-vcd',
+    'landing-page-vcd',
+    'site-full-vcd',
+    'ecommerce-vcd',
+    'gestao-de-trafego-vcd',
+    'social-media-vcd'
   )
 );
 
@@ -473,7 +616,17 @@ join (
     ('producao-de-penteado-para-eventos', timezone('utc', now()) + interval '5 day' + interval '8 hour', timezone('utc', now()) + interval '5 day' + interval '9 hour 30 minute'),
     ('organizacao-e-limpeza-de-closets', timezone('utc', now()) + interval '7 day' + interval '13 hour', timezone('utc', now()) + interval '7 day' + interval '15 hour 30 minute'),
     ('configuracao-de-home-office', timezone('utc', now()) + interval '2 day' + interval '9 hour', timezone('utc', now()) + interval '2 day' + interval '10 hour 40 minute'),
-    ('design-de-sobrancelhas-premium', timezone('utc', now()) + interval '4 day' + interval '16 hour', timezone('utc', now()) + interval '4 day' + interval '16 hour 45 minute')
+    ('design-de-sobrancelhas-premium', timezone('utc', now()) + interval '4 day' + interval '16 hour', timezone('utc', now()) + interval '4 day' + interval '16 hour 45 minute'),
+    ('cartao-de-visita-vcd', timezone('utc', now()) + interval '1 day' + interval '9 hour', timezone('utc', now()) + interval '1 day' + interval '9 hour 30 minute'),
+    ('cartao-de-visita-digital-vcd', timezone('utc', now()) + interval '1 day' + interval '11 hour', timezone('utc', now()) + interval '1 day' + interval '11 hour 30 minute'),
+    ('marca-vcd', timezone('utc', now()) + interval '2 day' + interval '14 hour', timezone('utc', now()) + interval '2 day' + interval '15 hour'),
+    ('identidade-visual-vcd', timezone('utc', now()) + interval '3 day' + interval '10 hour', timezone('utc', now()) + interval '3 day' + interval '11 hour'),
+    ('onepage-vcd', timezone('utc', now()) + interval '4 day' + interval '9 hour', timezone('utc', now()) + interval '4 day' + interval '10 hour'),
+    ('landing-page-vcd', timezone('utc', now()) + interval '5 day' + interval '15 hour', timezone('utc', now()) + interval '5 day' + interval '16 hour'),
+    ('site-full-vcd', timezone('utc', now()) + interval '6 day' + interval '10 hour', timezone('utc', now()) + interval '6 day' + interval '11 hour'),
+    ('ecommerce-vcd', timezone('utc', now()) + interval '7 day' + interval '16 hour', timezone('utc', now()) + interval '7 day' + interval '17 hour'),
+    ('gestao-de-trafego-vcd', timezone('utc', now()) + interval '2 day' + interval '11 hour', timezone('utc', now()) + interval '2 day' + interval '12 hour'),
+    ('social-media-vcd', timezone('utc', now()) + interval '3 day' + interval '15 hour', timezone('utc', now()) + interval '3 day' + interval '16 hour')
 ) as slot(slug, start_at, end_at)
   on slot.slug = s.slug;
 

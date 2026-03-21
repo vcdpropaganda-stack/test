@@ -46,6 +46,7 @@ export default async function ServicesPage({ searchParams }: ServicesPageProps) 
           eyebrow="Marketplace"
           title="Todos os servicos publicados"
           description="Descubra servicos com imagem real, reputacao visivel, agenda pronta e apresentacao muito mais clara para conversao."
+          invert
         />
         <div className="mt-6 flex flex-wrap gap-3 text-sm">
           <span className="rounded-full border border-white/15 bg-white/10 px-4 py-2 backdrop-blur-sm">
