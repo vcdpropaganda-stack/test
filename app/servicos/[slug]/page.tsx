@@ -150,7 +150,7 @@ export default async function ServiceDetailPage({
   ];
 
   return (
-    <main id="conteudo" className="page-shell py-16">
+    <main id="conteudo" className="page-shell py-8 sm:py-10 lg:py-16">
       <div className="mb-6">
         <Link
           href="/servicos"
@@ -159,9 +159,9 @@ export default async function ServiceDetailPage({
           Voltar para o marketplace
         </Link>
       </div>
-      <div className="grid gap-8 lg:grid-cols-[1.08fr_0.92fr]">
+      <div className="grid gap-6 lg:grid-cols-[1.08fr_0.92fr] lg:gap-8">
         <section className="space-y-6">
-          <div className="rounded-[2rem] border border-slate-200 bg-white p-8 shadow-[0_20px_55px_rgba(15,23,42,0.06)]">
+          <div className="rounded-[1.75rem] border border-slate-200 bg-white p-5 shadow-[0_20px_55px_rgba(15,23,42,0.06)] sm:rounded-[2rem] sm:p-8">
             <div className="flex flex-wrap items-center gap-3 text-sm text-muted-strong">
               <span className="rounded-full bg-primary-soft px-3 py-1 font-semibold text-primary-strong">
                 {service.category?.name ?? "Serviço"}
@@ -171,10 +171,10 @@ export default async function ServiceDetailPage({
                 Prestador verificado no marketplace
               </span>
             </div>
-            <h1 className="mt-5 max-w-4xl font-sans text-5xl leading-tight font-bold tracking-tight text-slate-950">
+            <h1 className="mt-4 max-w-4xl font-sans text-[2.2rem] leading-[0.96] font-bold tracking-[-0.04em] text-slate-950 sm:mt-5 sm:text-5xl sm:leading-tight sm:tracking-tight">
               {service.title}
             </h1>
-            <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm text-muted-strong">
+            <div className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-muted-strong sm:mt-6 sm:gap-x-6 sm:gap-y-3">
               <span className="font-semibold text-slate-950">
                 {service.provider_profile?.display_name ?? "Prestador Vitrine Lojas"}
               </span>
@@ -187,8 +187,8 @@ export default async function ServiceDetailPage({
             </div>
           </div>
 
-          <div className="overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-[0_20px_55px_rgba(15,23,42,0.06)]">
-            <div className="relative aspect-[16/10] bg-slate-950">
+          <div className="overflow-hidden rounded-[1.75rem] border border-slate-200 bg-white shadow-[0_20px_55px_rgba(15,23,42,0.06)] sm:rounded-[2rem]">
+            <div className="relative aspect-[1.05/1] bg-slate-950 sm:aspect-[16/10]">
               {service.cover_image_url ? (
                 <Image
                   src={service.cover_image_url}
@@ -200,7 +200,7 @@ export default async function ServiceDetailPage({
                 />
               ) : null}
               <div className="absolute inset-0 bg-linear-to-t from-slate-950/80 via-slate-950/25 to-transparent" />
-              <div className="absolute inset-x-0 bottom-0 p-8 text-white">
+              <div className="absolute inset-x-0 bottom-0 hidden p-8 text-white sm:block">
                 <p className="text-sm font-semibold tracking-[0.22em] text-indigo-100 uppercase">
                   Serviço
                 </p>
@@ -209,11 +209,19 @@ export default async function ServiceDetailPage({
                 </p>
               </div>
             </div>
-            <div className="grid grid-cols-5 gap-3 border-t border-slate-200 p-5">
+            <div className="border-t border-slate-200 p-5 sm:hidden">
+              <p className="text-[0.72rem] font-semibold tracking-[0.22em] text-primary uppercase">
+                Serviço
+              </p>
+              <p className="mt-3 text-base leading-7 text-muted-strong">
+                {service.description}
+              </p>
+            </div>
+            <div className="grid grid-cols-3 gap-2 border-t border-slate-200 p-4 sm:grid-cols-5 sm:gap-3 sm:p-5">
               {galleryItems.map((item, index) => (
                 <div
                   key={item.id}
-                  className={`relative aspect-[1.2/1] overflow-hidden rounded-2xl border ${
+                  className={`relative aspect-[1.2/1] overflow-hidden rounded-[1rem] border sm:rounded-2xl ${
                     index === 0 ? "border-slate-950 shadow-sm" : "border-slate-200"
                   } bg-slate-100`}
                 >
@@ -231,16 +239,16 @@ export default async function ServiceDetailPage({
             </div>
           </div>
 
-          <div className="rounded-[2rem] border border-border bg-white p-8 shadow-[0_20px_55px_rgba(15,23,42,0.06)]">
-            <div className="flex items-center justify-between gap-4">
-              <h2 className="font-sans text-2xl font-bold tracking-tight text-slate-950">
+          <div className="rounded-[1.75rem] border border-border bg-white p-5 shadow-[0_20px_55px_rgba(15,23,42,0.06)] sm:rounded-[2rem] sm:p-8">
+            <div className="flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+              <h2 className="font-sans text-[1.9rem] leading-tight font-bold tracking-[-0.03em] text-slate-950 sm:text-2xl sm:tracking-tight">
                 Resumo do serviço
               </h2>
               <span className="rounded-full bg-amber-50 px-3 py-1 text-sm font-semibold text-amber-700">
                 O que está incluso
               </span>
             </div>
-            <ul className="mt-6 space-y-4 text-base leading-8 text-muted-strong">
+            <ul className="mt-5 space-y-4 text-base leading-8 text-muted-strong sm:mt-6">
               <li className="flex items-start gap-3">
                 <Check className="mt-1 h-5 w-5 text-emerald-500" />
                 Apresentação visual forte com imagem real do serviço.
@@ -260,17 +268,17 @@ export default async function ServiceDetailPage({
             </ul>
           </div>
 
-          <div className="rounded-[2rem] border border-border bg-white p-8 shadow-[0_20px_55px_rgba(15,23,42,0.06)]">
-            <div className="flex items-center justify-between gap-4">
+          <div className="rounded-[1.75rem] border border-border bg-white p-5 shadow-[0_20px_55px_rgba(15,23,42,0.06)] sm:rounded-[2rem] sm:p-8">
+            <div className="flex items-start justify-between gap-4">
               <div>
                 <p className="text-sm font-semibold tracking-[0.18em] text-primary uppercase">
                   Avaliações
                 </p>
-                <h2 className="mt-2 font-sans text-2xl font-bold tracking-tight text-slate-950">
+                <h2 className="mt-2 font-sans text-[1.9rem] leading-tight font-bold tracking-[-0.03em] text-slate-950 sm:text-2xl sm:tracking-tight">
                   O que clientes valorizam neste perfil
                 </h2>
               </div>
-              <span className="inline-flex items-center gap-2 text-sm font-semibold text-slate-950">
+              <span className="hidden items-center gap-2 text-sm font-semibold text-slate-950 sm:inline-flex">
                 Ver tudo
                 <ChevronRight className="h-4 w-4" />
               </span>
@@ -309,8 +317,8 @@ export default async function ServiceDetailPage({
             </div>
           </div>
 
-          <div className="rounded-[2rem] border border-border bg-white p-8 shadow-[0_20px_55px_rgba(15,23,42,0.06)]">
-            <h2 className="font-sans text-2xl font-bold tracking-tight text-slate-950">
+          <div className="rounded-[1.75rem] border border-border bg-white p-5 shadow-[0_20px_55px_rgba(15,23,42,0.06)] sm:rounded-[2rem] sm:p-8">
+            <h2 className="font-sans text-[1.9rem] leading-tight font-bold tracking-[-0.03em] text-slate-950 sm:text-2xl sm:tracking-tight">
               Próximos horários disponíveis
             </h2>
             <Suspense fallback={null}>
@@ -375,9 +383,9 @@ export default async function ServiceDetailPage({
           </div>
         </section>
 
-        <aside className="space-y-6 lg:sticky lg:top-28 lg:self-start">
-          <div className="overflow-hidden rounded-[2rem] border border-border bg-white shadow-[0_20px_55px_rgba(15,23,42,0.08)]">
-            <div className="grid grid-cols-3 border-b border-border bg-slate-50">
+        <aside className="order-first space-y-6 lg:order-none lg:sticky lg:top-28 lg:self-start">
+          <div className="overflow-hidden rounded-[1.75rem] border border-border bg-white shadow-[0_20px_55px_rgba(15,23,42,0.08)] sm:rounded-[2rem]">
+            <div className="grid grid-cols-3 border-b border-border bg-slate-50 text-[0.72rem] sm:text-sm">
               {[
                 { label: "Essencial", price: service.price_cents },
                 { label: "Intermediário", price: standardPrice },
@@ -385,7 +393,7 @@ export default async function ServiceDetailPage({
               ].map((pack, index) => (
                 <div
                   key={pack.label}
-                  className={`px-4 py-4 text-center text-sm font-semibold ${
+                  className={`px-2 py-3 text-center font-semibold sm:px-4 sm:py-4 ${
                     index === 0
                       ? "border-b-2 border-slate-950 bg-white text-slate-950"
                       : "text-slate-400"
@@ -395,15 +403,15 @@ export default async function ServiceDetailPage({
                 </div>
               ))}
             </div>
-            <div className="p-8">
-              <p className="text-4xl font-bold tracking-tight text-slate-950">
+            <div className="p-5 sm:p-8">
+              <p className="text-[2.3rem] font-bold tracking-tight text-slate-950 sm:text-4xl">
                 {formatPrice(service.price_cents)}
               </p>
-              <p className="mt-4 text-lg leading-8 text-slate-700">
+              <p className="mt-4 text-base leading-7 text-slate-700 sm:text-lg sm:leading-8">
                 Solução com foco em clareza comercial, presença visual forte e uma entrega pronta para gerar confiança desde o primeiro contato.
               </p>
 
-              <div className="mt-6 flex flex-wrap gap-x-5 gap-y-3 text-sm font-semibold text-slate-700">
+              <div className="mt-6 flex flex-wrap gap-x-4 gap-y-3 text-sm font-semibold text-slate-700 sm:gap-x-5">
                 <span className="inline-flex items-center gap-2">
                   <Clock3 className="h-4 w-4" />
                   {service.duration_minutes} min
@@ -448,14 +456,14 @@ export default async function ServiceDetailPage({
             </div>
           </div>
 
-          <div className="rounded-[2rem] border border-border bg-white p-8 shadow-[0_20px_55px_rgba(15,23,42,0.06)]">
+          <div className="rounded-[1.75rem] border border-border bg-white p-5 shadow-[0_20px_55px_rgba(15,23,42,0.06)] sm:rounded-[2rem] sm:p-8">
             <div className="flex items-center gap-4">
-              <div className="flex h-14 w-14 items-center justify-center rounded-full bg-slate-950 text-lg font-semibold text-white">
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-slate-950 text-base font-semibold text-white sm:h-14 sm:w-14 sm:text-lg">
                 {(service.provider_profile?.display_name ?? "P").slice(0, 1)}
               </div>
               <div>
                 <p className="text-sm text-muted-strong">Prestador</p>
-                <h2 className="font-sans text-3xl font-bold tracking-tight text-slate-950">
+                <h2 className="font-sans text-[1.9rem] leading-tight font-bold tracking-[-0.03em] text-slate-950 sm:text-3xl sm:tracking-tight">
                   {service.provider_profile?.display_name ?? "Prestador Vitrine Lojas"}
                 </h2>
               </div>
@@ -480,7 +488,7 @@ export default async function ServiceDetailPage({
             </div>
           </div>
 
-          <div className="rounded-[2rem] border border-border bg-white p-8 shadow-[0_20px_55px_rgba(15,23,42,0.06)]">
+          <div className="rounded-[1.75rem] border border-border bg-white p-5 shadow-[0_20px_55px_rgba(15,23,42,0.06)] sm:rounded-[2rem] sm:p-8">
             <p className="text-sm font-semibold text-slate-950">
               Biografia do prestador
             </p>
@@ -490,7 +498,7 @@ export default async function ServiceDetailPage({
             </p>
           </div>
 
-          <div className="rounded-[2rem] border border-border bg-white p-8 shadow-[0_20px_55px_rgba(15,23,42,0.06)]">
+          <div className="rounded-[1.75rem] border border-border bg-white p-5 shadow-[0_20px_55px_rgba(15,23,42,0.06)] sm:rounded-[2rem] sm:p-8">
             <p className="text-sm font-semibold text-slate-950">Reputação</p>
             <p className="mt-3 text-3xl font-bold text-slate-950">
               {service.average_rating ? service.average_rating.toFixed(1) : "--"}
@@ -502,8 +510,8 @@ export default async function ServiceDetailPage({
         </aside>
       </div>
 
-      <section className="mt-8 rounded-[2rem] border border-border bg-white p-8 shadow-[0_20px_55px_rgba(15,23,42,0.06)]">
-        <h2 className="font-sans text-2xl font-bold tracking-tight text-slate-950">
+      <section className="mt-8 rounded-[1.75rem] border border-border bg-white p-5 shadow-[0_20px_55px_rgba(15,23,42,0.06)] sm:rounded-[2rem] sm:p-8">
+        <h2 className="font-sans text-[1.9rem] leading-tight font-bold tracking-[-0.03em] text-slate-950 sm:text-2xl sm:tracking-tight">
           Avaliações de clientes
         </h2>
         <div className="mt-6 space-y-4">

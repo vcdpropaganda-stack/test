@@ -33,31 +33,31 @@ export async function SiteHeader() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-background/90 backdrop-blur">
-      <div className="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-3 sm:px-6 lg:px-10">
-        <div className="flex items-center justify-between gap-3">
-          <Link href="/" className="flex min-w-0 items-center gap-3 rounded-2xl">
-            <VlMonogram className="h-11 w-11 shrink-0 sm:h-12 sm:w-12" />
+      <div className="mx-auto flex max-w-7xl flex-col gap-3 px-4 py-3 sm:px-6 lg:gap-4 lg:px-10">
+        <div className="flex items-center justify-between gap-2 sm:gap-3">
+          <Link href="/" className="flex min-w-0 items-center gap-2.5 rounded-2xl sm:gap-3">
+            <VlMonogram className="h-10 w-10 shrink-0 sm:h-12 sm:w-12" />
             <div className="min-w-0">
-              <p className="truncate font-sans text-base font-bold tracking-tight text-slate-950 sm:text-lg">
-              Vitrine Lojas
+              <p className="truncate font-sans text-[1.7rem] leading-none font-bold tracking-tight text-slate-950 sm:text-lg">
+                Vitrine Lojas
               </p>
-              <p className="truncate text-[11px] text-muted sm:text-xs">
+              <p className="hidden truncate text-[11px] text-muted sm:block sm:text-xs">
                 Marketplace de lojas e serviços
               </p>
             </div>
           </Link>
 
-          <div className="flex shrink-0 items-center gap-2 sm:gap-3">
+          <div className="flex shrink-0 items-center gap-2">
             {isAuthenticated ? (
               <>
                 <Link
                   href={dashboardHref}
-                  className="inline-flex min-h-11 items-center justify-center rounded-full bg-slate-950 px-4 py-2.5 text-sm font-semibold text-white shadow-lg shadow-slate-950/20 hover:bg-primary-strong"
+                  className="inline-flex min-h-10 items-center justify-center rounded-full bg-slate-950 px-3.5 py-2 text-sm font-semibold text-white shadow-lg shadow-slate-950/20 hover:bg-primary-strong sm:min-h-11 sm:px-4 sm:py-2.5"
                 >
                   Meu painel
                 </Link>
                 <form action={signOutAction}>
-                  <button className="inline-flex min-h-11 items-center justify-center rounded-full border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-950 hover:border-primary/35 hover:bg-slate-50 hover:text-primary-strong">
+                  <button className="inline-flex min-h-10 items-center justify-center rounded-full border border-slate-300 bg-white px-3.5 py-2 text-sm font-semibold text-slate-950 hover:border-primary/35 hover:bg-slate-50 hover:text-primary-strong sm:min-h-11 sm:px-4 sm:py-2.5">
                     Sair
                   </button>
                 </form>
@@ -66,15 +66,16 @@ export async function SiteHeader() {
               <>
                 <Link
                   href="/login"
-                  className="inline-flex min-h-11 items-center justify-center rounded-full border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-950 hover:border-primary/35 hover:bg-slate-50 hover:text-primary-strong"
+                  className="inline-flex min-h-10 items-center justify-center rounded-full border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-950 hover:border-primary/35 hover:bg-slate-50 hover:text-primary-strong sm:min-h-11 sm:px-4 sm:py-2.5"
                 >
                   Entrar
                 </Link>
                 <Link
                   href="/cadastro"
-                  className="inline-flex min-h-11 items-center justify-center rounded-full bg-slate-950 px-4 py-2.5 text-sm font-semibold text-white shadow-lg shadow-slate-950/20 hover:bg-primary-strong"
+                  className="inline-flex min-h-10 items-center justify-center rounded-full bg-slate-950 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-slate-950/20 hover:bg-primary-strong sm:min-h-11 sm:px-4 sm:py-2.5"
                 >
-                  Criar conta
+                  <span className="sm:hidden">Cadastro</span>
+                  <span className="hidden sm:inline">Criar conta</span>
                 </Link>
               </>
             )}
