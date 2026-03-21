@@ -229,6 +229,21 @@ export async function getMarketplaceServices(
   return getCachedMarketplaceServices(JSON.stringify(filters));
 }
 
+export async function searchMarketplaceServices(query: string, limit = 5) {
+  const normalizedQuery = query.trim();
+
+  if (!normalizedQuery) {
+    return [];
+  }
+
+  const services = await getMarketplaceServices({
+    query: normalizedQuery,
+    limit,
+  });
+
+  return services.slice(0, limit);
+}
+
 const getCachedMarketplaceCities = unstable_cache(
   async () => {
     if (!hasSupabaseEnv()) {

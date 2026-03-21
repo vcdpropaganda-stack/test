@@ -6,13 +6,12 @@ import {
   CalendarClock,
   CheckCircle2,
   CreditCard,
-  MapPin,
-  Search,
   ShieldCheck,
   Sparkles,
 } from "lucide-react";
 import { getMarketplaceServices, getServiceTag, formatPrice } from "@/lib/marketplace";
 import { SectionHeading } from "@/components/shared/section-heading";
+import { HeroSearch } from "@/components/marketplace/hero-search";
 import { ServiceCard } from "@/components/marketplace/service-card";
 import { Button } from "@/components/ui/button";
 
@@ -152,64 +151,19 @@ export default async function Home() {
                       {activeServicesCount} em destaque
                     </div>
                   </div>
-                  <div className="relative mt-7 rounded-[2rem] border border-white/10 bg-white/8 p-4 backdrop-blur-md">
-                    <div className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white px-4 py-3 text-slate-500 shadow-lg shadow-slate-950/10">
-                      <Search className="h-4 w-4" />
-                      Buscar limpeza, beleza, manutenção...
-                    </div>
-                    <div className="mt-4 grid gap-3">
-                      {spotlightServices.length > 0 ? (
-                        spotlightServices.map((service) => (
-                          <div
-                            key={service.id}
-                            className="grid grid-cols-[5.5rem_1fr] gap-4 rounded-[1.6rem] border border-white/10 bg-white/9 p-3.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]"
-                          >
-                            <div className="relative overflow-hidden rounded-2xl bg-white/10">
-                              {service.cover_image_url ? (
-                                <Image
-                                  src={service.cover_image_url}
-                                  alt={service.title}
-                                  fill
-                                  sizes="80px"
-                                  className="h-full w-full object-cover"
-                                />
-                              ) : null}
-                            </div>
-                            <div>
-                              <div className="flex items-center justify-between gap-3">
-                                <span className="rounded-full bg-accent/18 px-3 py-1 text-xs font-semibold text-amber-300">
-                                  {getServiceTag(service)}
-                                </span>
-                                <span className="text-sm font-medium text-slate-200">
-                                  {service.duration_minutes} min
-                                </span>
-                              </div>
-                              <p className="mt-3 text-lg font-semibold leading-tight">
-                                {service.title}
-                              </p>
-                              <p className="mt-1 text-sm text-slate-300">
-                                {service.provider_profile?.display_name ?? "Prestador Vitrine Lojas"}
-                              </p>
-                              <div className="mt-3 flex items-center justify-between text-sm">
-                                <span className="font-semibold text-white">
-                                  {formatPrice(service.price_cents)}
-                                </span>
-                                <span className="inline-flex items-center gap-1 text-slate-200">
-                                  <MapPin className="h-3.5 w-3.5" />
-                                  {service.provider_profile?.city ?? "Atendimento local"}
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-                        ))
-                      ) : (
-                        <div className="rounded-2xl border border-white/10 bg-white/8 p-4 text-sm text-slate-300">
-                          Assim que os prestadores publicarem serviços ativos, eles
-                          aparecerão aqui automaticamente.
-                        </div>
-                      )}
-                    </div>
-                  </div>
+                  <HeroSearch
+                    initialResults={spotlightServices.map((service) => ({
+                      id: service.id,
+                      slug: service.slug,
+                      title: service.title,
+                      provider:
+                        service.provider_profile?.display_name ?? "Prestador Vitrine Lojas",
+                      city: service.provider_profile?.city ?? null,
+                      price: formatPrice(service.price_cents),
+                      duration: `${service.duration_minutes} min`,
+                      imageUrl: service.cover_image_url,
+                    }))}
+                  />
                   {secondService ? (
                     <div className="relative mt-4 grid gap-3 sm:grid-cols-[1.1fr_0.9fr]">
                       <div className="rounded-[1.5rem] border border-white/10 bg-white/8 p-4 backdrop-blur-sm">
