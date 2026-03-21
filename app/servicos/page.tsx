@@ -37,11 +37,24 @@ export default async function ServicesPage({ searchParams }: ServicesPageProps) 
 
   return (
     <main id="conteudo" className="page-shell py-16">
-      <SectionHeading
-        eyebrow="Marketplace"
-        title="Todos os servicos publicados"
-        description="Uma listagem publica pronta para crescer com filtros, busca e experiencia de descoberta mais profunda."
-      />
+      <section className="overflow-hidden rounded-[2rem] border border-slate-200 bg-[linear-gradient(135deg,#0f172a,#312e81_58%,#6366f1)] px-8 py-10 text-white shadow-[0_24px_70px_rgba(15,23,42,0.16)]">
+        <SectionHeading
+          eyebrow="Marketplace"
+          title="Todos os servicos publicados"
+          description="Descubra servicos com imagem real, reputacao visivel, agenda pronta e apresentacao muito mais clara para conversao."
+        />
+        <div className="mt-6 flex flex-wrap gap-3 text-sm">
+          <span className="rounded-full border border-white/15 bg-white/10 px-4 py-2 backdrop-blur-sm">
+            {services.length} servicos ativos
+          </span>
+          <span className="rounded-full border border-white/15 bg-white/10 px-4 py-2 backdrop-blur-sm">
+            {cities.length} cidades mapeadas
+          </span>
+          <span className="rounded-full border border-white/15 bg-white/10 px-4 py-2 backdrop-blur-sm">
+            Clique em qualquer card para abrir a pagina do servico
+          </span>
+        </div>
+      </section>
 
       <section className="elevated-card mt-10 rounded-[2rem] border border-border bg-white p-6">
         <form className="grid gap-4 lg:grid-cols-[1.4fr_0.8fr_0.8fr_auto] lg:items-end">
@@ -88,6 +101,7 @@ export default async function ServicesPage({ searchParams }: ServicesPageProps) 
               price={formatPrice(service.price_cents)}
               tag={getServiceTag(service)}
               imageUrl={service.cover_image_url}
+              description={service.description}
               rating={service.average_rating}
               reviewsCount={service.reviews_count}
               duration={`${service.duration_minutes} min`}

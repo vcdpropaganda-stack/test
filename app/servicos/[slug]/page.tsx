@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Clock3, MapPin, ShieldCheck, Star } from "lucide-react";
@@ -66,17 +65,23 @@ export default async function ServiceDetailPage({
 
   return (
     <main id="conteudo" className="page-shell py-16">
+      <div className="mb-6">
+        <Link
+          href="/servicos"
+          className="inline-flex rounded-full border border-border bg-white px-4 py-2 text-sm font-semibold text-slate-900 hover:border-primary/30 hover:text-primary-strong"
+        >
+          Voltar para o marketplace
+        </Link>
+      </div>
       <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
         <section className="space-y-6">
           <div className="overflow-hidden rounded-[2rem] border border-slate-200 bg-white">
             <div className="relative aspect-[16/10] bg-slate-950">
               {service.cover_image_url ? (
-                <Image
+                <img
                   src={service.cover_image_url}
                   alt={service.title}
-                  fill
-                  sizes="(max-width: 1024px) 100vw, 60vw"
-                  className="object-cover"
+                  className="h-full w-full object-cover"
                 />
               ) : null}
               <div className="absolute inset-0 bg-linear-to-t from-slate-950/80 via-slate-950/25 to-transparent" />
@@ -195,15 +200,15 @@ export default async function ServiceDetailPage({
               </p>
             </div>
             <div className="mt-8 flex flex-col gap-3">
-              <Button disabled={availability.length === 0}>
+              <Button disabled={availability.length === 0} fullWidth>
                 {availability.length > 0
                   ? "Selecione um horario abaixo"
                   : "Sem horarios no momento"}
               </Button>
-              <Link href="/servicos" className="inline-flex">
-                <Button variant="secondary" className="w-full border-white/15 bg-white text-slate-950">
+              <Link href="/servicos" className="block">
+                <span className="inline-flex min-h-11 w-full items-center justify-center rounded-full border border-white/15 bg-white px-5 py-3 text-sm font-semibold text-slate-950 hover:bg-slate-100">
                   Voltar para a vitrine
-                </Button>
+                </span>
               </Link>
             </div>
           </div>

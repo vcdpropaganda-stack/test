@@ -1,4 +1,3 @@
-import Image from "next/image";
 import type { Metadata } from "next";
 import Link from "next/link";
 import {
@@ -113,12 +112,10 @@ export default async function Home() {
               <div className="overflow-hidden rounded-[2.25rem] border border-slate-200/70 bg-slate-950 text-white shadow-2xl shadow-slate-950/20">
                 <div className="relative min-h-[22rem] p-6">
                   {heroService?.cover_image_url ? (
-                    <Image
+                    <img
                       src={heroService.cover_image_url}
                       alt={heroService.title}
-                      fill
-                      sizes="(max-width: 1024px) 100vw, 40vw"
-                      className="object-cover opacity-55"
+                      className="absolute inset-0 h-full w-full object-cover opacity-55"
                     />
                   ) : null}
                   <div className="absolute inset-0 bg-[linear-gradient(150deg,rgba(15,23,42,0.2),rgba(15,23,42,0.86)_65%)]" />
@@ -145,12 +142,11 @@ export default async function Home() {
                           >
                             <div className="relative overflow-hidden rounded-2xl bg-white/10">
                               {service.cover_image_url ? (
-                                <Image
+                                <img
                                   src={service.cover_image_url}
                                   alt={service.title}
-                                  fill
-                                  sizes="80px"
-                                  className="object-cover"
+                                  className="h-full w-full object-cover"
+                                  loading="lazy"
                                 />
                               ) : null}
                             </div>
@@ -210,6 +206,7 @@ export default async function Home() {
                   price={formatPrice(service.price_cents)}
                   tag={getServiceTag(service)}
                   imageUrl={service.cover_image_url}
+                  description={service.description}
                   rating={service.average_rating}
                   reviewsCount={service.reviews_count}
                   duration={`${service.duration_minutes} min`}
