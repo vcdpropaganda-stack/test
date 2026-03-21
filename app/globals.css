@@ -5,17 +5,20 @@
   --foreground: #0f172a;
   --surface: #ffffff;
   --surface-soft: #f1f5f9;
+  --surface-strong: #e2e8f0;
   --muted: #64748b;
   --muted-strong: #475569;
-  --border: rgba(15, 23, 42, 0.12);
+  --border: rgba(15, 23, 42, 0.16);
   --primary: #6366f1;
   --primary-strong: #4338ca;
   --primary-soft: #e0e7ff;
+  --primary-contrast: #eef2ff;
   --accent: #f59e0b;
   --success: #10b981;
   --danger: #dc2626;
-  --focus-ring: rgba(99, 102, 241, 0.35);
+  --focus-ring: rgba(67, 56, 202, 0.42);
   --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.08);
+  --shadow-medium: 0 20px 60px rgba(15, 23, 42, 0.14);
 }
 
 @theme inline {
@@ -23,12 +26,14 @@
   --color-foreground: var(--foreground);
   --color-surface: var(--surface);
   --color-surface-soft: var(--surface-soft);
+  --color-surface-strong: var(--surface-strong);
   --color-muted: var(--muted);
   --color-muted-strong: var(--muted-strong);
   --color-border: var(--border);
   --color-primary: var(--primary);
   --color-primary-strong: var(--primary-strong);
   --color-primary-soft: var(--primary-soft);
+  --color-primary-contrast: var(--primary-contrast);
   --color-accent: var(--accent);
   --color-success: var(--success);
   --color-danger: var(--danger);
@@ -113,6 +118,19 @@ a {
 
 .elevated-card {
   box-shadow: var(--shadow-soft);
+}
+
+.elevated-card-strong {
+  box-shadow: var(--shadow-medium);
+}
+
+.touch-scroll-x {
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.touch-scroll-x::-webkit-scrollbar {
+  display: none;
 }
 
 .hero-grid {

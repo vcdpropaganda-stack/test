@@ -33,64 +33,68 @@ export async function SiteHeader() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-background/90 backdrop-blur">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-10">
-        <Link href="/" className="flex items-center gap-3 rounded-2xl">
-          <VlMonogram className="h-12 w-12 shrink-0" />
-          <div>
-            <p className="font-sans text-lg font-bold tracking-tight text-slate-950">
+      <div className="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-3 sm:px-6 lg:px-10">
+        <div className="flex items-center justify-between gap-3">
+          <Link href="/" className="flex min-w-0 items-center gap-3 rounded-2xl">
+            <VlMonogram className="h-11 w-11 shrink-0 sm:h-12 sm:w-12" />
+            <div className="min-w-0">
+              <p className="truncate font-sans text-base font-bold tracking-tight text-slate-950 sm:text-lg">
               Vitrine Lojas
-            </p>
-            <p className="text-xs text-muted">Marketplace premium de lojas e serviços</p>
+              </p>
+              <p className="truncate text-[11px] text-muted sm:text-xs">
+                Marketplace premium de lojas e serviços
+              </p>
+            </div>
+          </Link>
+
+          <div className="flex shrink-0 items-center gap-2 sm:gap-3">
+            {isAuthenticated ? (
+              <>
+                <Link
+                  href={dashboardHref}
+                  className="inline-flex min-h-11 items-center justify-center rounded-full bg-slate-950 px-4 py-2.5 text-sm font-semibold text-white shadow-lg shadow-slate-950/20 hover:bg-primary-strong"
+                >
+                  Meu painel
+                </Link>
+                <form action={signOutAction}>
+                  <button className="inline-flex min-h-11 items-center justify-center rounded-full border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-950 hover:border-primary/35 hover:bg-slate-50 hover:text-primary-strong">
+                    Sair
+                  </button>
+                </form>
+              </>
+            ) : (
+              <>
+                <Link
+                  href="/login"
+                  className="inline-flex min-h-11 items-center justify-center rounded-full border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-950 hover:border-primary/35 hover:bg-slate-50 hover:text-primary-strong"
+                >
+                  Entrar
+                </Link>
+                <Link
+                  href="/cadastro"
+                  className="inline-flex min-h-11 items-center justify-center rounded-full bg-slate-950 px-4 py-2.5 text-sm font-semibold text-white shadow-lg shadow-slate-950/20 hover:bg-primary-strong"
+                >
+                  Criar conta
+                </Link>
+              </>
+            )}
           </div>
-        </Link>
+        </div>
 
         <nav
           aria-label="Navegação principal"
-          className="hidden items-center gap-2 rounded-full border border-border bg-white/85 px-3 py-2 md:flex"
+          className="touch-scroll-x flex items-center gap-2 overflow-x-auto rounded-[1.75rem] border border-slate-200 bg-white/92 p-2 elevated-card sm:justify-center"
         >
           {links.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className="rounded-full px-4 py-2 text-sm font-medium text-slate-700 hover:bg-primary-soft hover:text-primary-strong"
+              className="rounded-full px-4 py-2.5 text-sm font-semibold whitespace-nowrap text-slate-800 hover:bg-primary-soft hover:text-primary-strong"
             >
               {link.label}
             </Link>
           ))}
         </nav>
-
-        <div className="flex items-center gap-3">
-          {isAuthenticated ? (
-            <>
-              <Link
-                href={dashboardHref}
-                className="rounded-full bg-primary px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-primary/20 hover:bg-primary-strong"
-              >
-                Meu painel
-              </Link>
-              <form action={signOutAction}>
-                <button className="rounded-full border border-border bg-white px-4 py-2 text-sm font-semibold text-slate-900 hover:border-primary/30 hover:text-primary-strong">
-                  Sair
-                </button>
-              </form>
-            </>
-          ) : (
-            <>
-              <Link
-                href="/login"
-                className="rounded-full border border-border bg-white px-4 py-2 text-sm font-semibold text-slate-900 hover:border-primary/30 hover:text-primary-strong"
-              >
-                Entrar
-              </Link>
-              <Link
-                href="/cadastro"
-                className="rounded-full bg-primary px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-primary/20 hover:bg-primary-strong"
-              >
-                Criar conta
-              </Link>
-            </>
-          )}
-        </div>
       </div>
     </header>
   );
