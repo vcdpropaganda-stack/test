@@ -53,28 +53,31 @@ export default async function Home() {
   const activeServicesCount = featuredServices.length;
   const heroService = featuredServices[0] ?? null;
   const spotlightServices = featuredServices.slice(0, 3);
+  const secondService = featuredServices[1] ?? null;
 
   return (
     <div className="flex min-h-screen flex-col bg-background">
       <main id="conteudo" className="flex-1">
-        <section className="hero-grid relative overflow-hidden border-b border-border bg-[radial-gradient(circle_at_top_left,_rgba(99,102,241,0.16),_transparent_28%),radial-gradient(circle_at_bottom_right,_rgba(245,158,11,0.12),_transparent_26%)]">
-          <div className="absolute inset-x-0 top-0 h-40 bg-linear-to-b from-primary/10 to-transparent" />
-          <div className="pointer-events-none absolute -top-24 right-[-10rem] h-[28rem] w-[28rem] rounded-full bg-primary/16 blur-3xl" />
-          <div className="pointer-events-none absolute bottom-[-8rem] left-[-6rem] h-[18rem] w-[18rem] rounded-full bg-amber-300/16 blur-3xl" />
-          <div className="page-shell grid gap-14 py-16 lg:grid-cols-[1.1fr_0.9fr] lg:py-24">
+        <section className="hero-grid relative overflow-hidden border-b border-border bg-[linear-gradient(180deg,#f8fafc_0%,#eef2ff_52%,#ffffff_100%)]">
+          <div className="absolute inset-x-0 top-0 h-48 bg-linear-to-b from-primary/8 to-transparent" />
+          <div className="pointer-events-none absolute left-[-8rem] top-24 h-[24rem] w-[24rem] rounded-full bg-primary/12 blur-3xl" />
+          <div className="pointer-events-none absolute right-[-6rem] top-16 h-[28rem] w-[28rem] rounded-full bg-cyan-300/10 blur-3xl" />
+          <div className="pointer-events-none absolute bottom-[-10rem] right-[18%] h-[20rem] w-[20rem] rounded-full bg-amber-300/10 blur-3xl" />
+          <div className="page-shell grid gap-12 py-12 lg:grid-cols-[1.03fr_0.97fr] lg:items-center lg:gap-16 lg:py-20">
             <div className="relative z-10">
-              <div className="glass-panel mb-6 inline-flex items-center gap-2 rounded-full border border-primary/20 px-4 py-2 text-sm font-medium text-primary-strong shadow-sm">
+              <div className="glass-panel mb-6 inline-flex items-center gap-2 rounded-full border border-primary/15 px-4 py-2 text-sm font-semibold text-primary-strong shadow-sm">
                 <Sparkles className="h-4 w-4" />
                 Marketplace premium para serviços locais
               </div>
-              <h1 className="max-w-3xl font-sans text-5xl leading-tight font-bold tracking-tight text-slate-950 sm:text-6xl">
-                Descubra serviços com cara de marca forte, agenda viva e
-                apresentação que vende.
+              <h1 className="max-w-4xl font-sans text-[3.3rem] leading-[0.95] font-bold tracking-[-0.05em] text-slate-950 sm:text-[4.35rem] lg:text-[5.5rem]">
+                Serviços que parecem
+                <span className="block text-primary-strong">marca premium</span>
+                <span className="block">antes mesmo do clique.</span>
               </h1>
-              <p className="mt-6 max-w-2xl text-lg leading-8 text-muted">
-                A Vitrine Lojas coloca os melhores prestadores em evidência com
-                imagens fortes, reputação clara, filtros objetivos e uma jornada
-                visual muito mais desejável.
+              <p className="mt-7 max-w-2xl text-lg leading-8 text-muted-strong sm:text-xl">
+                A Vitrine Lojas transforma a busca por serviços em uma vitrine
+                com desejo, confiança e clareza comercial. Mais imagem, mais
+                curadoria e muito menos cara de classificado genérico.
               </p>
               <div className="mt-10 flex flex-col gap-4 sm:flex-row">
                 <Link href="/servicos" className="inline-flex">
@@ -86,22 +89,47 @@ export default async function Home() {
                   <Button variant="secondary">Entrar como prestador</Button>
                 </Link>
               </div>
-              <div className="mt-8 flex flex-wrap gap-3 text-sm text-slate-700">
-                <span className="rounded-full border border-slate-200 bg-white/80 px-4 py-2 shadow-sm">
-                  {activeServicesCount} serviços destacados
-                </span>
-                <span className="rounded-full border border-slate-200 bg-white/80 px-4 py-2 shadow-sm">
-                  3 perfis demo ativos
-                </span>
-                <span className="rounded-full border border-slate-200 bg-white/80 px-4 py-2 shadow-sm">
-                  Booking e checkout protótipo
-                </span>
+              <div className="mt-10 grid gap-3 sm:grid-cols-3">
+                <div className="elevated-card rounded-[1.6rem] border border-white/70 bg-white/88 p-4 backdrop-blur">
+                  <p className="text-[0.7rem] font-semibold tracking-[0.22em] text-muted uppercase">
+                    Catálogo vivo
+                  </p>
+                  <p className="mt-3 text-3xl font-bold tracking-tight text-slate-950">
+                    {activeServicesCount}
+                  </p>
+                  <p className="mt-1 text-sm leading-6 text-muted-strong">
+                    serviços destacados com imagem, agenda e preço visível
+                  </p>
+                </div>
+                <div className="elevated-card rounded-[1.6rem] border border-white/70 bg-white/88 p-4 backdrop-blur">
+                  <p className="text-[0.7rem] font-semibold tracking-[0.22em] text-muted uppercase">
+                    Curadoria
+                  </p>
+                  <p className="mt-3 text-3xl font-bold tracking-tight text-slate-950">
+                    3
+                  </p>
+                  <p className="mt-1 text-sm leading-6 text-muted-strong">
+                    perfis demo com posicionamento, nicho e portfólio inicial
+                  </p>
+                </div>
+                <div className="elevated-card rounded-[1.6rem] border border-white/70 bg-slate-950 p-4 text-white">
+                  <p className="text-[0.7rem] font-semibold tracking-[0.22em] text-slate-400 uppercase">
+                    Fluxo pronto
+                  </p>
+                  <p className="mt-3 text-3xl font-bold tracking-tight">
+                    Booking
+                  </p>
+                  <p className="mt-1 text-sm leading-6 text-slate-300">
+                    reserva, checkout protótipo e painel de operação no mesmo fluxo
+                  </p>
+                </div>
               </div>
             </div>
 
             <div className="relative z-10">
-              <div className="overflow-hidden rounded-[2.25rem] border border-slate-200/70 bg-slate-950 text-white shadow-2xl shadow-slate-950/20">
-                <div className="relative min-h-[22rem] p-6">
+              <div className="relative overflow-hidden rounded-[2.6rem] border border-slate-200/70 bg-slate-950 text-white shadow-[0_30px_120px_rgba(15,23,42,0.28)]">
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(129,140,248,0.36),transparent_30%),radial-gradient(circle_at_bottom_right,rgba(255,255,255,0.08),transparent_30%)]" />
+                <div className="relative min-h-[24rem] p-5 sm:p-6">
                   {heroService?.cover_image_url ? (
                     <Image
                       src={heroService.cover_image_url}
@@ -112,18 +140,20 @@ export default async function Home() {
                       className="absolute inset-0 h-full w-full object-cover opacity-55"
                     />
                   ) : null}
-                  <div className="absolute inset-0 bg-[linear-gradient(150deg,rgba(15,23,42,0.2),rgba(15,23,42,0.86)_65%)]" />
-                  <div className="relative flex items-center justify-between">
+                  <div className="absolute inset-0 bg-[linear-gradient(165deg,rgba(15,23,42,0.28),rgba(15,23,42,0.92)_68%)]" />
+                  <div className="relative flex items-start justify-between gap-4">
                     <div>
-                      <p className="text-sm text-slate-300">Marketplace ao vivo</p>
-                      <p className="mt-1 text-2xl font-semibold">Curadoria Vitrine Lojas</p>
+                      <p className="text-sm text-slate-300">Seleção editorial</p>
+                      <p className="mt-1 text-[1.7rem] font-semibold tracking-tight">
+                        Curadoria Vitrine Lojas
+                      </p>
                     </div>
-                    <div className="rounded-full bg-white/10 px-3 py-1 text-xs font-semibold text-slate-200">
-                      {activeServicesCount} serviços em destaque
+                    <div className="rounded-full border border-white/10 bg-white/10 px-3 py-1.5 text-xs font-semibold text-slate-200 backdrop-blur-sm">
+                      {activeServicesCount} em destaque
                     </div>
                   </div>
-                  <div className="relative mt-8 rounded-[1.75rem] border border-white/10 bg-white/8 p-4 backdrop-blur-md">
-                    <div className="flex items-center gap-3 rounded-2xl bg-white px-4 py-3 text-slate-500">
+                  <div className="relative mt-7 rounded-[2rem] border border-white/10 bg-white/8 p-4 backdrop-blur-md">
+                    <div className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white px-4 py-3 text-slate-500 shadow-lg shadow-slate-950/10">
                       <Search className="h-4 w-4" />
                       Buscar limpeza, beleza, manutenção...
                     </div>
@@ -132,7 +162,7 @@ export default async function Home() {
                         spotlightServices.map((service) => (
                           <div
                             key={service.id}
-                            className="grid grid-cols-[5rem_1fr] gap-4 rounded-2xl border border-white/10 bg-white/8 p-3"
+                            className="grid grid-cols-[5.5rem_1fr] gap-4 rounded-[1.6rem] border border-white/10 bg-white/9 p-3.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]"
                           >
                             <div className="relative overflow-hidden rounded-2xl bg-white/10">
                               {service.cover_image_url ? (
@@ -147,14 +177,16 @@ export default async function Home() {
                             </div>
                             <div>
                               <div className="flex items-center justify-between gap-3">
-                                <span className="rounded-full bg-accent/15 px-3 py-1 text-xs font-semibold text-amber-300">
+                                <span className="rounded-full bg-accent/18 px-3 py-1 text-xs font-semibold text-amber-300">
                                   {getServiceTag(service)}
                                 </span>
-                                <span className="text-sm text-slate-200">
+                                <span className="text-sm font-medium text-slate-200">
                                   {service.duration_minutes} min
                                 </span>
                               </div>
-                              <p className="mt-3 font-semibold">{service.title}</p>
+                              <p className="mt-3 text-lg font-semibold leading-tight">
+                                {service.title}
+                              </p>
                               <p className="mt-1 text-sm text-slate-300">
                                 {service.provider_profile?.display_name ?? "Prestador Vitrine Lojas"}
                               </p>
@@ -178,6 +210,30 @@ export default async function Home() {
                       )}
                     </div>
                   </div>
+                  {secondService ? (
+                    <div className="relative mt-4 grid gap-3 sm:grid-cols-[1.1fr_0.9fr]">
+                      <div className="rounded-[1.5rem] border border-white/10 bg-white/8 p-4 backdrop-blur-sm">
+                        <p className="text-[0.7rem] font-semibold tracking-[0.22em] text-slate-400 uppercase">
+                          Mais desejado
+                        </p>
+                        <p className="mt-2 text-xl font-semibold leading-tight">
+                          {secondService.title}
+                        </p>
+                        <p className="mt-2 text-sm leading-6 text-slate-300">
+                          {secondService.provider_profile?.display_name ?? "Prestador Vitrine Lojas"}{" "}
+                          com apresentação visual forte e agenda publicada.
+                        </p>
+                      </div>
+                      <div className="rounded-[1.5rem] border border-white/10 bg-primary-contrast/10 p-4">
+                        <p className="text-[0.7rem] font-semibold tracking-[0.22em] text-slate-400 uppercase">
+                          O que muda
+                        </p>
+                        <p className="mt-2 text-sm leading-6 text-slate-200">
+                          Imagem, preço, tempo e localidade aparecem com clareza antes da decisão.
+                        </p>
+                      </div>
+                    </div>
+                  ) : null}
                 </div>
               </div>
             </div>
@@ -263,7 +319,7 @@ export default async function Home() {
           <div className="page-shell grid gap-10 py-18 lg:grid-cols-[0.95fr_1.05fr]">
             <div>
               <SectionHeading
-                eyebrow="Experiencia"
+                eyebrow="Experiência"
                 title="Uma fundação de UI/UX desenhada para parecer produto sério desde o dia um"
                 description="Direção visual limpa, espaçamento consistente, contraste forte e componentes preparados para escalar sem perder refinamento."
               />
