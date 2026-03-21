@@ -1,9 +1,6 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { signUpAction } from "@/app/auth/actions";
-import { Button } from "@/components/ui/button";
-import { InputField, SelectField } from "@/components/ui/input";
 import { Notice } from "@/components/ui/notice";
+import { SignUpForm } from "@/app/cadastro/sign-up-form";
 
 export const metadata: Metadata = {
   title: "Cadastro | Vitrine Lojas",
@@ -36,77 +33,7 @@ export default async function CadastroPage({
 
           {message ? <div className="mb-6"><Notice>{message}</Notice></div> : null}
 
-          <form action={signUpAction} className="space-y-5">
-            <div className="grid gap-4 sm:grid-cols-2">
-              <InputField
-                name="full_name"
-                required
-                autoComplete="name"
-                label="Nome completo"
-                placeholder="Seu nome"
-              />
-
-              <InputField
-                name="phone"
-                autoComplete="tel"
-                label="Telefone"
-                placeholder="(11) 99999-9999"
-                hint="Opcional, mas útil para contato e agendamento."
-              />
-            </div>
-
-            <div className="grid gap-4 sm:grid-cols-2">
-              <InputField
-                name="email"
-                type="email"
-                required
-                autoComplete="email"
-                label="E-mail"
-                placeholder="voce@exemplo.com"
-              />
-
-              <InputField
-                name="password"
-                type="password"
-                required
-                minLength={6}
-                autoComplete="new-password"
-                label="Senha"
-                placeholder="Minimo de 6 caracteres"
-                hint="Use pelo menos 6 caracteres."
-              />
-            </div>
-
-            <div className="grid gap-4 sm:grid-cols-2">
-              <SelectField
-                name="role"
-                defaultValue="client"
-                label="Perfil"
-                hint="Você pode criar conta como cliente ou prestador."
-              >
-                <option value="client">Cliente</option>
-                <option value="provider">Prestador de serviço</option>
-              </SelectField>
-
-              <InputField
-                name="display_name"
-                label="Nome público do prestador"
-                placeholder="Ex.: Studio Monarca"
-                hint="Se ficar em branco, usaremos seu nome."
-              />
-            </div>
-
-            <Button fullWidth className="bg-slate-950 hover:bg-primary-strong">
-              Criar conta
-            </Button>
-          </form>
-
-          <p className="mt-6 text-sm text-muted-strong">
-            Já tem conta?{" "}
-            <Link href="/login" className="font-semibold text-primary-strong">
-              Entrar agora
-            </Link>
-          </p>
+          <SignUpForm />
         </section>
 
         <section className="elevated-card rounded-[2rem] border border-border bg-[radial-gradient(circle_at_top,_rgba(99,102,241,0.22),_transparent_35%),linear-gradient(135deg,_#eef2ff,_#f8fafc)] p-8">

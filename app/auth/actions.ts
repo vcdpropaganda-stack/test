@@ -40,8 +40,10 @@ export async function signUpAction(formData: FormData) {
   const password = String(formData.get("password") ?? "");
   const role = String(formData.get("role") ?? "client");
   const phone = String(formData.get("phone") ?? "").trim();
-  const displayName =
-    String(formData.get("display_name") ?? "").trim() || fullName;
+  const isProvider = role === "provider";
+  const displayName = isProvider
+    ? String(formData.get("display_name") ?? "").trim() || fullName
+    : fullName;
 
   const baseUrl = await getBaseUrl();
   const supabase = await createSupabaseServerClient();
