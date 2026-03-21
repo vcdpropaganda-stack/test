@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import { format } from "date-fns";
-import { ptBR } from "date-fns/locale";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -13,7 +11,7 @@ import {
   ShieldCheck,
   Star,
 } from "lucide-react";
-import { createBookingAction } from "@/app/servicos/[slug]/actions";
+import { AvailabilityCalendar } from "@/components/marketplace/availability-calendar";
 import { QueryNotice } from "@/components/shared/query-notice";
 import { Button } from "@/components/ui/button";
 import {
@@ -317,62 +315,28 @@ export default async function ServiceDetailPage({
             </div>
           </div>
 
-          <div className="rounded-[1.75rem] border border-border bg-white p-5 shadow-[0_20px_55px_rgba(15,23,42,0.06)] sm:rounded-[2rem] sm:p-8">
+          <div
+            id="agenda"
+            className="rounded-[1.75rem] border border-border bg-white p-5 shadow-[0_20px_55px_rgba(15,23,42,0.06)] sm:rounded-[2rem] sm:p-8"
+          >
             <h2 className="font-sans text-[1.9rem] leading-tight font-bold tracking-[-0.03em] text-slate-950 sm:text-2xl sm:tracking-tight">
-              Próximos horários disponíveis
+              Datas e horários disponíveis
             </h2>
             <Suspense fallback={null}>
               <div className="mt-5">
                 <QueryNotice />
               </div>
             </Suspense>
-            <div className="mt-6 space-y-3">
+            <div className="mt-6">
               {availability.length > 0 ? (
-                availability.slice(0, 8).map((slot) => (
-                  <div
-                    key={slot.id}
-                    className="flex flex-col gap-2 rounded-2xl border border-border bg-surface-soft px-4 py-4 sm:flex-row sm:items-center sm:justify-between"
-                  >
-                    <div>
-                      <p className="text-sm font-semibold text-slate-950">
-                        {format(new Date(slot.start_at), "EEEE, dd 'de' MMMM", {
-                          locale: ptBR,
-                        })}
-                      </p>
-                      <p className="mt-1 text-sm text-muted-strong">
-                        {format(new Date(slot.start_at), "HH:mm")} -{" "}
-                        {format(new Date(slot.end_at), "HH:mm")}
-                      </p>
-                    </div>
-                    <form action={createBookingAction}>
-                      <input type="hidden" name="slug" value={service.slug} />
-                      <input type="hidden" name="service_id" value={service.id} />
-                      <input
-                        type="hidden"
-                        name="provider_profile_id"
-                        value={service.provider_profile?.id ?? ""}
-                      />
-                      <input
-                        type="hidden"
-                        name="scheduled_start"
-                        value={slot.start_at}
-                      />
-                      <input
-                        type="hidden"
-                        name="scheduled_end"
-                        value={slot.end_at}
-                      />
-                      <input
-                        type="hidden"
-                        name="total_price_cents"
-                        value={service.price_cents}
-                      />
-                      <Button type="submit" variant="secondary">
-                        Reservar horário
-                      </Button>
-                    </form>
-                  </div>
-                ))
+                <AvailabilityCalendar
+                  slug={service.slug}
+                  serviceId={service.id}
+                  providerProfileId={service.provider_profile?.id ?? ""}
+                  totalPriceCents={service.price_cents}
+                  availability={service.availability ?? []}
+                  bookedSlots={service.booked_slots ?? []}
+                />
               ) : (
                 <p className="text-sm leading-7 text-muted-strong">
                   Este serviço ainda não tem horários publicados. Assim que o
@@ -442,11 +406,17 @@ export default async function ServiceDetailPage({
               </ul>
 
               <div className="mt-8 flex flex-col gap-3">
-                <Button disabled={availability.length === 0} fullWidth>
-                  {availability.length > 0
-                    ? "Selecionar horário"
-                    : "Sem horários no momento"}
-                </Button>
+                {availability.length > 0 ? (
+                  <Link href="#agenda" className="block">
+                    <span className="inline-flex min-h-12 w-full items-center justify-center rounded-full bg-slate-950 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-slate-950/20 hover:bg-primary-strong">
+                      Selecionar data e horário
+                    </span>
+                  </Link>
+                ) : (
+                  <Button disabled fullWidth>
+                    Sem horários no momento
+                  </Button>
+                )}
                 <Link href="/contato" className="block">
                   <span className="inline-flex min-h-11 w-full items-center justify-center rounded-full border border-border bg-white px-5 py-3 text-sm font-semibold text-slate-950 hover:bg-slate-50">
                     Falar com a equipe
