@@ -414,6 +414,35 @@ export async function getMarketplaceServiceSlugs() {
   return getCachedMarketplaceSlugs();
 }
 
+const getCachedMarketplacePreviewSlugs = unstable_cache(
+  async (limit: number) => {
+    if (!hasSupabaseEnv()) {
+      return [];
+    }
+
+    const supabase = createPublicSupabaseClient();
+    const { data, error } = await supabase
+      .from("services")
+      .select("slug, featured_rank, created_at")
+      .eq("is_active", true)
+      .order("featured_rank", { ascending: true, nullsFirst: false })
+      .order("created_at", { ascending: false })
+      .limit(limit);
+
+    if (error) {
+      return [];
+    }
+
+    return (data ?? []).map((service) => service.slug).filter(Boolean);
+  },
+  ["marketplace-preview-slugs"],
+  { revalidate: 600 }
+);
+
+export async function getMarketplacePreviewSlugs(limit = 8) {
+  return getCachedMarketplacePreviewSlugs(limit);
+}
+
 const getCachedMarketplaceServiceBySlug = unstable_cache(
   async (slug: string) => {
     if (!hasSupabaseEnv()) {

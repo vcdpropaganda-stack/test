@@ -196,6 +196,17 @@ export default async function ProviderDashboardPage({
               <p className="font-semibold text-slate-950">
                 Ainda não existem agendamentos para exibir.
               </p>
+              <p className="mt-3 text-sm leading-7 text-muted-strong">
+                Publique horários na agenda para começar a receber reservas pelo marketplace.
+              </p>
+              <div className="mt-5 flex flex-wrap gap-3">
+                <Link href="/dashboard/provider/agenda" className="inline-flex">
+                  <Button>Configurar agenda</Button>
+                </Link>
+                <Link href="/dashboard/provider/servicos" className="inline-flex">
+                  <Button variant="secondary">Revisar serviços</Button>
+                </Link>
+              </div>
             </div>
           )}
         </div>

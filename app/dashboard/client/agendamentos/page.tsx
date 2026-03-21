@@ -162,6 +162,14 @@ export default async function ClientBookingsPage({
               Reserve um horário em qualquer página de serviço para ver o
               histórico aparecer aqui.
             </p>
+            <div className="mt-6 flex flex-wrap gap-3">
+              <Link href="/servicos" className="inline-flex">
+                <Button>Explorar serviços</Button>
+              </Link>
+              <Link href="/ajuda" className="inline-flex">
+                <Button variant="secondary">Ver como funciona</Button>
+              </Link>
+            </div>
           </div>
         )}
       </div>

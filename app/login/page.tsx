@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, CalendarClock, ShieldCheck, Sparkles } from "lucide-react";
-import { signInAction } from "@/app/auth/actions";
+import { resendConfirmationAction, signInAction } from "@/app/auth/actions";
 import { Button } from "@/components/ui/button";
 import { InputField } from "@/components/ui/input";
 import { Notice } from "@/components/ui/notice";
@@ -132,15 +132,42 @@ export default async function LoginPage({
               </Button>
             </form>
 
-            <div className="mt-8 rounded-[1.5rem] border border-dashed border-slate-300 bg-slate-50 px-4 py-4 text-sm leading-7 text-muted-strong">
-              Se o link de confirmação expirou, faça um novo cadastro com o mesmo
-              e-mail para receber um novo acesso.
+            <div className="mt-8 rounded-[1.5rem] border border-dashed border-slate-300 bg-slate-50 px-4 py-4">
+              <p className="text-sm font-semibold text-slate-950">
+                O link de confirmação expirou?
+              </p>
+              <p className="mt-2 text-sm leading-7 text-muted-strong">
+                Digite o e-mail abaixo e envie um novo link sem precisar refazer todo o cadastro.
+              </p>
+              <form action={resendConfirmationAction} className="mt-4 flex flex-col gap-3 sm:flex-row">
+                <InputField
+                  name="email"
+                  type="email"
+                  required
+                  label="Reenviar para"
+                  placeholder="voce@exemplo.com"
+                  className="sm:min-w-[17rem]"
+                />
+                <Button
+                  type="submit"
+                  variant="secondary"
+                  className="sm:mt-[1.95rem] sm:min-w-[12rem]"
+                >
+                  Reenviar confirmação
+                </Button>
+              </form>
             </div>
 
             <p className="mt-6 text-sm text-muted-strong">
               Ainda não tem conta?{" "}
               <Link href="/cadastro" className="font-semibold text-primary-strong">
                 Criar cadastro
+              </Link>
+            </p>
+            <p className="mt-2 text-sm text-muted-strong">
+              Esqueceu a senha?{" "}
+              <Link href="/recuperar-senha" className="font-semibold text-primary-strong">
+                Recuperar acesso
               </Link>
             </p>
 
