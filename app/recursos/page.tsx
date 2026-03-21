@@ -41,7 +41,7 @@ export default function RecursosPage() {
         <p className="text-sm font-semibold tracking-[0.22em] text-primary uppercase">
           Recursos
         </p>
-        <h1 className="mt-4 font-sans text-5xl font-bold tracking-tight text-slate-950">
+        <h1 className="mt-4 font-sans text-[2.9rem] leading-[1.04] font-bold tracking-[-0.035em] text-slate-950 sm:text-[3.6rem] sm:leading-[1.02]">
           Tudo o que um SaaS sério precisa para crescer com consistência.
         </h1>
         <p className="mt-6 text-lg leading-8 text-muted-strong">

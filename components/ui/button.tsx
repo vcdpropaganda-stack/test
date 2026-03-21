@@ -21,7 +21,7 @@ export function Button({
         "inline-flex min-h-12 items-center justify-center gap-2 rounded-full px-5 py-3.5 text-sm font-semibold whitespace-nowrap shadow-sm disabled:cursor-not-allowed disabled:opacity-55",
         fullWidth && "w-full",
         variant === "primary" &&
-          "bg-slate-950 text-white shadow-lg shadow-slate-950/20 hover:bg-primary-strong",
+          "bg-primary text-white shadow-lg shadow-primary/25 hover:bg-primary-strong",
         variant === "secondary" &&
           "border border-slate-300 bg-white text-slate-950 hover:border-primary/35 hover:bg-slate-50 hover:text-primary-strong",
         variant === "ghost" &&

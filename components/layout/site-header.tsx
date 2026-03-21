@@ -9,6 +9,7 @@ const links = [
   { href: "/recursos", label: "Recursos" },
   { href: "/precos", label: "Preços" },
   { href: "/faq", label: "FAQ" },
+  { href: "/ajuda", label: "Ajuda" },
   { href: "/institucional", label: "Institucional" },
   { href: "/contato", label: "Contato" },
 ];
@@ -42,7 +43,7 @@ export async function SiteHeader() {
                 Vitrine Lojas
               </p>
               <p className="hidden truncate text-[11px] text-muted sm:block sm:text-xs">
-                Marketplace de lojas e serviços
+                Serviços locais em um só lugar
               </p>
             </div>
           </Link>
@@ -52,7 +53,7 @@ export async function SiteHeader() {
               <>
                 <Link
                   href={dashboardHref}
-                  className="inline-flex min-h-10 items-center justify-center rounded-full bg-slate-950 px-3.5 py-2 text-sm font-semibold text-white shadow-lg shadow-slate-950/20 hover:bg-primary-strong sm:min-h-11 sm:px-4 sm:py-2.5"
+                  className="inline-flex min-h-10 items-center justify-center rounded-full bg-primary px-3.5 py-2 text-sm font-semibold text-white shadow-lg shadow-primary/25 hover:bg-primary-strong sm:min-h-11 sm:px-4 sm:py-2.5"
                 >
                   Meu painel
                 </Link>
@@ -72,7 +73,7 @@ export async function SiteHeader() {
                 </Link>
                 <Link
                   href="/cadastro"
-                  className="inline-flex min-h-10 items-center justify-center rounded-full bg-slate-950 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-slate-950/20 hover:bg-primary-strong sm:min-h-11 sm:px-4 sm:py-2.5"
+                  className="inline-flex min-h-10 items-center justify-center rounded-full bg-primary px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-primary/25 hover:bg-primary-strong sm:min-h-11 sm:px-4 sm:py-2.5"
                 >
                   <span className="sm:hidden">Cadastro</span>
                   <span className="hidden sm:inline">Criar conta</span>

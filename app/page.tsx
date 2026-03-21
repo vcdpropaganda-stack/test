@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -18,7 +17,7 @@ import { Button } from "@/components/ui/button";
 export const metadata: Metadata = {
   title: "Vitrine Lojas | Marketplace de Serviços Locais",
   description:
-    "Encontre e gerencie serviços locais com uma experiência clara, segura e pronta para escalar.",
+    "A plataforma certa para encontrar quem faz. Encontre profissionais de beleza, casa, tecnologia e negócios em minutos.",
 };
 
 export const revalidate = 180;
@@ -50,9 +49,7 @@ const productHighlights = [
 export default async function Home() {
   const featuredServices = await getMarketplaceServices(3);
   const activeServicesCount = featuredServices.length;
-  const heroService = featuredServices[0] ?? null;
   const spotlightServices = featuredServices.slice(0, 3);
-  const secondService = featuredServices[1] ?? null;
 
   return (
     <div className="flex min-h-screen flex-col bg-background">
@@ -62,132 +59,115 @@ export default async function Home() {
           <div className="pointer-events-none absolute left-[-8rem] top-24 h-[24rem] w-[24rem] rounded-full bg-primary/12 blur-3xl" />
           <div className="pointer-events-none absolute right-[-6rem] top-16 h-[28rem] w-[28rem] rounded-full bg-cyan-300/10 blur-3xl" />
           <div className="pointer-events-none absolute bottom-[-10rem] right-[18%] h-[20rem] w-[20rem] rounded-full bg-amber-300/10 blur-3xl" />
-          <div className="page-shell grid gap-12 py-12 lg:grid-cols-[1.03fr_0.97fr] lg:items-center lg:gap-16 lg:py-20">
-            <div className="relative z-10">
-              <div className="glass-panel mb-6 inline-flex items-center gap-2 rounded-full border border-primary/15 px-4 py-2 text-sm font-semibold text-primary-strong shadow-sm">
+          <div className="page-shell py-12 lg:py-20">
+            <div className="relative z-10 mx-auto max-w-6xl">
+              <div className="glass-panel mx-auto mb-6 inline-flex items-center gap-2 rounded-full border border-primary/15 px-4 py-2 text-sm font-semibold text-primary-strong shadow-sm">
                 <Sparkles className="h-4 w-4" />
-                Marketplace para serviços locais
+                A plataforma certa para encontrar quem faz
               </div>
-              <h1 className="max-w-4xl font-sans text-[3.3rem] leading-[0.95] font-bold tracking-[-0.05em] text-slate-950 sm:text-[4.35rem] lg:text-[5.5rem]">
-                Serviços que parecem
-                <span className="block text-primary-strong">marca forte</span>
-                <span className="block">antes mesmo do clique.</span>
-              </h1>
-              <p className="mt-7 max-w-2xl text-lg leading-8 text-muted-strong sm:text-xl">
-                A Vitrine Lojas transforma a busca por serviços em uma vitrine
-                com desejo, confiança e clareza comercial. Mais imagem, mais
-                curadoria e muito menos cara de classificado genérico.
-              </p>
-              <div className="mt-10 flex flex-col gap-4 sm:flex-row">
+              <div className="mx-auto max-w-4xl text-center">
+                <p className="text-sm font-semibold tracking-[0.32em] text-primary-strong uppercase">
+                  Precisa de uma mãozinha? Nós resolvemos. 🤝
+                </p>
+                <h1 className="mt-5 font-sans text-[3rem] leading-[1.02] font-bold tracking-[-0.05em] text-slate-950 sm:text-[4.1rem] sm:leading-[0.98] lg:text-[5.25rem] lg:leading-[0.96]">
+                  A plataforma certa
+                  <span className="block">para encontrar quem faz.</span>
+                </h1>
+                <p className="mx-auto mt-7 max-w-3xl text-lg leading-8 text-muted-strong sm:text-xl">
+                  Quer dar um tapa no visual, consertar o PC ou bombar suas redes
+                  sociais? Na Vitrine Lojas, você encontra o especialista ideal em minutos.
+                </p>
+              </div>
+              <div className="mx-auto mt-10 max-w-4xl">
+                <HeroSearch
+                  initialResults={spotlightServices.map((service) => ({
+                    id: service.id,
+                    slug: service.slug,
+                    title: service.title,
+                    provider:
+                      service.provider_profile?.display_name ?? "Prestador Vitrine Lojas",
+                    city: service.provider_profile?.city ?? null,
+                    price: formatPrice(service.price_cents),
+                    duration: `${service.duration_minutes} min`,
+                    imageUrl: service.cover_image_url,
+                  }))}
+                  variant="light"
+                />
+              </div>
+              <div className="mx-auto mt-8 grid max-w-5xl gap-3 text-left sm:grid-cols-3">
+                <div className="elevated-card rounded-[1.6rem] border border-white/70 bg-white/88 p-5 backdrop-blur">
+                  <p className="text-[0.72rem] font-semibold tracking-[0.26em] text-primary-strong uppercase">
+                    Beleza
+                  </p>
+                  <p className="mt-3 text-base leading-7 text-slate-900">
+                    Manicure e maquiagem.
+                  </p>
+                </div>
+                <div className="elevated-card rounded-[1.6rem] border border-white/70 bg-white/88 p-5 backdrop-blur">
+                  <p className="text-[0.72rem] font-semibold tracking-[0.26em] text-primary-strong uppercase">
+                    Casa e Tech
+                  </p>
+                  <p className="mt-3 text-base leading-7 text-slate-900">
+                    Pintores e técnicos de informática.
+                  </p>
+                </div>
+                <div className="elevated-card rounded-[1.6rem] border border-white/70 bg-slate-950 p-5 text-white">
+                  <p className="text-[0.72rem] font-semibold tracking-[0.26em] text-slate-400 uppercase">
+                    Negócios
+                  </p>
+                  <p className="mt-3 text-base leading-7 text-slate-100">
+                    Agência de marketing e redes sociais.
+                  </p>
+                </div>
+              </div>
+              <div className="mt-8 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
                 <Link href="/servicos" className="inline-flex">
                   <Button icon={<ArrowRight className="h-4 w-4" />}>
                     Explorar marketplace
                   </Button>
                 </Link>
                 <Link href="/dashboard/provider" className="inline-flex">
-                  <Button variant="secondary">Entrar como prestador</Button>
+                  <Button variant="secondary">Quero anunciar meus serviços</Button>
                 </Link>
               </div>
-              <div className="mt-10 grid gap-3 sm:grid-cols-3">
+              <div className="mt-7 text-center">
+                <p className="text-base font-semibold tracking-[0.12em] text-slate-700 uppercase">
+                  Rápido. Seguro. Profissional.
+                </p>
+              </div>
+              <div className="mx-auto mt-10 grid max-w-5xl gap-3 sm:grid-cols-3">
                 <div className="elevated-card rounded-[1.6rem] border border-white/70 bg-white/88 p-4 backdrop-blur">
                   <p className="text-[0.7rem] font-semibold tracking-[0.22em] text-muted uppercase">
-                    Catálogo vivo
+                    Serviços
                   </p>
                   <p className="mt-3 text-3xl font-bold tracking-tight text-slate-950">
                     {activeServicesCount}
                   </p>
                   <p className="mt-1 text-sm leading-6 text-muted-strong">
-                    serviços destacados com imagem, agenda e preço visível
+                    anúncios em destaque com imagem, agenda e preço visível
                   </p>
                 </div>
                 <div className="elevated-card rounded-[1.6rem] border border-white/70 bg-white/88 p-4 backdrop-blur">
                   <p className="text-[0.7rem] font-semibold tracking-[0.22em] text-muted uppercase">
-                    Curadoria
+                    Categorias
                   </p>
                   <p className="mt-3 text-3xl font-bold tracking-tight text-slate-950">
-                    3
+                    10
                   </p>
                   <p className="mt-1 text-sm leading-6 text-muted-strong">
-                    perfis demo com posicionamento, nicho e portfólio inicial
+                    áreas já mapeadas entre beleza, casa, tecnologia e negócios
                   </p>
                 </div>
                 <div className="elevated-card rounded-[1.6rem] border border-white/70 bg-slate-950 p-4 text-white">
                   <p className="text-[0.7rem] font-semibold tracking-[0.22em] text-slate-400 uppercase">
-                    Fluxo pronto
+                    Agenda viva
                   </p>
                   <p className="mt-3 text-3xl font-bold tracking-tight">
-                    Booking
+                    Datas
                   </p>
                   <p className="mt-1 text-sm leading-6 text-slate-300">
-                    reserva, checkout protótipo e painel de operação no mesmo fluxo
+                    disponibilidade real por serviço com reserva por horário
                   </p>
-                </div>
-              </div>
-            </div>
-
-            <div className="relative z-10">
-              <div className="relative overflow-hidden rounded-[2.6rem] border border-slate-200/70 bg-slate-950 text-white shadow-[0_30px_120px_rgba(15,23,42,0.28)]">
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(129,140,248,0.36),transparent_30%),radial-gradient(circle_at_bottom_right,rgba(255,255,255,0.08),transparent_30%)]" />
-                <div className="relative min-h-[24rem] p-5 sm:p-6">
-                  {heroService?.cover_image_url ? (
-                    <Image
-                      src={heroService.cover_image_url}
-                      alt={heroService.title}
-                      fill
-                      priority
-                      sizes="(max-width: 1024px) 100vw, 50vw"
-                      className="absolute inset-0 h-full w-full object-cover opacity-55"
-                    />
-                  ) : null}
-                  <div className="absolute inset-0 bg-[linear-gradient(165deg,rgba(15,23,42,0.28),rgba(15,23,42,0.92)_68%)]" />
-                  <div className="relative flex items-start justify-between gap-4">
-                    <div>
-                      <p className="text-sm text-slate-300">Seleção editorial</p>
-                      <p className="mt-1 text-[1.7rem] font-semibold tracking-tight">
-                        Curadoria Vitrine Lojas
-                      </p>
-                    </div>
-                    <div className="rounded-full border border-white/10 bg-white/10 px-3 py-1.5 text-xs font-semibold text-slate-200 backdrop-blur-sm">
-                      {activeServicesCount} em destaque
-                    </div>
-                  </div>
-                  <HeroSearch
-                    initialResults={spotlightServices.map((service) => ({
-                      id: service.id,
-                      slug: service.slug,
-                      title: service.title,
-                      provider:
-                        service.provider_profile?.display_name ?? "Prestador Vitrine Lojas",
-                      city: service.provider_profile?.city ?? null,
-                      price: formatPrice(service.price_cents),
-                      duration: `${service.duration_minutes} min`,
-                      imageUrl: service.cover_image_url,
-                    }))}
-                  />
-                  {secondService ? (
-                    <div className="relative mt-4 grid gap-3 sm:grid-cols-[1.1fr_0.9fr]">
-                      <div className="rounded-[1.5rem] border border-white/10 bg-white/8 p-4 backdrop-blur-sm">
-                        <p className="text-[0.7rem] font-semibold tracking-[0.22em] text-slate-400 uppercase">
-                          Mais desejado
-                        </p>
-                        <p className="mt-2 text-xl font-semibold leading-tight">
-                          {secondService.title}
-                        </p>
-                        <p className="mt-2 text-sm leading-6 text-slate-300">
-                          {secondService.provider_profile?.display_name ?? "Prestador Vitrine Lojas"}{" "}
-                          com apresentação visual forte e agenda publicada.
-                        </p>
-                      </div>
-                      <div className="rounded-[1.5rem] border border-white/10 bg-primary-contrast/10 p-4">
-                        <p className="text-[0.7rem] font-semibold tracking-[0.22em] text-slate-400 uppercase">
-                          O que muda
-                        </p>
-                        <p className="mt-2 text-sm leading-6 text-slate-200">
-                          Imagem, preço, tempo e localidade aparecem com clareza antes da decisão.
-                        </p>
-                      </div>
-                    </div>
-                  ) : null}
                 </div>
               </div>
             </div>

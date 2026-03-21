@@ -18,9 +18,13 @@ type SearchResult = {
 
 type HeroSearchProps = {
   initialResults: SearchResult[];
+  variant?: "dark" | "light";
 };
 
-export function HeroSearch({ initialResults }: HeroSearchProps) {
+export function HeroSearch({
+  initialResults,
+  variant = "dark",
+}: HeroSearchProps) {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<SearchResult[]>(initialResults);
   const [isLoading, setIsLoading] = useState(false);
@@ -69,9 +73,23 @@ export function HeroSearch({ initialResults }: HeroSearchProps) {
     return `Nenhum serviço encontrado para “${trimmedQuery}”.`;
   }, [hasQuery, trimmedQuery]);
 
+  const isLight = variant === "light";
+
   return (
-    <div className="relative mt-7 rounded-[2rem] border border-white/10 bg-white/8 p-4 backdrop-blur-md">
-      <label className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white px-4 py-3 text-slate-500 shadow-lg shadow-slate-950/10">
+    <div
+      className={
+        isLight
+          ? "relative rounded-[2rem] border border-slate-200/80 bg-white/92 p-3 shadow-[0_24px_80px_rgba(15,23,42,0.08)] backdrop-blur-md sm:p-4"
+          : "relative mt-7 rounded-[2rem] border border-white/10 bg-white/8 p-4 backdrop-blur-md"
+      }
+    >
+      <label
+        className={
+          isLight
+            ? "flex items-center gap-3 rounded-[1.75rem] border border-slate-200 bg-white px-5 py-4 text-slate-500 shadow-[0_12px_30px_rgba(15,23,42,0.08)]"
+            : "flex items-center gap-3 rounded-2xl border border-white/10 bg-white px-4 py-3 text-slate-500 shadow-lg shadow-slate-950/10"
+        }
+      >
         <Search className="h-4 w-4 shrink-0" />
         <input
           type="search"
@@ -89,9 +107,19 @@ export function HeroSearch({ initialResults }: HeroSearchProps) {
             <Link
               key={service.id}
               href={`/servicos/${service.slug}`}
-              className="grid grid-cols-[5.5rem_1fr] gap-4 rounded-[1.6rem] border border-white/10 bg-white/9 p-3.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] transition hover:bg-white/13"
+              className={
+                isLight
+                  ? "grid grid-cols-[5rem_1fr] gap-4 rounded-[1.6rem] border border-slate-200 bg-white p-3.5 shadow-[0_10px_30px_rgba(15,23,42,0.06)] transition hover:border-primary/30 hover:shadow-[0_18px_40px_rgba(99,102,241,0.12)]"
+                  : "grid grid-cols-[5.5rem_1fr] gap-4 rounded-[1.6rem] border border-white/10 bg-white/9 p-3.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] transition hover:bg-white/13"
+              }
             >
-              <div className="relative overflow-hidden rounded-2xl bg-white/10">
+              <div
+                className={
+                  isLight
+                    ? "relative overflow-hidden rounded-2xl bg-slate-100"
+                    : "relative overflow-hidden rounded-2xl bg-white/10"
+                }
+              >
                 {service.imageUrl ? (
                   <Image
                     src={service.imageUrl}
@@ -104,21 +132,57 @@ export function HeroSearch({ initialResults }: HeroSearchProps) {
               </div>
               <div>
                 <div className="flex items-center justify-between gap-3">
-                  <span className="rounded-full bg-accent/18 px-3 py-1 text-xs font-semibold text-amber-300">
+                  <span
+                    className={
+                      isLight
+                        ? "rounded-full bg-primary-soft px-3 py-1 text-xs font-semibold text-primary-strong"
+                        : "rounded-full bg-accent/18 px-3 py-1 text-xs font-semibold text-amber-300"
+                    }
+                  >
                     {hasQuery ? "Resultado" : "Em destaque"}
                   </span>
-                  <span className="inline-flex items-center gap-1 text-sm font-medium text-slate-200">
+                  <span
+                    className={
+                      isLight
+                        ? "inline-flex items-center gap-1 text-sm font-medium text-slate-500"
+                        : "inline-flex items-center gap-1 text-sm font-medium text-slate-200"
+                    }
+                  >
                     <Clock3 className="h-3.5 w-3.5" />
                     {service.duration}
                   </span>
                 </div>
-                <p className="mt-3 text-lg font-semibold leading-tight text-white">
+                <p
+                  className={
+                    isLight
+                      ? "mt-3 text-lg font-semibold leading-tight text-slate-950"
+                      : "mt-3 text-lg font-semibold leading-tight text-white"
+                  }
+                >
                   {service.title}
                 </p>
-                <p className="mt-1 text-sm text-slate-300">{service.provider}</p>
+                <p
+                  className={
+                    isLight ? "mt-1 text-sm text-slate-500" : "mt-1 text-sm text-slate-300"
+                  }
+                >
+                  {service.provider}
+                </p>
                 <div className="mt-3 flex items-center justify-between gap-3 text-sm">
-                  <span className="font-semibold text-white">{service.price}</span>
-                  <span className="inline-flex items-center gap-1 text-slate-200">
+                  <span
+                    className={
+                      isLight ? "font-semibold text-slate-950" : "font-semibold text-white"
+                    }
+                  >
+                    {service.price}
+                  </span>
+                  <span
+                    className={
+                      isLight
+                        ? "inline-flex items-center gap-1 text-slate-500"
+                        : "inline-flex items-center gap-1 text-slate-200"
+                    }
+                  >
                     <MapPin className="h-3.5 w-3.5" />
                     {service.city ?? "Atendimento local"}
                   </span>
@@ -127,14 +191,26 @@ export function HeroSearch({ initialResults }: HeroSearchProps) {
             </Link>
           ))
         ) : (
-          <div className="rounded-2xl border border-white/10 bg-white/8 p-4 text-sm text-slate-300">
+          <div
+            className={
+              isLight
+                ? "rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-600"
+                : "rounded-2xl border border-white/10 bg-white/8 p-4 text-sm text-slate-300"
+            }
+          >
             {emptyMessage}
           </div>
         )}
       </div>
 
       {isLoading ? (
-        <p className="mt-3 text-xs font-medium tracking-[0.16em] text-slate-400 uppercase">
+        <p
+          className={
+            isLight
+              ? "mt-3 text-xs font-medium tracking-[0.16em] text-slate-500 uppercase"
+              : "mt-3 text-xs font-medium tracking-[0.16em] text-slate-400 uppercase"
+          }
+        >
           Buscando serviços...
         </p>
       ) : null}

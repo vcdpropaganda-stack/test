@@ -24,14 +24,14 @@ export default async function LoginPage({
       className="page-shell flex min-h-[calc(100vh-81px)] items-center py-10 lg:py-16"
     >
       <div className="grid w-full gap-8 lg:grid-cols-[1.02fr_0.98fr] lg:gap-10">
-        <section className="relative overflow-hidden rounded-[2.4rem] border border-slate-200/70 bg-[linear-gradient(155deg,#020617,#0f172a_50%,#1e1b4b)] p-8 text-white shadow-[0_30px_120px_rgba(15,23,42,0.28)] lg:p-10">
+        <section className="order-2 relative hidden overflow-hidden rounded-[2.4rem] border border-slate-200/70 bg-[linear-gradient(155deg,#020617,#0f172a_50%,#1e1b4b)] p-8 text-white shadow-[0_30px_120px_rgba(15,23,42,0.28)] lg:order-1 lg:block lg:p-10">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(99,102,241,0.32),transparent_30%),radial-gradient(circle_at_bottom_right,rgba(56,189,248,0.16),transparent_28%)]" />
           <div className="relative">
             <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/8 px-4 py-2 text-sm font-semibold text-slate-100 backdrop-blur-sm">
               <Sparkles className="h-4 w-4 text-indigo-300" />
               Acesso seguro
             </div>
-            <h1 className="mt-6 max-w-xl font-sans text-[2.8rem] leading-[0.95] font-bold tracking-[-0.05em] text-white sm:text-[3.6rem]">
+            <h1 className="mt-6 max-w-xl font-sans text-[2.8rem] leading-[1.02] font-bold tracking-[-0.05em] text-white sm:text-[3.6rem] sm:leading-[0.98]">
               Volte para a sua operação com clareza e controle.
             </h1>
             <p className="mt-6 max-w-lg text-lg leading-8 text-slate-300">
@@ -76,7 +76,7 @@ export default async function LoginPage({
           </div>
         </section>
 
-        <section className="elevated-card-strong relative overflow-hidden rounded-[2.4rem] border border-slate-200/80 bg-white p-7 shadow-[0_28px_90px_rgba(15,23,42,0.08)] sm:p-8 lg:p-10">
+        <section className="order-1 elevated-card-strong relative overflow-hidden rounded-[2.2rem] border border-slate-200/80 bg-white p-6 shadow-[0_28px_90px_rgba(15,23,42,0.08)] sm:p-8 lg:order-2 lg:rounded-[2.4rem] lg:p-10">
           <div className="absolute inset-x-0 top-0 h-28 bg-[linear-gradient(180deg,rgba(224,231,255,0.55),transparent)]" />
           <div className="relative">
             <div className="mb-8 flex items-start justify-between gap-4">
@@ -84,10 +84,10 @@ export default async function LoginPage({
                 <p className="text-sm font-semibold tracking-[0.24em] text-primary uppercase">
                   Login
                 </p>
-                <h2 className="mt-3 font-sans text-4xl font-bold tracking-tight text-slate-950 sm:text-[2.8rem]">
+                <h2 className="mt-3 font-sans text-[2.35rem] leading-[1.02] font-bold tracking-tight text-slate-950 sm:text-[2.8rem]">
                   Bem-vindo de volta
                 </h2>
-                <p className="mt-3 max-w-md text-base leading-7 text-muted-strong">
+                <p className="mt-3 max-w-md text-sm leading-6 text-muted-strong sm:text-base sm:leading-7">
                   Entre com seu e-mail para acessar sua área, acompanhar pedidos
                   ou gerenciar seu catálogo.
                 </p>
@@ -143,6 +143,15 @@ export default async function LoginPage({
                 Criar cadastro
               </Link>
             </p>
+
+            <div className="mt-8 rounded-[1.5rem] border border-slate-200 bg-slate-50 p-4 lg:hidden">
+              <p className="text-[0.72rem] font-semibold tracking-[0.22em] text-primary uppercase">
+                Acesso rápido
+              </p>
+              <p className="mt-2 text-sm leading-6 text-muted-strong">
+                Cliente e prestador usam o mesmo login. Depois da entrada, cada perfil segue para sua área correta.
+              </p>
+            </div>
           </div>
         </section>
       </div>
