@@ -1,6 +1,6 @@
+import { unstable_cache } from "next/cache";
 import { createClient } from "@supabase/supabase-js";
 import { getSupabaseEnv, hasSupabaseEnv } from "@/lib/env";
-import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 export type MarketplaceService = {
   id: string;
@@ -90,7 +90,22 @@ function normalizeCategory<T extends { category?: RawCategory }>(service: T) {
   };
 }
 
-export async function getMarketplaceServices(
+function createPublicSupabaseClient() {
+  const { url, anonKey } = getSupabaseEnv();
+
+  if (!url || !anonKey) {
+    throw new Error("Supabase environment variables are missing.");
+  }
+
+  return createClient(url, anonKey, {
+    auth: {
+      persistSession: false,
+      autoRefreshToken: false,
+    },
+  });
+}
+
+async function getMarketplaceServicesQuery(
   filters: MarketplaceFilters | number = {}
 ) {
   if (!hasSupabaseEnv()) {
@@ -99,7 +114,7 @@ export async function getMarketplaceServices(
 
   const resolvedFilters =
     typeof filters === "number" ? { limit: filters } : filters;
-  const supabase = await createSupabaseServerClient();
+  const supabase = createPublicSupabaseClient();
   let query = supabase
     .from("services")
     .select(
@@ -199,159 +214,213 @@ export async function getMarketplaceServices(
   });
 }
 
-export async function getMarketplaceCities() {
-  if (!hasSupabaseEnv()) {
-    return [];
-  }
+const getCachedMarketplaceServices = unstable_cache(
+  async (serializedFilters: string) => {
+    const parsedFilters = JSON.parse(serializedFilters) as MarketplaceFilters | number;
+    return getMarketplaceServicesQuery(parsedFilters);
+  },
+  ["marketplace-services"],
+  { revalidate: 180 }
+);
 
-  const services = await getMarketplaceServices();
-  return Array.from(
-    new Set(
-      services
-        .map((service) => service.provider_profile?.city)
-        .filter((city): city is string => Boolean(city))
-    )
-  ).sort((a, b) => a.localeCompare(b, "pt-BR"));
+export async function getMarketplaceServices(
+  filters: MarketplaceFilters | number = {}
+) {
+  return getCachedMarketplaceServices(JSON.stringify(filters));
 }
+
+const getCachedMarketplaceCities = unstable_cache(
+  async () => {
+    if (!hasSupabaseEnv()) {
+      return [];
+    }
+
+    const supabase = createPublicSupabaseClient();
+    const { data, error } = await supabase
+      .from("provider_profiles")
+      .select("city")
+      .not("city", "is", null)
+      .order("city", { ascending: true });
+
+    if (error) {
+      return [];
+    }
+
+    return Array.from(
+      new Set(
+        (data ?? [])
+          .map((profile) => profile.city)
+          .filter((city): city is string => Boolean(city))
+      )
+    ).sort((a, b) => a.localeCompare(b, "pt-BR"));
+  },
+  ["marketplace-cities"],
+  { revalidate: 600 }
+);
+
+export async function getMarketplaceCities() {
+  return getCachedMarketplaceCities();
+}
+
+const getCachedMarketplaceCategories = unstable_cache(
+  async () => {
+    if (!hasSupabaseEnv()) {
+      return [];
+    }
+
+    const supabase = createPublicSupabaseClient();
+    const { data, error } = await supabase
+      .from("service_categories")
+      .select("name, slug")
+      .order("name", { ascending: true });
+
+    if (error) {
+      return [];
+    }
+
+    return data ?? [];
+  },
+  ["marketplace-categories"],
+  { revalidate: 600 }
+);
 
 export async function getMarketplaceCategories() {
-  if (!hasSupabaseEnv()) {
-    return [];
-  }
-
-  const supabase = await createSupabaseServerClient();
-  const { data, error } = await supabase
-    .from("service_categories")
-    .select("name, slug")
-    .order("name", { ascending: true });
-
-  if (error) {
-    return [];
-  }
-
-  return data ?? [];
+  return getCachedMarketplaceCategories();
 }
+
+const getCachedMarketplaceSlugs = unstable_cache(
+  async () => {
+    if (!hasSupabaseEnv()) {
+      return [];
+    }
+
+    const { url, anonKey } = getSupabaseEnv();
+
+    if (!url || !anonKey) {
+      return [];
+    }
+
+    const supabase = createPublicSupabaseClient();
+
+    const { data, error } = await supabase
+      .from("services")
+      .select("slug")
+      .eq("is_active", true)
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      return [];
+    }
+
+    return (data ?? []).map((service) => service.slug).filter(Boolean);
+  },
+  ["marketplace-service-slugs"],
+  { revalidate: 600 }
+);
 
 export async function getMarketplaceServiceSlugs() {
-  if (!hasSupabaseEnv()) {
-    return [];
-  }
-
-  const { url, anonKey } = getSupabaseEnv();
-
-  if (!url || !anonKey) {
-    return [];
-  }
-
-  const supabase = createClient(url, anonKey, {
-    auth: {
-      persistSession: false,
-      autoRefreshToken: false,
-    },
-  });
-
-  const { data, error } = await supabase
-    .from("services")
-    .select("slug")
-    .eq("is_active", true)
-    .order("created_at", { ascending: false });
-
-  if (error) {
-    return [];
-  }
-
-  return (data ?? []).map((service) => service.slug).filter(Boolean);
+  return getCachedMarketplaceSlugs();
 }
 
-export async function getMarketplaceServiceBySlug(slug: string) {
-  if (!hasSupabaseEnv()) {
-    return null;
-  }
+const getCachedMarketplaceServiceBySlug = unstable_cache(
+  async (slug: string) => {
+    if (!hasSupabaseEnv()) {
+      return null;
+    }
 
-  const supabase = await createSupabaseServerClient();
-  const { data, error } = await supabase
-    .from("services")
-    .select(
-      `
-      id,
-      slug,
-      title,
-      description,
-      cover_image_url,
-      category:service_categories (
-        name,
-        slug
-      ),
-      price_cents,
-      duration_minutes,
-      featured_rank,
-      created_at,
-      provider_profile:provider_profiles (
+    const supabase = createPublicSupabaseClient();
+    const { data, error } = await supabase
+      .from("services")
+      .select(
+        `
         id,
-        display_name,
-        bio,
-        city,
-        state,
-        is_verified,
-        plan
-      ),
-      availability:service_availability (
-        id,
-        start_at,
-        end_at,
-        is_available
-      )
-    `
-    )
-    .eq("slug", slug)
-    .eq("is_active", true)
-    .single();
-
-  if (error) {
-    return null;
-  }
-
-  const normalized = normalizeCategory(normalizeProviderProfile(data));
-  const { data: bookedSlots } = await supabase
-    .from("bookings")
-    .select("scheduled_start, scheduled_end, status")
-    .eq("service_id", normalized.id)
-    .in("status", ["pending", "confirmed"]);
-  const { data: reviews } = await supabase
-    .from("reviews")
-    .select(
-      `
-      id,
-      rating,
-      comment,
-      created_at,
-      client:profiles (full_name)
-    `
-    )
-    .eq("service_id", normalized.id)
-    .order("created_at", { ascending: false });
-
-  const normalizedReviews = (reviews ?? []).map((review) => ({
-    ...review,
-    client: Array.isArray(review.client) ? review.client[0] ?? null : review.client,
-  }));
-  const averageRating =
-    normalizedReviews.length > 0
-      ? Number(
-          (
-            normalizedReviews.reduce((acc, review) => acc + review.rating, 0) /
-            normalizedReviews.length
-          ).toFixed(1)
+        slug,
+        title,
+        description,
+        cover_image_url,
+        category:service_categories (
+          name,
+          slug
+        ),
+        price_cents,
+        duration_minutes,
+        featured_rank,
+        created_at,
+        provider_profile:provider_profiles (
+          id,
+          display_name,
+          bio,
+          city,
+          state,
+          is_verified,
+          plan
+        ),
+        availability:service_availability (
+          id,
+          start_at,
+          end_at,
+          is_available
         )
-      : null;
+      `
+      )
+      .eq("slug", slug)
+      .eq("is_active", true)
+      .single();
 
-  return {
-    ...normalized,
-    booked_slots: bookedSlots ?? [],
-    reviews: normalizedReviews,
-    average_rating: averageRating,
-    reviews_count: normalizedReviews.length,
-  };
+    if (error) {
+      return null;
+    }
+
+    const normalized = normalizeCategory(normalizeProviderProfile(data));
+    const [bookedSlotsResult, reviewsResult] = await Promise.all([
+      supabase
+        .from("bookings")
+        .select("scheduled_start, scheduled_end, status")
+        .eq("service_id", normalized.id)
+        .in("status", ["pending", "confirmed"]),
+      supabase
+        .from("reviews")
+        .select(
+          `
+          id,
+          rating,
+          comment,
+          created_at,
+          client:profiles (full_name)
+        `
+        )
+        .eq("service_id", normalized.id)
+        .order("created_at", { ascending: false }),
+    ]);
+
+    const normalizedReviews = (reviewsResult.data ?? []).map((review) => ({
+      ...review,
+      client: Array.isArray(review.client) ? review.client[0] ?? null : review.client,
+    }));
+    const averageRating =
+      normalizedReviews.length > 0
+        ? Number(
+            (
+              normalizedReviews.reduce((acc, review) => acc + review.rating, 0) /
+              normalizedReviews.length
+            ).toFixed(1)
+          )
+        : null;
+
+    return {
+      ...normalized,
+      booked_slots: bookedSlotsResult.data ?? [],
+      reviews: normalizedReviews,
+      average_rating: averageRating,
+      reviews_count: normalizedReviews.length,
+    };
+  },
+  ["marketplace-service-by-slug"],
+  { revalidate: 120 }
+);
+
+export async function getMarketplaceServiceBySlug(slug: string) {
+  return getCachedMarketplaceServiceBySlug(slug);
 }
 
 export function formatPrice(priceCents: number) {
@@ -375,5 +444,5 @@ export function getServiceTag(service: MarketplaceService) {
     return "Novo";
   }
 
-  return "Disponivel";
+  return "Disponível";
 }

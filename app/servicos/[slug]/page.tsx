@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
+import Image from "next/image";
 import Link from "next/link";
 import { Clock3, MapPin, ShieldCheck, Star } from "lucide-react";
 import { createBookingAction } from "@/app/servicos/[slug]/actions";
@@ -16,6 +17,8 @@ type ServiceDetailPageProps = {
   params: Promise<{ slug: string }>;
   searchParams: Promise<{ message?: string }>;
 };
+
+export const revalidate = 120;
 
 function humanizeSlug(slug: string) {
   return slug
@@ -134,9 +137,12 @@ export default async function ServiceDetailPage({
           <div className="overflow-hidden rounded-[2rem] border border-slate-200 bg-white">
             <div className="relative aspect-[16/10] bg-slate-950">
               {service.cover_image_url ? (
-                <img
+                <Image
                   src={service.cover_image_url}
                   alt={service.title}
+                  fill
+                  priority
+                  sizes="(max-width: 1024px) 100vw, 60vw"
                   className="h-full w-full object-cover"
                 />
               ) : null}

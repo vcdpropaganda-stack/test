@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -20,6 +21,8 @@ export const metadata: Metadata = {
   description:
     "Encontre e gerencie serviços locais com uma experiência premium, segura e pronta para escalar.",
 };
+
+export const revalidate = 180;
 
 const pillars = [
   "Arquitetura pronta para web e mobile sem retrabalho de UX.",
@@ -112,9 +115,12 @@ export default async function Home() {
               <div className="overflow-hidden rounded-[2.25rem] border border-slate-200/70 bg-slate-950 text-white shadow-2xl shadow-slate-950/20">
                 <div className="relative min-h-[22rem] p-6">
                   {heroService?.cover_image_url ? (
-                    <img
+                    <Image
                       src={heroService.cover_image_url}
                       alt={heroService.title}
+                      fill
+                      priority
+                      sizes="(max-width: 1024px) 100vw, 50vw"
                       className="absolute inset-0 h-full w-full object-cover opacity-55"
                     />
                   ) : null}
@@ -142,11 +148,12 @@ export default async function Home() {
                           >
                             <div className="relative overflow-hidden rounded-2xl bg-white/10">
                               {service.cover_image_url ? (
-                                <img
+                                <Image
                                   src={service.cover_image_url}
                                   alt={service.title}
+                                  fill
+                                  sizes="80px"
                                   className="h-full w-full object-cover"
-                                  loading="lazy"
                                 />
                               ) : null}
                             </div>

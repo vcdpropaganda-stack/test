@@ -273,8 +273,12 @@ export default async function ProviderServicesPage({
               </p>
             </div>
 
-            <label className="flex items-start gap-3 rounded-2xl border border-border bg-surface-soft px-4 py-4">
+            <label
+              htmlFor="is_active"
+              className="flex items-start gap-3 rounded-2xl border border-border bg-surface-soft px-4 py-4"
+            >
               <input
+                id="is_active"
                 type="checkbox"
                 name="is_active"
                 defaultChecked={selectedService?.is_active ?? true}

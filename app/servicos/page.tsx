@@ -17,6 +17,8 @@ export const metadata: Metadata = {
     "Explore os serviços publicados no marketplace Vitrine Lojas.",
 };
 
+export const revalidate = 180;
+
 type ServicesPageProps = {
   searchParams: Promise<{
     q?: string;
