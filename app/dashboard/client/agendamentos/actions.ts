@@ -30,7 +30,7 @@ async function ensureBookingOwner(bookingId: string) {
     .single();
 
   if (bookingResult.error || !bookingResult.data || bookingResult.data.client_id !== user.id) {
-    redirect("/dashboard/client/agendamentos?message=Agendamento nao encontrado.");
+    redirect("/dashboard/client/agendamentos?message=Agendamento não encontrado.");
   }
 
   const service = Array.isArray(bookingResult.data.service)
@@ -50,7 +50,7 @@ export async function cancelBookingAction(formData: FormData) {
   const bookingId = String(formData.get("booking_id") ?? "").trim();
 
   if (!bookingId) {
-    redirect("/dashboard/client/agendamentos?message=Agendamento invalido.");
+    redirect("/dashboard/client/agendamentos?message=Agendamento inválido.");
   }
 
   const { supabase } = await ensureBookingOwner(bookingId);
@@ -61,7 +61,7 @@ export async function cancelBookingAction(formData: FormData) {
     .eq("id", bookingId);
 
   if (error) {
-    redirect("/dashboard/client/agendamentos?message=Nao foi possivel cancelar o agendamento.");
+    redirect("/dashboard/client/agendamentos?message=Não foi possível cancelar o agendamento.");
   }
 
   revalidatePath("/dashboard/client/agendamentos");
@@ -73,7 +73,7 @@ export async function goToCheckoutAction(formData: FormData) {
   const bookingId = String(formData.get("booking_id") ?? "").trim();
 
   if (!bookingId) {
-    redirect("/dashboard/client/agendamentos?message=Checkout invalido.");
+    redirect("/dashboard/client/agendamentos?message=Checkout inválido.");
   }
 
   await ensureBookingOwner(bookingId);
@@ -84,14 +84,14 @@ export async function rebookBookingAction(formData: FormData) {
   const bookingId = String(formData.get("booking_id") ?? "").trim();
 
   if (!bookingId) {
-    redirect("/dashboard/client/agendamentos?message=Reagendamento invalido.");
+    redirect("/dashboard/client/agendamentos?message=Reagendamento inválido.");
   }
 
   const { booking } = await ensureBookingOwner(bookingId);
 
   if (!booking.service?.slug) {
-    redirect("/dashboard/client/agendamentos?message=Servico de origem nao encontrado.");
+    redirect("/dashboard/client/agendamentos?message=Serviço de origem não encontrado.");
   }
 
-  redirect(`/servicos/${booking.service.slug}?message=Escolha um novo horario para reagendar.`);
+  redirect(`/servicos/${booking.service.slug}?message=Escolha um novo horário para reagendar.`);
 }

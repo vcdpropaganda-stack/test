@@ -3,29 +3,29 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "FAQ | Vitrine Lojas",
   description:
-    "Perguntas frequentes sobre funcionamento, planos e operacao da plataforma Vitrine Lojas.",
+    "Perguntas frequentes sobre funcionamento, planos e operação da plataforma Vitrine Lojas.",
 };
 
 const faqs = [
   {
-    question: "A Vitrine Lojas e um marketplace ou um SaaS?",
+    question: "A Vitrine Lojas é um marketplace ou um SaaS?",
     answer:
-      "Ele nasce como os dois: uma experiencia de marketplace para descoberta e agendamento, com uma estrutura de SaaS para gestao, assinatura e operacao.",
+      "Ela nasce como os dois: uma experiência de marketplace para descoberta e agendamento, com uma estrutura de SaaS para gestão, assinatura e operação.",
   },
   {
-    question: "O produto ja esta preparado para mobile?",
+    question: "O produto já está preparado para mobile?",
     answer:
-      "Sim. A arquitetura foi pensada para reaproveitar regras, componentes e integracoes no futuro app com React Native.",
+      "Sim. A arquitetura foi pensada para reaproveitar regras, componentes e integrações no futuro app com React Native.",
   },
   {
-    question: "Como os perfis de cliente e prestador sao separados?",
+    question: "Como os perfis de cliente e prestador são separados?",
     answer:
-      "A separacao acontece desde o cadastro e e reforcada no banco por roles e politicas RLS no Supabase.",
+      "A separação acontece desde o cadastro e é reforçada no banco por roles e políticas RLS no Supabase.",
   },
   {
-    question: "Os pagamentos ja estao conectados?",
+    question: "Os pagamentos já estão conectados?",
     answer:
-      "A base foi preparada para Stripe em modo de teste, com planos e limitacoes por assinatura ja refletidos no schema.",
+      "A base foi preparada para Stripe em modo de teste, com planos e limitações por assinatura já refletidos no schema.",
   },
 ];
 
@@ -37,7 +37,7 @@ export default function FaqPage() {
           FAQ
         </p>
         <h1 className="mt-4 font-sans text-5xl font-bold tracking-tight text-slate-950">
-          Perguntas frequentes com linguagem clara e sem friccao.
+          Perguntas frequentes com linguagem clara e sem fricção.
         </h1>
       </section>
 

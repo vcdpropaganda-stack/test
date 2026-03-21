@@ -9,8 +9,8 @@ import { Notice } from "@/components/ui/notice";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 export const metadata: Metadata = {
-  title: "Servicos | Painel do Prestador",
-  description: "Gestao inicial de servicos no painel do prestador.",
+  title: "Serviços | Painel do Prestador",
+  description: "Gestão inicial de serviços no painel do prestador.",
 };
 
 type ProviderServicesPageProps = {
@@ -67,12 +67,12 @@ export default async function ProviderServicesPage({
       <div className="grid gap-8 xl:grid-cols-[0.92fr_1.08fr]">
         <section className="space-y-6">
           <div className="rounded-[2rem] border border-border bg-slate-950 p-8 text-white">
-            <p className="text-sm text-slate-300">Gestao de servicos</p>
+            <p className="text-sm text-slate-300">Gestão de serviços</p>
             <h1 className="mt-3 font-sans text-4xl font-bold tracking-tight">
-              Publique, edite e organize seus servicos em um fluxo real.
+              Publique, edite e organize seus serviços em um fluxo real.
             </h1>
             <p className="mt-4 max-w-2xl text-slate-300">
-              Seus servicos agora sao persistidos no Supabase, respeitando o
+              Seus serviços agora são persistidos no Supabase, respeitando o
               perfil do prestador e os limites do plano.
             </p>
             <div className="mt-6 flex flex-wrap gap-3 text-sm text-slate-200">
@@ -80,7 +80,7 @@ export default async function ProviderServicesPage({
                 Plano: {providerProfile?.plan ?? "basic"}
               </span>
               <span className="rounded-full bg-white/10 px-3 py-2">
-                Servicos cadastrados: {services.length}
+                Serviços cadastrados: {services.length}
               </span>
             </div>
           </div>
@@ -91,10 +91,10 @@ export default async function ProviderServicesPage({
             {services.length === 0 ? (
               <div className="rounded-[2rem] border border-dashed border-border bg-white p-8">
                 <p className="text-lg font-semibold text-slate-950">
-                  Nenhum servico cadastrado ainda.
+                  Nenhum serviço cadastrado ainda.
                 </p>
                 <p className="mt-3 max-w-lg text-sm leading-7 text-muted-strong">
-                  Crie o primeiro servico para aparecer no marketplace e
+                  Crie o primeiro serviço para aparecer no marketplace e
                   preparar sua agenda de atendimento.
                 </p>
               </div>
@@ -165,12 +165,12 @@ export default async function ProviderServicesPage({
           <div className="flex items-start justify-between gap-4">
             <div>
               <p className="text-sm font-semibold tracking-[0.22em] text-primary uppercase">
-                {selectedService ? "Editar servico" : "Novo servico"}
+                {selectedService ? "Editar serviço" : "Novo serviço"}
               </p>
               <h2 className="mt-3 font-sans text-3xl font-bold tracking-tight text-slate-950">
                 {selectedService
                   ? "Atualize seu anuncio com clareza"
-                  : "Crie um servico pronto para vender"}
+                  : "Crie um serviço pronto para vender"}
               </h2>
             </div>
             {!selectedService ? (
@@ -189,11 +189,11 @@ export default async function ProviderServicesPage({
 
             <InputField
               name="title"
-              label="Titulo do servico"
+              label="Título do serviço"
               required
               defaultValue={selectedService?.title ?? ""}
               placeholder="Ex.: Limpeza residencial premium"
-              hint="Use um titulo objetivo e facil de encontrar."
+              hint="Use um título objetivo e fácil de encontrar."
             />
 
             <div>
@@ -201,7 +201,7 @@ export default async function ProviderServicesPage({
                 htmlFor="description"
                 className="mb-2 block text-sm font-medium text-slate-800"
               >
-                Descricao
+                Descrição
               </label>
               <textarea
                 id="description"
@@ -210,10 +210,10 @@ export default async function ProviderServicesPage({
                 rows={6}
                 defaultValue={selectedService?.description ?? ""}
                 className="w-full rounded-2xl border border-border bg-surface px-4 py-3 text-sm text-slate-950 placeholder:text-muted outline-none hover:border-primary/30 focus:border-primary"
-                placeholder="Descreva o que esta incluso, o diferencial e como o servico funciona."
+                placeholder="Descreva o que está incluso, o diferencial e como o serviço funciona."
               />
               <p className="mt-2 text-sm text-muted">
-                Uma boa descricao melhora a conversao e reduz duvidas.
+                Uma boa descrição melhora a conversão e reduz dúvidas.
               </p>
             </div>
 
@@ -229,7 +229,7 @@ export default async function ProviderServicesPage({
                     ? (selectedService.price_cents / 100).toFixed(2)
                     : ""
                 }
-                label="Preco em reais"
+                label="Preço em reais"
                 placeholder="149.90"
               />
 
@@ -240,7 +240,7 @@ export default async function ProviderServicesPage({
                 step="15"
                 required
                 defaultValue={selectedService?.duration_minutes ?? 60}
-                label="Duracao em minutos"
+                label="Duração em minutos"
                 placeholder="60"
               />
             </div>
@@ -269,7 +269,7 @@ export default async function ProviderServicesPage({
                 className="w-full rounded-2xl border border-border bg-surface px-4 py-3 text-sm text-slate-950 outline-none hover:border-primary/30 focus:border-primary"
               />
               <p className="mt-2 text-sm text-muted">
-                Se enviar um arquivo, ele tera prioridade sobre a URL manual.
+                Se enviar um arquivo, ele terá prioridade sobre a URL manual.
               </p>
             </div>
 
@@ -282,7 +282,7 @@ export default async function ProviderServicesPage({
               />
               <span>
                 <span className="block text-sm font-semibold text-slate-950">
-                  Servico ativo no marketplace
+                  Serviço ativo no marketplace
                 </span>
                 <span className="mt-1 block text-sm text-muted-strong">
                   Desative se quiser manter o cadastro salvo sem exibir para os clientes.
@@ -292,11 +292,11 @@ export default async function ProviderServicesPage({
 
             <div className="flex flex-wrap gap-3">
               <Button type="submit">
-                {selectedService ? "Salvar alteracoes" : "Criar servico"}
+                {selectedService ? "Salvar alterações" : "Criar serviço"}
               </Button>
               {selectedService ? (
                 <Link href="/dashboard/provider/servicos" className="inline-flex">
-                  <Button variant="secondary">Cancelar edicao</Button>
+                  <Button variant="secondary">Cancelar edição</Button>
                 </Link>
               ) : null}
             </div>

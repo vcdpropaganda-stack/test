@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Termos | Vitrine Lojas",
-  description: "Pagina base de termos de uso da plataforma Vitrine Lojas.",
+  description: "Página-base de termos de uso da plataforma Vitrine Lojas.",
 };
 
 export default function TermosPage() {
@@ -13,8 +13,8 @@ export default function TermosPage() {
           Termos de uso
         </h1>
         <p className="mt-6 text-base leading-8 text-muted-strong">
-          Esta pagina serve como estrutura inicial para regras do marketplace,
-          conduta de usuarios, operacao de pagamentos e responsabilidades da
+          Esta página serve como estrutura inicial para regras do marketplace,
+          conduta de usuários, operação de pagamentos e responsabilidades da
           plataforma.
         </p>
       </div>

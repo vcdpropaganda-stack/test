@@ -6,7 +6,7 @@ import { createSupabaseServerClient } from "@/lib/supabase/server";
 export const metadata: Metadata = {
   title: "Painel do Cliente | Vitrine Lojas",
   description:
-    "Area inicial do cliente para acompanhar agendamentos e servicos favoritos.",
+    "Área inicial do cliente para acompanhar agendamentos e serviços favoritos.",
 };
 
 export default async function ClientDashboardPage() {
@@ -41,11 +41,11 @@ export default async function ClientDashboardPage() {
       <div className="rounded-[2rem] border border-border bg-white p-8 shadow-sm">
         <p className="text-sm text-muted">Dashboard do cliente</p>
         <h1 className="mt-3 font-sans text-4xl font-bold tracking-tight text-slate-950">
-          Ola, {user.user_metadata.full_name ?? user.email}
+          Olá, {user.user_metadata.full_name ?? user.email}
         </h1>
         <p className="mt-4 max-w-2xl text-muted">
-          Esta area ja esta pronta para evoluir com historico de agendamentos,
-          favoritos, pagamentos e avaliacoes.
+          Esta área já está pronta para evoluir com histórico de agendamentos,
+          favoritos, pagamentos e avaliações.
         </p>
       </div>
       <div className="mt-8 grid gap-5 md:grid-cols-3">
@@ -56,15 +56,15 @@ export default async function ClientDashboardPage() {
           </p>
         </Link>
         <section className="rounded-[1.5rem] border border-border bg-surface p-6">
-          <p className="font-semibold text-slate-950">Servicos favoritos</p>
+          <p className="font-semibold text-slate-950">Serviços favoritos</p>
           <p className="mt-3 text-sm text-muted-strong">
-            Base reservada para wishlist e historico de descoberta.
+            Base reservada para wishlist e histórico de descoberta.
           </p>
         </section>
         <Link href="/dashboard/client/agendamentos" className="rounded-[1.5rem] border border-border bg-surface p-6">
-          <p className="font-semibold text-slate-950">Avaliacoes pendentes</p>
+          <p className="font-semibold text-slate-950">Avaliações pendentes</p>
           <p className="mt-3 text-sm text-muted-strong">
-            {completedPendingReview} servicos aguardando sua avaliacao.
+            {completedPendingReview} serviços aguardando sua avaliação.
           </p>
         </Link>
       </div>

@@ -12,9 +12,9 @@ import {
 } from "@/lib/marketplace";
 
 export const metadata: Metadata = {
-  title: "Servicos | Vitrine Lojas",
+  title: "Serviços | Vitrine Lojas",
   description:
-    "Explore os servicos publicados no marketplace Vitrine Lojas.",
+    "Explore os serviços publicados no marketplace Vitrine Lojas.",
 };
 
 type ServicesPageProps = {
@@ -44,13 +44,13 @@ export default async function ServicesPage({ searchParams }: ServicesPageProps) 
       <section className="overflow-hidden rounded-[2rem] border border-slate-200 bg-[linear-gradient(135deg,#0f172a,#312e81_58%,#6366f1)] px-8 py-10 text-white shadow-[0_24px_70px_rgba(15,23,42,0.16)]">
         <SectionHeading
           eyebrow="Marketplace"
-          title="Todos os servicos publicados"
-          description="Descubra servicos com imagem real, reputacao visivel, agenda pronta e apresentacao muito mais clara para conversao."
+          title="Todos os serviços publicados"
+          description="Descubra serviços com imagem real, reputação visível, agenda pronta e apresentação muito mais clara para conversão."
           invert
         />
         <div className="mt-6 flex flex-wrap gap-3 text-sm">
           <span className="rounded-full border border-white/15 bg-white/10 px-4 py-2 backdrop-blur-sm">
-            {services.length} servicos ativos
+            {services.length} serviços ativos
           </span>
           <span className="rounded-full border border-white/15 bg-white/10 px-4 py-2 backdrop-blur-sm">
             {categories.length} categorias
@@ -59,7 +59,7 @@ export default async function ServicesPage({ searchParams }: ServicesPageProps) 
             {cities.length} cidades mapeadas
           </span>
           <span className="rounded-full border border-white/15 bg-white/10 px-4 py-2 backdrop-blur-sm">
-            Clique em qualquer card para abrir a pagina do servico
+            Clique em qualquer card para abrir a página do serviço
           </span>
         </div>
       </section>
@@ -72,7 +72,7 @@ export default async function ServicesPage({ searchParams }: ServicesPageProps) 
           <div>
             <p className="text-sm font-semibold text-slate-950">Filtros do marketplace</p>
             <p className="text-sm text-muted-strong">
-              Refine por busca, categoria, cidade e ordenacao.
+              Refine por busca, categoria, cidade e ordenação.
             </p>
           </div>
         </div>
@@ -82,7 +82,7 @@ export default async function ServicesPage({ searchParams }: ServicesPageProps) 
               name="q"
               label="Buscar"
               defaultValue={q}
-              placeholder="Busque por nome do servico ou descricao"
+              placeholder="Busque por nome do serviço ou descrição"
               className="pl-11"
             />
             <Search className="pointer-events-none absolute top-[47px] left-4 h-4 w-4 text-muted" />
@@ -108,8 +108,8 @@ export default async function ServicesPage({ searchParams }: ServicesPageProps) 
 
           <SelectField name="sort" label="Ordenar" defaultValue={sort}>
             <option value="recent">Mais recentes</option>
-            <option value="price_asc">Menor preco</option>
-            <option value="price_desc">Maior preco</option>
+            <option value="price_asc">Menor preço</option>
+            <option value="price_desc">Maior preço</option>
           </SelectField>
 
           <button className="min-h-11 rounded-full bg-slate-950 px-5 py-3 text-sm font-semibold text-white hover:bg-primary-strong">
@@ -168,10 +168,10 @@ export default async function ServicesPage({ searchParams }: ServicesPageProps) 
         ) : (
           <div className="lg:col-span-3 rounded-[2rem] border border-dashed border-border bg-white p-8">
             <p className="text-lg font-semibold text-slate-950">
-              Nenhum servico encontrado com esses filtros.
+              Nenhum serviço encontrado com esses filtros.
             </p>
             <p className="mt-3 max-w-2xl text-sm leading-7 text-muted-strong">
-              Ajuste os criterios ou aguarde novos servicos publicados.
+              Ajuste os critérios ou aguarde novos serviços publicados.
             </p>
           </div>
         )}

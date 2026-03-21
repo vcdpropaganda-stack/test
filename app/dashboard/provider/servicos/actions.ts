@@ -60,7 +60,7 @@ async function ensureProviderContext() {
     .single();
 
   if (providerProfileResult.error || !providerProfileResult.data) {
-    redirect(buildRedirect("Nao foi possivel preparar o perfil do prestador."));
+    redirect(buildRedirect("Não foi possível preparar o perfil do prestador."));
   }
 
   return {
@@ -81,18 +81,18 @@ export async function upsertServiceAction(formData: FormData) {
   const isActive = formData.get("is_active") === "on";
 
   if (!title || !description) {
-    redirect(buildRedirect("Preencha titulo e descricao do servico."));
+    redirect(buildRedirect("Preencha o título e a descrição do serviço."));
   }
 
   const priceNumber = Number(priceInput);
   const durationMinutes = Number(durationInput);
 
   if (Number.isNaN(priceNumber) || priceNumber < 0) {
-    redirect(buildRedirect("Informe um preco valido em reais."));
+    redirect(buildRedirect("Informe um preço válido em reais."));
   }
 
   if (!Number.isInteger(durationMinutes) || durationMinutes <= 0) {
-    redirect(buildRedirect("Informe uma duracao valida em minutos."));
+    redirect(buildRedirect("Informe uma duração válida em minutos."));
   }
 
   const { supabase, providerProfile, user } = await ensureProviderContext();
@@ -114,7 +114,7 @@ export async function upsertServiceAction(formData: FormData) {
       });
 
     if (uploadResult.error) {
-      redirect(buildRedirect("Nao foi possivel enviar a imagem do servico."));
+      redirect(buildRedirect("Não foi possível enviar a imagem do serviço."));
     }
 
     const publicUrlResult = supabase.storage
@@ -147,30 +147,30 @@ export async function upsertServiceAction(formData: FormData) {
     redirect(
       buildRedirect(
         result.error.message.includes("Service limit reached")
-          ? "Seu plano atual atingiu o limite de servicos."
-          : "Nao foi possivel salvar o servico."
+          ? "Seu plano atual atingiu o limite de serviços."
+          : "Não foi possível salvar o serviço."
       )
     );
   }
 
   revalidatePath("/dashboard/provider/servicos");
-  redirect(buildRedirect(serviceId ? "Servico atualizado com sucesso." : "Servico criado com sucesso."));
+  redirect(buildRedirect(serviceId ? "Serviço atualizado com sucesso." : "Serviço criado com sucesso."));
 }
 
 export async function deleteServiceAction(formData: FormData) {
   const serviceId = String(formData.get("service_id") ?? "").trim();
 
   if (!serviceId) {
-    redirect(buildRedirect("Servico invalido para exclusao."));
+    redirect(buildRedirect("Serviço inválido para exclusão."));
   }
 
   const { supabase } = await ensureProviderContext();
   const { error } = await supabase.from("services").delete().eq("id", serviceId);
 
   if (error) {
-    redirect(buildRedirect("Nao foi possivel excluir o servico."));
+    redirect(buildRedirect("Não foi possível excluir o serviço."));
   }
 
   revalidatePath("/dashboard/provider/servicos");
-  redirect(buildRedirect("Servico removido com sucesso."));
+  redirect(buildRedirect("Serviço removido com sucesso."));
 }

@@ -11,7 +11,7 @@ import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 export const metadata: Metadata = {
   title: "Agenda | Painel do Prestador",
-  description: "Visual inicial de agenda e disponibilidade do prestador.",
+  description: "Visão inicial de agenda e disponibilidade do prestador.",
 };
 
 type ProviderAgendaPageProps = {
@@ -77,11 +77,11 @@ export default async function ProviderAgendaPage({
           <div className="rounded-[2rem] border border-border bg-slate-950 p-8 text-white">
             <p className="text-sm text-slate-300">Agenda do prestador</p>
             <h1 className="mt-3 font-sans text-4xl font-bold tracking-tight">
-              Organize sua disponibilidade por servico.
+              Organize sua disponibilidade por serviço.
             </h1>
             <p className="mt-4 max-w-2xl text-slate-300">
-              Os horarios criados aqui passam a aparecer no detalhe publico do
-              servico para sustentar o fluxo de agendamento.
+              Os horários criados aqui passam a aparecer no detalhe público do
+              serviço para sustentar o fluxo de agendamento.
             </p>
           </div>
 
@@ -122,7 +122,7 @@ export default async function ProviderAgendaPage({
                           icon={<Trash2 className="h-4 w-4" />}
                           className="text-danger hover:bg-red-50 hover:text-danger"
                         >
-                          Remover horario
+                          Remover horário
                         </Button>
                       </form>
                     </div>
@@ -131,7 +131,7 @@ export default async function ProviderAgendaPage({
               ) : (
                 <div className="rounded-[2rem] border border-dashed border-border bg-white p-8">
                   <p className="text-lg font-semibold text-slate-950">
-                    Nenhum horario cadastrado para este servico.
+                    Nenhum horário cadastrado para este serviço.
                   </p>
                   <p className="mt-3 text-sm leading-7 text-muted-strong">
                     Adicione a primeira janela de atendimento para exibir
@@ -142,11 +142,11 @@ export default async function ProviderAgendaPage({
             ) : (
               <div className="rounded-[2rem] border border-dashed border-border bg-white p-8">
                 <p className="text-lg font-semibold text-slate-950">
-                  Crie pelo menos um servico antes de configurar a agenda.
+                  Crie pelo menos um serviço antes de configurar a agenda.
                 </p>
                 <p className="mt-3 text-sm leading-7 text-muted-strong">
-                  A agenda e organizada por servico, entao o primeiro passo e
-                  cadastrar um anuncio no painel.
+                  A agenda é organizada por serviço, então o primeiro passo é
+                  cadastrar um anúncio no painel.
                 </p>
               </div>
             )}
@@ -157,7 +157,7 @@ export default async function ProviderAgendaPage({
           <div className="flex items-start justify-between gap-4">
             <div>
               <p className="text-sm font-semibold tracking-[0.22em] text-primary uppercase">
-                Novo horario
+                Novo horário
               </p>
               <h2 className="mt-3 font-sans text-3xl font-bold tracking-tight text-slate-950">
                 Adicione janelas reais de disponibilidade
@@ -171,9 +171,9 @@ export default async function ProviderAgendaPage({
           <form action={createAvailabilityAction} className="mt-8 space-y-5">
             <SelectField
               name="service_id"
-              label="Servico"
+              label="Serviço"
               defaultValue={selectedService?.id ?? ""}
-              hint="Cada horario pertence a um servico especifico."
+              hint="Cada horário pertence a um serviço específico."
             >
               {services.length > 0 ? (
                 services.map((service) => (
@@ -182,7 +182,7 @@ export default async function ProviderAgendaPage({
                   </option>
                 ))
               ) : (
-                <option value="">Nenhum servico disponivel</option>
+                <option value="">Nenhum serviço disponível</option>
               )}
             </SelectField>
 
@@ -190,7 +190,7 @@ export default async function ProviderAgendaPage({
               <InputField
                 name="start_at"
                 type="datetime-local"
-                label="Inicio"
+                label="Início"
                 required
               />
               <InputField
@@ -202,14 +202,14 @@ export default async function ProviderAgendaPage({
             </div>
 
             <Button type="submit" disabled={services.length === 0}>
-              Salvar horario
+              Salvar horário
             </Button>
           </form>
 
           {selectedService ? (
             <div className="mt-8 rounded-3xl border border-border bg-surface-soft p-5">
               <p className="text-sm font-semibold text-slate-950">
-                Servico selecionado
+                Serviço selecionado
               </p>
               <p className="mt-2 text-sm text-muted-strong">
                 {selectedService.title} • {selectedService.duration_minutes} min

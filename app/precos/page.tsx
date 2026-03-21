@@ -2,29 +2,29 @@ import type { Metadata } from "next";
 import { Check } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Precos | Vitrine Lojas",
+  title: "Preços | Vitrine Lojas",
   description:
-    "Planos iniciais da Vitrine Lojas para prestadores com progressao clara de recursos.",
+    "Planos iniciais da Vitrine Lojas para prestadores com progressão clara de recursos.",
 };
 
 const plans = [
   {
-    name: "Basico",
+    name: "Básico",
     price: "R$ 49",
-    description: "Para prestadores iniciando operacao digital.",
-    features: ["Ate 3 servicos", "Agenda basica", "Perfil publico"],
+    description: "Para prestadores iniciando operação digital.",
+    features: ["Até 3 serviços", "Agenda básica", "Perfil público"],
   },
   {
     name: "Pro",
     price: "R$ 119",
     description: "Para quem precisa de mais volume e apresentacao premium.",
-    features: ["Ate 10 servicos", "Destaque no marketplace", "Metricas basicas"],
+    features: ["Até 10 serviços", "Destaque no marketplace", "Métricas básicas"],
   },
   {
     name: "Premium",
     price: "R$ 249",
-    description: "Para operacoes em crescimento com foco em escala e marca.",
-    features: ["Servicos ilimitados", "Posicionamento prioritario", "Suporte prioritario"],
+    description: "Para operações em crescimento com foco em escala e marca.",
+    features: ["Serviços ilimitados", "Posicionamento prioritário", "Suporte prioritário"],
   },
 ];
 
@@ -33,14 +33,14 @@ export default function PrecosPage() {
     <main id="conteudo" className="page-shell py-16">
       <section className="mx-auto max-w-3xl text-center">
         <p className="text-sm font-semibold tracking-[0.22em] text-primary uppercase">
-          Precos
+          Preços
         </p>
         <h1 className="mt-4 font-sans text-5xl font-bold tracking-tight text-slate-950">
           Planos claros, sem ruído e preparados para crescer com o produto.
         </h1>
         <p className="mt-6 text-lg leading-8 text-muted-strong">
-          A base de assinatura do prestador ja conversa com o schema do
-          Supabase e com a futura integracao de Stripe.
+          A base de assinatura do prestador já conversa com o schema do
+          Supabase e com a futura integração com Stripe.
         </p>
       </section>
 

@@ -26,10 +26,10 @@ export default async function LoginPage({
         <section className="elevated-card rounded-[2rem] border border-border bg-slate-950 p-8 text-white">
           <p className="text-sm text-slate-300">Acesso seguro</p>
           <h1 className="mt-4 font-sans text-4xl font-bold tracking-tight">
-            Entre para gerenciar agendamentos, servicos e sua operacao.
+            Entre para gerenciar agendamentos, serviços e sua operação.
           </h1>
           <p className="mt-4 max-w-md text-slate-300">
-            A autenticacao ja esta conectada ao Supabase e pronta para separar
+            A autenticação já está conectada ao Supabase e pronta para separar
             clientes e prestadores desde a origem.
           </p>
         </section>
@@ -69,7 +69,7 @@ export default async function LoginPage({
           </form>
 
           <p className="mt-6 text-sm text-muted-strong">
-            Ainda nao tem conta?{" "}
+            Ainda não tem conta?{" "}
             <Link href="/cadastro" className="font-semibold text-primary-strong">
               Criar cadastro
             </Link>

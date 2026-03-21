@@ -15,9 +15,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Vitrine Lojas | Marketplace de Servicos Locais",
+  title: "Vitrine Lojas | Marketplace de Serviços Locais",
   description:
-    "Marketplace premium para conectar clientes a prestadores de servicos com agendamento, assinaturas e operacao escalavel.",
+    "Marketplace premium para conectar clientes a prestadores de serviços com agendamento, assinaturas e operação escalável.",
 };
 
 export default function RootLayout({
@@ -32,7 +32,7 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <a href="#conteudo" className="skip-link">
-          Pular para o conteudo principal
+          Pular para o conteúdo principal
         </a>
         <SiteHeader />
         {children}

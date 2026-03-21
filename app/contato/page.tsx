@@ -17,10 +17,10 @@ export default function ContatoPage() {
             Contato
           </p>
           <h1 className="mt-4 font-sans text-4xl font-bold tracking-tight">
-            Fale com o time para parcerias, implantacao ou duvidas do produto.
+            Fale com o time para parcerias, implantação ou dúvidas sobre o produto.
           </h1>
           <p className="mt-5 max-w-md text-sm leading-7 text-slate-300">
-            A pagina ja esta pronta para virar canal comercial, suporte
+            A página já está pronta para virar canal comercial, suporte
             premium, onboarding e atendimento institucional.
           </p>
         </section>

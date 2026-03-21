@@ -51,7 +51,7 @@ export default async function CadastroPage({
                 autoComplete="tel"
                 label="Telefone"
                 placeholder="(11) 99999-9999"
-                hint="Opcional, mas util para contato e agendamento."
+                hint="Opcional, mas útil para contato e agendamento."
               />
             </div>
 
@@ -82,15 +82,15 @@ export default async function CadastroPage({
                 name="role"
                 defaultValue="client"
                 label="Perfil"
-                hint="Voce pode criar conta como cliente ou prestador."
+                hint="Você pode criar conta como cliente ou prestador."
               >
                 <option value="client">Cliente</option>
-                <option value="provider">Prestador de servico</option>
+                <option value="provider">Prestador de serviço</option>
               </SelectField>
 
               <InputField
                 name="display_name"
-                label="Nome publico do prestador"
+                label="Nome público do prestador"
                 placeholder="Ex.: Studio Monarca"
                 hint="Se ficar em branco, usaremos seu nome."
               />
@@ -102,7 +102,7 @@ export default async function CadastroPage({
           </form>
 
           <p className="mt-6 text-sm text-muted-strong">
-            Ja tem conta?{" "}
+            Já tem conta?{" "}
             <Link href="/login" className="font-semibold text-primary-strong">
               Entrar agora
             </Link>
@@ -110,23 +110,23 @@ export default async function CadastroPage({
         </section>
 
         <section className="elevated-card rounded-[2rem] border border-border bg-[radial-gradient(circle_at_top,_rgba(99,102,241,0.22),_transparent_35%),linear-gradient(135deg,_#eef2ff,_#f8fafc)] p-8">
-          <p className="text-sm text-primary-strong">Separacao de perfis</p>
+          <p className="text-sm text-primary-strong">Separação de perfis</p>
           <h2 className="mt-4 font-sans text-4xl font-bold tracking-tight text-slate-950">
-            O onboarding ja nasce preparado para cliente e prestador.
+            O onboarding já nasce preparado para cliente e prestador.
           </h2>
           <div className="mt-8 space-y-4">
             <div className="rounded-3xl border border-white/70 bg-white/80 p-5 shadow-sm">
               <p className="font-semibold text-slate-950">Cliente</p>
               <p className="mt-2 text-sm text-muted-strong">
-                Busca servicos, agenda horarios e acompanha pedidos.
+                Busca serviços, agenda horários e acompanha pedidos.
               </p>
             </div>
             <div className="rounded-3xl border border-white/70 bg-white/80 p-5 shadow-sm">
               <p className="font-semibold text-slate-950">
-                Prestador de servico
+                Prestador de serviço
               </p>
               <p className="mt-2 text-sm text-muted-strong">
-                Publica anuncios, define disponibilidade e gerencia agenda.
+                Publica anúncios, define disponibilidade e gerencia agenda.
               </p>
             </div>
           </div>

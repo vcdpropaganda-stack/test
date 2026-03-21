@@ -10,7 +10,7 @@ import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 export const metadata: Metadata = {
   title: "Checkout | Vitrine Lojas",
-  description: "Confirmacao de pagamento e agendamento no marketplace Vitrine Lojas.",
+  description: "Confirmação de pagamento e agendamento no marketplace Vitrine Lojas.",
 };
 
 type CheckoutPageProps = {
@@ -56,7 +56,7 @@ export default async function CheckoutPage({
     .single();
 
   if (bookingResult.error || !bookingResult.data) {
-    redirect("/dashboard/client/agendamentos?message=Checkout nao encontrado.");
+    redirect("/dashboard/client/agendamentos?message=Checkout não encontrado.");
   }
 
   const booking = {
@@ -80,8 +80,8 @@ export default async function CheckoutPage({
             Confirme seu agendamento
           </h1>
           <p className="mt-4 max-w-2xl text-muted-strong">
-            Este fluxo e um prototipo de apresentacao. Nenhum dado real de
-            pagamento e solicitado aqui.
+            Este fluxo é um protótipo de apresentação. Nenhum dado real de
+            pagamento é solicitado aqui.
           </p>
           {message ? <div className="mt-6"><Notice>{message}</Notice></div> : null}
 
@@ -89,7 +89,7 @@ export default async function CheckoutPage({
             <div className="rounded-[1.75rem] border border-slate-200 bg-[linear-gradient(135deg,_#0f172a,_#312e81,_#6366f1)] p-6 text-white">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-semibold uppercase tracking-[0.22em] text-white/70">
-                  Cartao demo
+                  Cartão demo
                 </span>
                 <CreditCard className="h-5 w-5 text-white/80" />
               </div>
@@ -110,13 +110,13 @@ export default async function CheckoutPage({
                 <div>
                   <p className="font-semibold text-slate-950">Pagamento fake</p>
                   <p className="text-sm text-muted-strong">
-                    Clique para aprovar instantaneamente no prototipo.
+                    Clique para aprovar instantaneamente no protótipo.
                   </p>
                 </div>
               </div>
               <div className="mt-5 rounded-2xl border border-dashed border-border bg-white px-4 py-4 text-sm text-muted-strong">
-                Nenhum formulario e exibido. A interacao vai direto para
-                pagamento aprovado para facilitar sua apresentacao.
+                Nenhum formulário é exibido. A interação vai direto para
+                pagamento aprovado para facilitar sua apresentação.
               </div>
             </div>
           </div>
@@ -125,7 +125,7 @@ export default async function CheckoutPage({
         <aside className="rounded-[2rem] border border-border bg-slate-950 p-8 text-white">
           <p className="text-sm text-slate-300">Resumo do pedido</p>
           <h2 className="mt-3 font-sans text-3xl font-bold tracking-tight">
-            {booking.service?.title ?? "Servico"}
+            {booking.service?.title ?? "Serviço"}
           </h2>
           <div className="mt-6 space-y-3 text-sm text-slate-200">
             <p>Prestador: {booking.provider_profile?.display_name ?? "Prestador"}</p>
@@ -136,7 +136,7 @@ export default async function CheckoutPage({
               })}
             </p>
             <p>
-              Horario: {format(new Date(booking.scheduled_start), "HH:mm")} -{" "}
+              Horário: {format(new Date(booking.scheduled_start), "HH:mm")} -{" "}
               {format(new Date(booking.scheduled_end), "HH:mm")}
             </p>
             <p>
@@ -154,16 +154,16 @@ export default async function CheckoutPage({
               className="w-full"
             >
               {booking.status === "confirmed"
-                ? "Agendamento ja confirmado"
+                ? "Agendamento já confirmado"
                 : booking.status === "cancelled"
                   ? "Agendamento cancelado"
-                  : "Pagar com cartao fake e confirmar"}
+                  : "Pagar com cartão fake e confirmar"}
             </Button>
           </form>
 
           <div className="mt-5 flex items-start gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-4 text-sm text-slate-200">
             <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-emerald-300" />
-            Ambiente de demonstracao sem coleta de dados financeiros.
+            Ambiente de demonstração sem coleta de dados financeiros.
           </div>
         </aside>
       </div>

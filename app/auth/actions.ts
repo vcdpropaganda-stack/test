@@ -28,7 +28,7 @@ export async function signInAction(formData: FormData) {
   const { error } = await supabase.auth.signInWithPassword({ email, password });
 
   if (error) {
-    redirect(buildRedirect("/login", "Nao foi possivel entrar. Verifique e-mail e senha."));
+    redirect(buildRedirect("/login", "Não foi possível entrar. Verifique o e-mail e a senha."));
   }
 
   redirect("/dashboard");
@@ -60,7 +60,7 @@ export async function signUpAction(formData: FormData) {
   });
 
   if (error) {
-    redirect(buildRedirect("/cadastro", "Nao foi possivel concluir o cadastro."));
+    redirect(buildRedirect("/cadastro", "Não foi possível concluir o cadastro."));
   }
 
   if (data.session?.user) {

@@ -6,7 +6,7 @@ const footerGroups = [
     title: "Produto",
     links: [
       { href: "/recursos", label: "Recursos" },
-      { href: "/precos", label: "Precos" },
+      { href: "/precos", label: "Preços" },
       { href: "/faq", label: "FAQ" },
     ],
   },
@@ -39,13 +39,13 @@ export function SiteFooter() {
               <div>
                 <p className="font-sans text-xl font-bold tracking-tight">Vitrine Lojas</p>
                 <p className="text-sm text-slate-400">
-                  SaaS para marketplaces de servicos locais
+                  SaaS para marketplaces de serviços locais
                 </p>
               </div>
             </div>
             <p className="mt-6 max-w-md text-sm leading-7 text-slate-400">
-              Design clean, operacao escalavel e uma experiencia pensada para
-              confianca, conversao e acessibilidade desde o primeiro clique.
+              Design clean, operação escalável e uma experiência pensada para
+              confiança, conversão e acessibilidade desde o primeiro clique.
             </p>
           </div>
 
@@ -71,7 +71,7 @@ export function SiteFooter() {
         </div>
 
         <div className="mt-12 border-t border-white/10 pt-6 text-sm text-slate-500">
-          Vitrine Lojas. Base SaaS pronta para web e mobile com consistencia visual e
+          Vitrine Lojas. Base SaaS pronta para web e mobile com consistência visual e
           acessibilidade.
         </div>
       </div>

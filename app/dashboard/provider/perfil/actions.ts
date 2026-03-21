@@ -16,7 +16,7 @@ export async function updateProviderProfileAction(formData: FormData) {
   const state = String(formData.get("state") ?? "").trim() || null;
 
   if (!displayName) {
-    redirect(buildRedirect("Informe o nome publico do prestador."));
+    redirect(buildRedirect("Informe o nome público do prestador."));
   }
 
   const supabase = await createSupabaseServerClient();
@@ -39,7 +39,7 @@ export async function updateProviderProfileAction(formData: FormData) {
     .eq("profile_id", user.id);
 
   if (error) {
-    redirect(buildRedirect("Nao foi possivel atualizar o perfil."));
+    redirect(buildRedirect("Não foi possível atualizar o perfil."));
   }
 
   revalidatePath("/dashboard/provider/perfil");

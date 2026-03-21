@@ -21,7 +21,7 @@ async function ensureClientBookingAccess(bookingId: string) {
     .single();
 
   if (bookingResult.error || !bookingResult.data || bookingResult.data.client_id !== user.id) {
-    redirect("/dashboard/client/agendamentos?message=Agendamento nao encontrado.");
+    redirect("/dashboard/client/agendamentos?message=Agendamento não encontrado.");
   }
 
   return {
@@ -35,7 +35,7 @@ export async function confirmBookingAction(formData: FormData) {
   const paymentMethod = String(formData.get("payment_method") ?? "demo-card").trim();
 
   if (!bookingId) {
-    redirect("/dashboard/client/agendamentos?message=Checkout invalido.");
+    redirect("/dashboard/client/agendamentos?message=Checkout inválido.");
   }
 
   const { supabase, booking } = await ensureClientBookingAccess(bookingId);
@@ -53,11 +53,11 @@ export async function confirmBookingAction(formData: FormData) {
     .eq("id", bookingId);
 
   if (error) {
-    redirect(`/checkout/${bookingId}?message=Nao foi possivel confirmar o checkout.`);
+    redirect(`/checkout/${bookingId}?message=Não foi possível confirmar o checkout.`);
   }
 
   revalidatePath(`/checkout/${bookingId}`);
   revalidatePath("/dashboard/client/agendamentos");
   revalidatePath("/servicos");
-  redirect("/dashboard/client/agendamentos?message=Pagamento fake aprovado e agendamento confirmado.");
+  redirect("/dashboard/client/agendamentos?message=Pagamento simulado aprovado e agendamento confirmado.");
 }

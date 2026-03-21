@@ -10,7 +10,7 @@ export async function createReviewAction(formData: FormData) {
   const comment = String(formData.get("comment") ?? "").trim() || null;
 
   if (!bookingId || rating < 1 || rating > 5) {
-    redirect("/dashboard/client/agendamentos?message=Avaliacao invalida.");
+    redirect("/dashboard/client/agendamentos?message=Avaliação inválida.");
   }
 
   const supabase = await createSupabaseServerClient();
@@ -34,7 +34,7 @@ export async function createReviewAction(formData: FormData) {
     bookingResult.data.client_id !== user.id ||
     bookingResult.data.status !== "completed"
   ) {
-    redirect("/dashboard/client/agendamentos?message=Este agendamento nao pode ser avaliado.");
+    redirect("/dashboard/client/agendamentos?message=Este agendamento não pode ser avaliado.");
   }
 
   const { error } = await supabase.from("reviews").upsert(
@@ -50,10 +50,10 @@ export async function createReviewAction(formData: FormData) {
   );
 
   if (error) {
-    redirect("/dashboard/client/agendamentos?message=Nao foi possivel salvar a avaliacao.");
+    redirect("/dashboard/client/agendamentos?message=Não foi possível salvar a avaliação.");
   }
 
   revalidatePath("/dashboard/client/agendamentos");
   revalidatePath("/servicos");
-  redirect("/dashboard/client/agendamentos?message=Avaliacao enviada com sucesso.");
+  redirect("/dashboard/client/agendamentos?message=Avaliação enviada com sucesso.");
 }

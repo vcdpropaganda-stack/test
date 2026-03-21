@@ -16,7 +16,7 @@ async function ensureClientContext() {
   } = await supabase.auth.getUser();
 
   if (!user) {
-    redirect("/login?message=Entre para reservar um horario.");
+    redirect("/login?message=Entre para reservar um horário.");
   }
 
   const role = String(user.user_metadata.role ?? "client");
@@ -48,7 +48,7 @@ export async function createBookingAction(formData: FormData) {
   const totalPriceCents = Number(String(formData.get("total_price_cents") ?? "0"));
 
   if (!slug || !serviceId || !providerProfileId || !scheduledStart || !scheduledEnd) {
-    redirect(buildRedirect(slug || "servicos", "Nao foi possivel identificar o horario selecionado."));
+    redirect(buildRedirect(slug || "servicos", "Não foi possível identificar o horário selecionado."));
   }
 
   const { supabase, user } = await ensureClientContext();
@@ -63,7 +63,7 @@ export async function createBookingAction(formData: FormData) {
     .limit(1);
 
   if ((conflictResult.data ?? []).length > 0) {
-    redirect(buildRedirect(slug, "Este horario acabou de ser reservado. Escolha outro slot."));
+    redirect(buildRedirect(slug, "Este horário acabou de ser reservado. Escolha outro horário."));
   }
 
   const bookingInsertResult = await supabase
@@ -81,7 +81,7 @@ export async function createBookingAction(formData: FormData) {
     .single();
 
   if (bookingInsertResult.error || !bookingInsertResult.data) {
-    redirect(buildRedirect(slug, "Nao foi possivel criar o agendamento."));
+    redirect(buildRedirect(slug, "Não foi possível criar o agendamento."));
   }
 
   revalidatePath(`/servicos/${slug}`);

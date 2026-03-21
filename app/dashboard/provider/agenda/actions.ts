@@ -37,7 +37,7 @@ async function ensureProviderContext() {
     .single();
 
   if (providerProfileResult.error || !providerProfileResult.data) {
-    redirect(buildRedirect("Nao foi possivel localizar o perfil do prestador."));
+    redirect(buildRedirect("Não foi possível localizar o perfil do prestador."));
   }
 
   return {
@@ -52,18 +52,18 @@ export async function createAvailabilityAction(formData: FormData) {
   const endAt = String(formData.get("end_at") ?? "").trim();
 
   if (!serviceId || !startAt || !endAt) {
-    redirect(buildRedirect("Preencha servico, inicio e fim.", serviceId || undefined));
+    redirect(buildRedirect("Preencha o serviço, o início e o fim.", serviceId || undefined));
   }
 
   const startDate = new Date(startAt);
   const endDate = new Date(endAt);
 
   if (Number.isNaN(startDate.getTime()) || Number.isNaN(endDate.getTime())) {
-    redirect(buildRedirect("Informe datas validas para a agenda.", serviceId));
+    redirect(buildRedirect("Informe datas válidas para a agenda.", serviceId));
   }
 
   if (endDate <= startDate) {
-    redirect(buildRedirect("O horario final precisa ser maior que o inicial.", serviceId));
+    redirect(buildRedirect("O horário final precisa ser maior que o inicial.", serviceId));
   }
 
   const { supabase, providerProfileId } = await ensureProviderContext();
@@ -75,7 +75,7 @@ export async function createAvailabilityAction(formData: FormData) {
     .single();
 
   if (serviceCheck.error || !serviceCheck.data) {
-    redirect(buildRedirect("Este servico nao pertence ao prestador autenticado.", serviceId));
+    redirect(buildRedirect("Este serviço não pertence ao prestador autenticado.", serviceId));
   }
 
   const { error } = await supabase.from("service_availability").insert({
@@ -86,12 +86,12 @@ export async function createAvailabilityAction(formData: FormData) {
   });
 
   if (error) {
-    redirect(buildRedirect("Nao foi possivel salvar este horario.", serviceId));
+    redirect(buildRedirect("Não foi possível salvar este horário.", serviceId));
   }
 
   revalidatePath("/dashboard/provider/agenda");
   revalidatePath("/servicos");
-  redirect(buildRedirect("Horario adicionado com sucesso.", serviceId));
+  redirect(buildRedirect("Horário adicionado com sucesso.", serviceId));
 }
 
 export async function deleteAvailabilityAction(formData: FormData) {
@@ -99,7 +99,7 @@ export async function deleteAvailabilityAction(formData: FormData) {
   const serviceId = String(formData.get("service_id") ?? "").trim();
 
   if (!availabilityId) {
-    redirect(buildRedirect("Horario invalido para exclusao.", serviceId || undefined));
+    redirect(buildRedirect("Horário inválido para exclusão.", serviceId || undefined));
   }
 
   const { supabase, providerProfileId } = await ensureProviderContext();
@@ -118,10 +118,10 @@ export async function deleteAvailabilityAction(formData: FormData) {
     );
 
   if (error) {
-    redirect(buildRedirect("Nao foi possivel remover o horario.", serviceId || undefined));
+    redirect(buildRedirect("Não foi possível remover o horário.", serviceId || undefined));
   }
 
   revalidatePath("/dashboard/provider/agenda");
   revalidatePath("/servicos");
-  redirect(buildRedirect("Horario removido com sucesso.", serviceId || undefined));
+  redirect(buildRedirect("Horário removido com sucesso.", serviceId || undefined));
 }

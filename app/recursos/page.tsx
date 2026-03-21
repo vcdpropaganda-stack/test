@@ -4,14 +4,14 @@ import { CalendarClock, ChartNoAxesCombined, ShieldCheck, Sparkles } from "lucid
 export const metadata: Metadata = {
   title: "Recursos | Vitrine Lojas",
   description:
-    "Conheca os recursos principais do SaaS Vitrine Lojas para operacao, conversao e escala.",
+    "Conheça os recursos principais do SaaS Vitrine Lojas para operação, conversão e escala.",
 };
 
 const resources = [
   {
     title: "Marketplace com descoberta guiada",
     description:
-      "Home, busca e paginas de servico pensadas para reduzir friccao e aumentar conversao.",
+      "Home, busca e páginas de serviço pensadas para reduzir fricção e aumentar conversão.",
     icon: Sparkles,
   },
   {
@@ -23,11 +23,11 @@ const resources = [
   {
     title: "Governanca e seguranca",
     description:
-      "RLS, papeis segregados e base pronta para operacao segura com Supabase.",
+      "RLS, papéis segregados e base pronta para operação segura com Supabase.",
     icon: ShieldCheck,
   },
   {
-    title: "Escala de operacao",
+    title: "Escala de operação",
     description:
       "Assinaturas, limites por plano e estrutura de dashboard para cliente e prestador.",
     icon: ChartNoAxesCombined,
@@ -42,11 +42,11 @@ export default function RecursosPage() {
           Recursos
         </p>
         <h1 className="mt-4 font-sans text-5xl font-bold tracking-tight text-slate-950">
-          Tudo o que um SaaS serio precisa para crescer com consistencia.
+          Tudo o que um SaaS sério precisa para crescer com consistência.
         </h1>
         <p className="mt-6 text-lg leading-8 text-muted-strong">
-          O projeto foi estruturado para parecer premium, ser facil de usar e
-          continuar robusto quando o produto evoluir para mais modulos.
+          O projeto foi estruturado para parecer premium, ser fácil de usar e
+          continuar robusto quando o produto evoluir para mais módulos.
         </p>
       </section>
 

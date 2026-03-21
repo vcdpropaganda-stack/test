@@ -56,16 +56,16 @@ export default async function AdminDashboardPage() {
   return (
     <main id="conteudo" className="page-shell py-16">
       <div className="rounded-[2rem] border border-border bg-slate-950 p-8 text-white">
-        <p className="text-sm text-slate-300">Admin basico</p>
+        <p className="text-sm text-slate-300">Admin básico</p>
         <h1 className="mt-3 font-sans text-4xl font-bold tracking-tight">
-          Visao inicial de governanca da plataforma
+          Visão inicial de governança da plataforma
         </h1>
       </div>
 
       <div className="mt-8 grid gap-5 md:grid-cols-3">
         {[
-          { label: "Usuarios", value: profilesResult.count ?? 0 },
-          { label: "Servicos", value: servicesResult.count ?? 0 },
+          { label: "Usuários", value: profilesResult.count ?? 0 },
+          { label: "Serviços", value: servicesResult.count ?? 0 },
           { label: "Bookings recentes", value: recentBookings.length },
         ].map((metric) => (
           <section
@@ -82,7 +82,7 @@ export default async function AdminDashboardPage() {
 
       <section className="mt-8 rounded-[2rem] border border-border bg-white p-8">
         <h2 className="font-sans text-3xl font-bold tracking-tight text-slate-950">
-          Ultimos agendamentos
+          Últimos agendamentos
         </h2>
         <div className="mt-8 space-y-4">
           {recentBookings.map((booking) => (
@@ -91,7 +91,7 @@ export default async function AdminDashboardPage() {
               className="rounded-[1.5rem] border border-border bg-surface p-5"
             >
               <p className="font-semibold text-slate-950">
-                {booking.service?.title ?? "Servico"}
+                {booking.service?.title ?? "Serviço"}
               </p>
               <p className="mt-2 text-sm text-muted-strong">
                 Cliente: {booking.client?.full_name ?? "Cliente"} • Status: {booking.status}

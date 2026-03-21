@@ -7,7 +7,7 @@ import { createSupabaseServerClient } from "@/lib/supabase/server";
 const links = [
   { href: "/", label: "Marketplace" },
   { href: "/recursos", label: "Recursos" },
-  { href: "/precos", label: "Precos" },
+  { href: "/precos", label: "Preços" },
   { href: "/faq", label: "FAQ" },
   { href: "/institucional", label: "Institucional" },
   { href: "/contato", label: "Contato" },
@@ -40,12 +40,12 @@ export async function SiteHeader() {
             <p className="font-sans text-lg font-bold tracking-tight text-slate-950">
               Vitrine Lojas
             </p>
-            <p className="text-xs text-muted">Marketplace premium de lojas e servicos</p>
+            <p className="text-xs text-muted">Marketplace premium de lojas e serviços</p>
           </div>
         </Link>
 
         <nav
-          aria-label="Navegacao principal"
+          aria-label="Navegação principal"
           className="hidden items-center gap-2 rounded-full border border-border bg-white/85 px-3 py-2 md:flex"
         >
           {links.map((link) => (

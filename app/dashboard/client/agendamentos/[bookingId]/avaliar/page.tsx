@@ -5,8 +5,8 @@ import { Button } from "@/components/ui/button";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 export const metadata: Metadata = {
-  title: "Avaliar servico | Vitrine Lojas",
-  description: "Envie uma avaliacao apos a conclusao do servico.",
+  title: "Avaliar serviço | Vitrine Lojas",
+  description: "Envie uma avaliação após a conclusão do serviço.",
 };
 
 type ReviewPageProps = {
@@ -39,7 +39,7 @@ export default async function ReviewPage({ params }: ReviewPageProps) {
     .single();
 
   if (bookingResult.error || !bookingResult.data) {
-    redirect("/dashboard/client/agendamentos?message=Agendamento nao encontrado.");
+    redirect("/dashboard/client/agendamentos?message=Agendamento não encontrado.");
   }
 
   const booking = {
@@ -53,20 +53,20 @@ export default async function ReviewPage({ params }: ReviewPageProps) {
   };
 
   if (booking.status !== "completed") {
-    redirect("/dashboard/client/agendamentos?message=O servico precisa estar concluido para receber avaliacao.");
+    redirect("/dashboard/client/agendamentos?message=O serviço precisa estar concluído para receber avaliação.");
   }
 
   return (
     <main id="conteudo" className="page-shell py-16">
       <div className="mx-auto max-w-3xl rounded-[2rem] border border-border bg-white p-8">
         <p className="text-sm font-semibold tracking-[0.22em] text-primary uppercase">
-          Avaliacao
+          Avaliação
         </p>
         <h1 className="mt-4 font-sans text-4xl font-bold tracking-tight text-slate-950">
-          Como foi sua experiencia?
+          Como foi sua experiência?
         </h1>
         <p className="mt-4 text-muted-strong">
-          {booking.service?.title ?? "Servico"} com{" "}
+          {booking.service?.title ?? "Serviço"} com{" "}
           {booking.provider_profile?.display_name ?? "Prestador"}.
         </p>
 
@@ -93,18 +93,18 @@ export default async function ReviewPage({ params }: ReviewPageProps) {
 
           <div>
             <label htmlFor="comment" className="mb-2 block text-sm font-medium text-slate-800">
-              Comentario
+              Comentário
             </label>
             <textarea
               id="comment"
               name="comment"
               rows={5}
               className="w-full rounded-2xl border border-border bg-surface px-4 py-3 text-sm text-slate-950 outline-none hover:border-primary/30 focus:border-primary"
-              placeholder="Conte como foi o atendimento, pontualidade e qualidade do servico."
+              placeholder="Conte como foi o atendimento, a pontualidade e a qualidade do serviço."
             />
           </div>
 
-          <Button type="submit">Enviar avaliacao</Button>
+          <Button type="submit">Enviar avaliação</Button>
         </form>
       </div>
     </main>

@@ -16,15 +16,15 @@ import { ServiceCard } from "@/components/marketplace/service-card";
 import { Button } from "@/components/ui/button";
 
 export const metadata: Metadata = {
-  title: "Vitrine Lojas | Marketplace de Servicos Locais",
+  title: "Vitrine Lojas | Marketplace de Serviços Locais",
   description:
-    "Encontre e gerencie servicos locais com uma experiencia premium, segura e pronta para escalar.",
+    "Encontre e gerencie serviços locais com uma experiência premium, segura e pronta para escalar.",
 };
 
 const pillars = [
   "Arquitetura pronta para web e mobile sem retrabalho de UX.",
-  "Fluxos claros, legiveis e consistentes em qualquer etapa do produto.",
-  "Padroes de foco, contraste e interacao pensados para acessibilidade real.",
+  "Fluxos claros, legíveis e consistentes em qualquer etapa do produto.",
+  "Padrões de foco, contraste e interação pensados para acessibilidade real.",
 ];
 
 export default async function Home() {
@@ -44,16 +44,16 @@ export default async function Home() {
             <div className="relative z-10">
               <div className="glass-panel mb-6 inline-flex items-center gap-2 rounded-full border border-primary/20 px-4 py-2 text-sm font-medium text-primary-strong shadow-sm">
                 <Sparkles className="h-4 w-4" />
-                Marketplace premium para servicos locais
+                Marketplace premium para serviços locais
               </div>
               <h1 className="max-w-3xl font-sans text-5xl leading-tight font-bold tracking-tight text-slate-950 sm:text-6xl">
-                Descubra servicos com cara de marca forte, agenda viva e
-                apresentacao que vende.
+                Descubra serviços com cara de marca forte, agenda viva e
+                apresentação que vende.
               </h1>
               <p className="mt-6 max-w-2xl text-lg leading-8 text-muted">
                 A Vitrine Lojas coloca os melhores prestadores em evidência com
-                imagens fortes, reputacao clara, filtros objetivos e uma jornada
-                visual muito mais desejavel.
+                imagens fortes, reputação clara, filtros objetivos e uma jornada
+                visual muito mais desejável.
               </p>
               <div className="mt-10 flex flex-col gap-4 sm:flex-row">
                 <Link href="/servicos" className="inline-flex">
@@ -67,13 +67,13 @@ export default async function Home() {
               </div>
               <div className="mt-8 flex flex-wrap gap-3 text-sm text-slate-700">
                 <span className="rounded-full border border-slate-200 bg-white/80 px-4 py-2 shadow-sm">
-                  {activeServicesCount} servicos destacados
+                  {activeServicesCount} serviços destacados
                 </span>
                 <span className="rounded-full border border-slate-200 bg-white/80 px-4 py-2 shadow-sm">
                   3 perfis demo ativos
                 </span>
                 <span className="rounded-full border border-slate-200 bg-white/80 px-4 py-2 shadow-sm">
-                  Booking e checkout prototipo
+                  Booking e checkout protótipo
                 </span>
               </div>
               <div className="mt-12 grid gap-4 sm:grid-cols-3">
@@ -93,7 +93,7 @@ export default async function Home() {
                   </p>
                   <p className="mt-2 text-sm text-muted-strong">
                     Fluxo de booking pronto para evoluir com Cal.com ou agenda
-                    propria.
+                    própria.
                   </p>
                 </div>
                 <div className="glass-panel elevated-card rounded-3xl border border-white/70 p-5">
@@ -120,18 +120,18 @@ export default async function Home() {
                   ) : null}
                   <div className="absolute inset-0 bg-[linear-gradient(150deg,rgba(15,23,42,0.2),rgba(15,23,42,0.86)_65%)]" />
                   <div className="relative flex items-center justify-between">
-                  <div>
-                    <p className="text-sm text-slate-300">Marketplace ao vivo</p>
-                    <p className="mt-1 text-2xl font-semibold">Curadoria Vitrine Lojas</p>
-                  </div>
-                  <div className="rounded-full bg-white/10 px-3 py-1 text-xs font-semibold text-slate-200">
-                    {activeServicesCount} servicos em destaque
-                  </div>
+                    <div>
+                      <p className="text-sm text-slate-300">Marketplace ao vivo</p>
+                      <p className="mt-1 text-2xl font-semibold">Curadoria Vitrine Lojas</p>
+                    </div>
+                    <div className="rounded-full bg-white/10 px-3 py-1 text-xs font-semibold text-slate-200">
+                      {activeServicesCount} serviços em destaque
+                    </div>
                   </div>
                   <div className="relative mt-8 rounded-[1.75rem] border border-white/10 bg-white/8 p-4 backdrop-blur-md">
                     <div className="flex items-center gap-3 rounded-2xl bg-white px-4 py-3 text-slate-500">
-                    <Search className="h-4 w-4" />
-                    Buscar limpeza, beleza, manutencao...
+                      <Search className="h-4 w-4" />
+                      Buscar limpeza, beleza, manutenção...
                     </div>
                     <div className="mt-4 grid gap-3">
                       {spotlightServices.length > 0 ? (
@@ -177,8 +177,8 @@ export default async function Home() {
                         ))
                       ) : (
                         <div className="rounded-2xl border border-white/10 bg-white/8 p-4 text-sm text-slate-300">
-                          Assim que os prestadores publicarem servicos ativos, eles
-                          aparecerao aqui automaticamente.
+                          Assim que os prestadores publicarem serviços ativos, eles
+                          aparecerão aqui automaticamente.
                         </div>
                       )}
                     </div>
@@ -192,8 +192,8 @@ export default async function Home() {
         <section className="page-shell py-18">
           <SectionHeading
             eyebrow="Marketplace"
-            title="Servicos reais publicados no marketplace"
-            description="A vitrine principal agora le os anuncios ativos do banco e ja funciona como base da descoberta publica."
+            title="Serviços reais publicados no marketplace"
+            description="A vitrine principal agora lê os anúncios ativos do banco e já funciona como base da descoberta pública."
           />
           <div className="mt-8 grid gap-6 lg:grid-cols-3">
             {featuredServices.length > 0 ? (
@@ -220,10 +220,10 @@ export default async function Home() {
             ) : (
               <div className="lg:col-span-3 rounded-[2rem] border border-dashed border-border bg-white p-8">
                 <p className="text-lg font-semibold text-slate-950">
-                  Ainda nao existem servicos ativos para exibir.
+                  Ainda não existem serviços ativos para exibir.
                 </p>
                 <p className="mt-3 max-w-2xl text-sm leading-7 text-muted-strong">
-                  Entre como prestador e publique os primeiros servicos para a
+                  Entre como prestador e publique os primeiros serviços para a
                   vitrine ganhar vida.
                 </p>
               </div>
@@ -231,7 +231,7 @@ export default async function Home() {
           </div>
           <div className="mt-8">
             <Link href="/servicos" className="inline-flex">
-              <Button variant="secondary">Explorar todos os servicos</Button>
+              <Button variant="secondary">Explorar todos os serviços</Button>
             </Link>
           </div>
         </section>
@@ -241,8 +241,8 @@ export default async function Home() {
             <div>
               <SectionHeading
                 eyebrow="Experiencia"
-                title="Uma fundacao de UI/UX desenhada para parecer produto serio desde o dia um"
-                description="Direcao visual limpa, espacamento consistente, contraste forte e componentes preparados para escalar sem perder refinamento."
+                title="Uma fundação de UI/UX desenhada para parecer produto sério desde o dia um"
+                description="Direção visual limpa, espaçamento consistente, contraste forte e componentes preparados para escalar sem perder refinamento."
               />
             </div>
             <div className="space-y-4">

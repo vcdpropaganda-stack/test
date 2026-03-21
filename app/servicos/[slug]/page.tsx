@@ -41,7 +41,7 @@ export async function generateMetadata({
     return {
       title: `${humanizeSlug(slug)} | Vitrine Lojas`,
       description:
-        "Detalhes do servico no marketplace Vitrine Lojas.",
+        "Detalhes do serviço no marketplace Vitrine Lojas.",
     };
   }
 
@@ -72,21 +72,21 @@ export default async function ServiceDetailPage({
         </div>
         <section className="overflow-hidden rounded-[2rem] border border-slate-200 bg-white p-10 shadow-[0_20px_55px_rgba(15,23,42,0.08)]">
           <p className="text-sm font-semibold tracking-[0.22em] text-primary uppercase">
-            Servico
+            Serviço
           </p>
           <h1 className="mt-4 font-sans text-4xl font-bold tracking-tight text-slate-950">
             {humanizeSlug(slug)}
           </h1>
           <p className="mt-5 max-w-3xl text-base leading-8 text-muted-strong">
-            Esta pagina do servico ainda nao carregou todos os dados publicos,
-            mas o caminho ja existe e continua reservado no marketplace.
+            Esta página do serviço ainda não carregou todos os dados públicos,
+            mas o caminho já existe e continua reservado no marketplace.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Link
               href="/servicos"
               className="inline-flex rounded-full bg-slate-950 px-5 py-3 text-sm font-semibold text-white hover:bg-primary-strong"
             >
-              Ver todos os servicos
+              Ver todos os serviços
             </Link>
             <Link
               href="/contato"
@@ -143,7 +143,7 @@ export default async function ServiceDetailPage({
               <div className="absolute inset-0 bg-linear-to-t from-slate-950/80 via-slate-950/25 to-transparent" />
               <div className="absolute inset-x-0 bottom-0 p-8 text-white">
                 <p className="text-sm font-semibold tracking-[0.22em] text-indigo-100 uppercase">
-                  Servico
+                  Serviço
                 </p>
                 <h1 className="mt-4 max-w-3xl font-sans text-5xl font-bold tracking-tight">
                   {service.title}
@@ -160,15 +160,15 @@ export default async function ServiceDetailPage({
               O que o cliente encontra aqui
             </h2>
             <ul className="mt-5 space-y-3 text-sm leading-7 text-muted-strong">
-              <li>Apresentacao visual forte com imagem real do servico.</li>
-              <li>Preco base, duracao estimada e reputacao visivel.</li>
-              <li>Contexto do prestador, localidade e agenda disponivel.</li>
+              <li>Apresentação visual forte com imagem real do serviço.</li>
+              <li>Preço-base, duração estimada e reputação visível.</li>
+              <li>Contexto do prestador, localidade e agenda disponível.</li>
             </ul>
           </div>
 
           <div className="rounded-[2rem] border border-border bg-white p-8">
             <h2 className="font-sans text-2xl font-bold tracking-tight text-slate-950">
-              Proximos horarios disponiveis
+              Próximos horários disponíveis
             </h2>
             {message ? <div className="mt-5"><Notice>{message}</Notice></div> : null}
             <div className="mt-6 space-y-3">
@@ -213,15 +213,15 @@ export default async function ServiceDetailPage({
                         value={service.price_cents}
                       />
                       <Button type="submit" variant="secondary">
-                        Reservar horario
+                        Reservar horário
                       </Button>
                     </form>
                   </div>
                 ))
               ) : (
                 <p className="text-sm leading-7 text-muted-strong">
-                  Este servico ainda nao tem horarios publicados. Assim que o
-                  prestador configurar a agenda, os slots aparecerao aqui.
+                  Este serviço ainda não tem horários publicados. Assim que o
+                  prestador configurar a agenda, os slots aparecerão aqui.
                 </p>
               )}
             </div>
@@ -237,7 +237,7 @@ export default async function ServiceDetailPage({
             <div className="mt-6 grid gap-3 text-sm text-slate-200">
               <p className="inline-flex items-center gap-2">
                 <Star className="h-4 w-4 text-amber-300" />
-                {service.average_rating ? `${service.average_rating.toFixed(1)} de media` : "Novo perfil"}
+                {service.average_rating ? `${service.average_rating.toFixed(1)} de média` : "Novo perfil"}
               </p>
               <p className="inline-flex items-center gap-2">
                 <Clock3 className="h-4 w-4 text-indigo-200" />
@@ -258,8 +258,8 @@ export default async function ServiceDetailPage({
             <div className="mt-8 flex flex-col gap-3">
               <Button disabled={availability.length === 0} fullWidth>
                 {availability.length > 0
-                  ? "Selecione um horario abaixo"
-                  : "Sem horarios no momento"}
+                  ? "Selecione um horário abaixo"
+                  : "Sem horários no momento"}
               </Button>
               <Link href="/servicos" className="block">
                 <span className="inline-flex min-h-11 w-full items-center justify-center rounded-full border border-white/15 bg-white px-5 py-3 text-sm font-semibold text-slate-950 hover:bg-slate-100">
@@ -271,21 +271,21 @@ export default async function ServiceDetailPage({
 
           <div className="rounded-[2rem] border border-border bg-white p-8">
             <p className="text-sm font-semibold text-slate-950">
-              Bio do prestador
+              Biografia do prestador
             </p>
             <p className="mt-3 text-sm leading-7 text-muted-strong">
               {service.provider_profile?.bio ||
-                "Este perfil ainda nao adicionou uma bio detalhada. O marketplace ja esta preparado para evoluir esse bloco depois."}
+                "Este perfil ainda não adicionou uma biografia detalhada. O marketplace já está preparado para evoluir esse bloco depois."}
             </p>
           </div>
 
           <div className="rounded-[2rem] border border-border bg-white p-8">
-            <p className="text-sm font-semibold text-slate-950">Reputacao</p>
+            <p className="text-sm font-semibold text-slate-950">Reputação</p>
             <p className="mt-3 text-3xl font-bold text-slate-950">
               {service.average_rating ? service.average_rating.toFixed(1) : "--"}
             </p>
             <p className="mt-2 text-sm text-muted-strong">
-              {service.reviews_count ?? 0} avaliacoes publicadas
+              {service.reviews_count ?? 0} avaliações publicadas
             </p>
           </div>
         </aside>
@@ -293,7 +293,7 @@ export default async function ServiceDetailPage({
 
       <section className="mt-8 rounded-[2rem] border border-border bg-white p-8">
         <h2 className="font-sans text-2xl font-bold tracking-tight text-slate-950">
-          Avaliacoes de clientes
+          Avaliações de clientes
         </h2>
         <div className="mt-6 space-y-4">
           {(service.reviews ?? []).length > 0 ? (
@@ -311,13 +311,13 @@ export default async function ServiceDetailPage({
                   </p>
                 </div>
                 <p className="mt-3 text-sm leading-7 text-muted-strong">
-                  {review.comment || "Cliente avaliou o servico sem comentario adicional."}
+                  {review.comment || "Cliente avaliou o serviço sem comentário adicional."}
                 </p>
               </article>
             ))
           ) : (
             <p className="text-sm leading-7 text-muted-strong">
-              Este servico ainda nao recebeu avaliacoes publicas.
+              Este serviço ainda não recebeu avaliações públicas.
             </p>
           )}
         </div>

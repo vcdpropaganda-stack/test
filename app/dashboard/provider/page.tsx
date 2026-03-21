@@ -14,7 +14,7 @@ import { createSupabaseServerClient } from "@/lib/supabase/server";
 export const metadata: Metadata = {
   title: "Painel do Prestador | Vitrine Lojas",
   description:
-    "Area inicial do prestador para gerenciar servicos, disponibilidade e assinaturas.",
+    "Área inicial do prestador para gerenciar serviços, disponibilidade e assinaturas.",
 };
 
 type ProviderDashboardPageProps = {
@@ -82,7 +82,7 @@ export default async function ProviderDashboardPage({
   ).length;
   const metrics = [
     {
-      label: "Servicos ativos",
+      label: "Serviços ativos",
       value: String(activeServicesResult.count ?? 0).padStart(2, "0"),
     },
     {
@@ -100,14 +100,14 @@ export default async function ProviderDashboardPage({
       <div className="rounded-[2rem] border border-border bg-slate-950 p-8 text-white">
         <p className="text-sm text-slate-300">Dashboard do prestador</p>
         <h1 className="mt-3 font-sans text-4xl font-bold tracking-tight">
-          Gerencie anuncios, disponibilidade e conversao em um unico lugar.
+          Gerencie anúncios, disponibilidade e conversão em um único lugar.
         </h1>
         <p className="mt-4 max-w-2xl text-slate-300">
-          Esta area ja esta reservada para o fluxo operacional do provider com
+          Esta área já está reservada para o fluxo operacional do provider com
           limites por plano e agenda integrada.
         </p>
         <p className="mt-6 text-sm text-slate-300">
-          Sessao ativa: {user.email}
+          Sessão ativa: {user.email}
         </p>
       </div>
       {message ? <div className="mt-6"><Notice>{message}</Notice></div> : null}
@@ -128,25 +128,25 @@ export default async function ProviderDashboardPage({
 
       <div className="mt-8 grid gap-5 md:grid-cols-2">
         <Link href="/dashboard/provider/servicos" className="rounded-[1.5rem] border border-border bg-surface p-6">
-          <p className="font-semibold text-slate-950">Gerenciar servicos</p>
+          <p className="font-semibold text-slate-950">Gerenciar serviços</p>
           <p className="mt-3 text-sm text-muted-strong">
-            Cadastre, edite e controle a publicacao dos seus anuncios.
+            Cadastre, edite e controle a publicação dos seus anúncios.
           </p>
         </Link>
         <Link href="/dashboard/provider/agenda" className="rounded-[1.5rem] border border-border bg-surface p-6">
           <p className="font-semibold text-slate-950">Abrir agenda</p>
           <p className="mt-3 text-sm text-muted-strong">
-            Configure disponibilidade real por servico.
+            Configure disponibilidade real por serviço.
           </p>
         </Link>
       </div>
 
       <section className="mt-8 rounded-[2rem] border border-border bg-white p-8">
         <p className="text-sm font-semibold tracking-[0.22em] text-primary uppercase">
-          Operacao
+          Operação
         </p>
         <h2 className="mt-3 font-sans text-3xl font-bold tracking-tight text-slate-950">
-          Proximos agendamentos do prestador
+          Próximos agendamentos do prestador
         </h2>
         <div className="mt-8 space-y-4">
           {bookings.length > 0 ? (
@@ -163,7 +163,7 @@ export default async function ProviderDashboardPage({
                       })}
                     </p>
                     <p className="mt-2 font-semibold text-slate-950">
-                      {booking.service?.title ?? "Servico"}
+                      {booking.service?.title ?? "Serviço"}
                     </p>
                     <p className="mt-1 text-sm text-muted-strong">
                       Cliente: {booking.client?.full_name ?? "Cliente"}
@@ -181,7 +181,7 @@ export default async function ProviderDashboardPage({
                     {booking.status === "confirmed" ? (
                       <form action={markBookingCompletedAction}>
                         <input type="hidden" name="booking_id" value={booking.id} />
-                        <Button type="submit">Marcar como concluido</Button>
+                        <Button type="submit">Marcar como concluído</Button>
                       </form>
                     ) : null}
                     <span className="rounded-full bg-primary-soft px-3 py-2 text-xs font-semibold text-primary-strong">
@@ -194,7 +194,7 @@ export default async function ProviderDashboardPage({
           ) : (
             <div className="rounded-[1.5rem] border border-dashed border-border bg-surface p-6">
               <p className="font-semibold text-slate-950">
-                Ainda nao existem agendamentos para exibir.
+                Ainda não existem agendamentos para exibir.
               </p>
             </div>
           )}

@@ -14,7 +14,7 @@ import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 export const metadata: Metadata = {
   title: "Agendamentos | Painel do Cliente",
-  description: "Historico inicial de agendamentos do cliente.",
+  description: "Histórico inicial de agendamentos do cliente.",
 };
 
 type ClientBookingsPageProps = {
@@ -77,7 +77,7 @@ export default async function ClientBookingsPage({
           Agendamentos do cliente
         </h1>
         <p className="mt-4 text-muted-strong">
-          Historico real de reservas geradas a partir da selecao de horarios no
+          Histórico real de reservas geradas a partir da seleção de horários no
           marketplace.
         </p>
       </div>
@@ -97,7 +97,7 @@ export default async function ClientBookingsPage({
                     })}
                   </p>
                   <h2 className="mt-2 font-sans text-2xl font-bold tracking-tight text-slate-950">
-                    {booking.service?.title ?? "Servico"}
+                    {booking.service?.title ?? "Serviço"}
                   </h2>
                   <p className="mt-2 text-sm text-muted-strong">
                     Prestador: {booking.provider_profile?.display_name ?? "Prestador"}
@@ -159,8 +159,8 @@ export default async function ClientBookingsPage({
               Nenhum agendamento encontrado.
             </p>
             <p className="mt-3 text-sm leading-7 text-muted-strong">
-              Reserve um horario em qualquer pagina de servico para ver o
-              historico aparecer aqui.
+              Reserve um horário em qualquer página de serviço para ver o
+              histórico aparecer aqui.
             </p>
           </div>
         )}

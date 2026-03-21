@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 export const metadata: Metadata = {
   title: "Institucional | Vitrine Lojas",
   description:
-    "Apresentacao institucional da plataforma Vitrine Lojas para clientes, prestadores e parceiros.",
+    "Apresentação institucional da plataforma Vitrine Lojas para clientes, prestadores e parceiros.",
 };
 
 export default function InstitucionalPage() {
@@ -17,12 +17,12 @@ export default function InstitucionalPage() {
             Institucional
           </span>
           <h1 className="mt-6 max-w-3xl font-sans text-5xl font-bold tracking-tight text-slate-950">
-            Uma plataforma pensada para confianca, velocidade operacional e escala.
+            Uma plataforma pensada para confiança, velocidade operacional e escala.
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-8 text-muted-strong">
             A Vitrine Lojas nasce para parecer uma empresa de produto madura: limpa,
             objetiva e preparada para clientes, prestadores, parceiros e
-            futuras extensoes mobile.
+            futuras extensões mobile.
           </p>
           <div className="mt-8 flex flex-wrap gap-4">
             <Link href="/dashboard/provider" className="inline-flex">
@@ -34,10 +34,10 @@ export default function InstitucionalPage() {
           </div>
         </div>
         <div className="elevated-card rounded-[2rem] border border-border bg-white p-8">
-          <p className="text-sm text-muted-strong">Principios do produto</p>
+          <p className="text-sm text-muted-strong">Princípios do produto</p>
           <ul className="mt-5 space-y-4 text-sm leading-7 text-muted-strong">
-            <li>Clareza visual antes de ornamentacao.</li>
-            <li>Fluxos simples, previsiveis e acessiveis.</li>
+            <li>Clareza visual antes de ornamentação.</li>
+            <li>Fluxos simples, previsíveis e acessíveis.</li>
             <li>Arquitetura pensada para escala e consistencia entre plataformas.</li>
           </ul>
         </div>

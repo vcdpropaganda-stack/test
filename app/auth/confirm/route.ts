@@ -26,5 +26,5 @@ export async function GET(request: NextRequest) {
     }
   }
 
-  redirect(`${origin}/login?message=Link+de+confirmacao+invalido+ou+expirado.`);
+  redirect(`${origin}/login?message=Link+de+confirma%C3%A7%C3%A3o+inv%C3%A1lido+ou+expirado.`);
 }

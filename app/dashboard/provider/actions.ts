@@ -35,7 +35,7 @@ async function ensureProviderBookingAccess(bookingId: string) {
     !bookingResult.data ||
     bookingResult.data.provider_profile_id !== providerResult.data.id
   ) {
-    redirect("/dashboard/provider?message=Agendamento nao encontrado.");
+    redirect("/dashboard/provider?message=Agendamento não encontrado.");
   }
 
   return { supabase };
@@ -44,7 +44,7 @@ async function ensureProviderBookingAccess(bookingId: string) {
 export async function markBookingCompletedAction(formData: FormData) {
   const bookingId = String(formData.get("booking_id") ?? "").trim();
   if (!bookingId) {
-    redirect("/dashboard/provider?message=Agendamento invalido.");
+    redirect("/dashboard/provider?message=Agendamento inválido.");
   }
 
   const { supabase } = await ensureProviderBookingAccess(bookingId);
@@ -54,18 +54,18 @@ export async function markBookingCompletedAction(formData: FormData) {
     .eq("id", bookingId);
 
   if (error) {
-    redirect("/dashboard/provider?message=Nao foi possivel marcar como concluido.");
+    redirect("/dashboard/provider?message=Não foi possível marcar como concluído.");
   }
 
   revalidatePath("/dashboard/provider");
   revalidatePath("/dashboard/client/agendamentos");
-  redirect("/dashboard/provider?message=Agendamento marcado como concluido.");
+  redirect("/dashboard/provider?message=Agendamento marcado como concluído.");
 }
 
 export async function markBookingConfirmedAction(formData: FormData) {
   const bookingId = String(formData.get("booking_id") ?? "").trim();
   if (!bookingId) {
-    redirect("/dashboard/provider?message=Agendamento invalido.");
+    redirect("/dashboard/provider?message=Agendamento inválido.");
   }
 
   const { supabase } = await ensureProviderBookingAccess(bookingId);
@@ -75,7 +75,7 @@ export async function markBookingConfirmedAction(formData: FormData) {
     .eq("id", bookingId);
 
   if (error) {
-    redirect("/dashboard/provider?message=Nao foi possivel confirmar o agendamento.");
+    redirect("/dashboard/provider?message=Não foi possível confirmar o agendamento.");
   }
 
   revalidatePath("/dashboard/provider");

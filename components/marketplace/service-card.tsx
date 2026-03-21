@@ -29,7 +29,7 @@ export function ServiceCard({
   location,
 }: ServiceCardProps) {
   return (
-    <Link href={href} aria-label={`Ver servico ${title}`} className="block h-full">
+    <Link href={href} aria-label={`Ver serviço ${title}`} className="block h-full">
       <article className="elevated-card group h-full overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-[0_20px_55px_rgba(15,23,42,0.08)] transition duration-200 hover:-translate-y-1 hover:shadow-[0_24px_65px_rgba(15,23,42,0.14)]">
         <div className="relative aspect-[4/3] overflow-hidden bg-slate-200">
           {imageUrl ? (
@@ -55,7 +55,7 @@ export function ServiceCard({
             </div>
             {rating ? (
               <span
-                aria-label={`Avaliacao ${rating} de 5`}
+                aria-label={`Avaliação ${rating} de 5`}
                 className="flex items-center gap-1 rounded-full bg-white/10 px-3 py-1 text-sm font-medium backdrop-blur-sm"
               >
                 <Star className="h-4 w-4 fill-current text-amber-300" />
@@ -74,7 +74,7 @@ export function ServiceCard({
               {duration ?? "Atendimento premium"}
             </span>
             <span className="text-sm font-medium text-muted-strong">
-              {reviewsCount ? `${reviewsCount} avaliacoes` : "Novo perfil"}
+              {reviewsCount ? `${reviewsCount} avaliações` : "Novo perfil"}
             </span>
           </div>
           <h3 className="mt-5 font-sans text-[2rem] leading-tight font-bold tracking-tight text-slate-950">
@@ -82,7 +82,7 @@ export function ServiceCard({
           </h3>
           <p className="mt-3 line-clamp-3 text-sm leading-7 text-muted-strong">
             {description ??
-              "Atendimento com padrao visual premium, agenda publicada e fluxo rapido de contratacao."}
+              "Atendimento com padrão visual premium, agenda publicada e fluxo rápido de contratação."}
           </p>
           {duration || location ? (
             <div className="mt-4 flex flex-wrap gap-3 text-sm text-muted-strong">
@@ -108,7 +108,7 @@ export function ServiceCard({
               <p className="text-3xl font-bold text-slate-950">{price}</p>
             </div>
             <span className="inline-flex items-center gap-2 rounded-full bg-slate-950 px-5 py-3 text-sm font-semibold text-white">
-              Ver servico
+              Ver serviço
               <ArrowUpRight className="h-4 w-4" />
             </span>
           </div>
