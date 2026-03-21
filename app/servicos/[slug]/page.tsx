@@ -197,12 +197,16 @@ export default async function ServiceDetailPage({
         </section>
 
         <ServiceDetailSidebar
+          serviceId={service.id}
           priceCents={service.price_cents}
           durationMinutes={service.duration_minutes}
           availabilityCount={availability.length}
+          providerProfileId={service.provider_profile?.id ?? ""}
           providerName={service.provider_profile?.display_name ?? "Prestador Vitrine Lojas"}
+          providerSlug={service.provider_profile?.public_slug ?? null}
           providerBio={service.provider_profile?.bio}
           providerPlan={service.provider_profile?.plan}
+          hasWhatsappContact={Boolean(service.provider_profile?.whatsapp_number)}
           averageRating={service.average_rating}
           reviewsCount={service.reviews_count}
           location={location}

@@ -19,8 +19,12 @@ export type MarketplaceService = {
   provider_profile: {
     id?: string;
     display_name: string;
+    public_slug?: string | null;
     city: string | null;
     state: string | null;
+    whatsapp_number?: string | null;
+    bio?: string | null;
+    plan?: string;
   } | null;
   average_rating?: number | null;
   reviews_count?: number;
@@ -50,21 +54,25 @@ type MarketplaceFilters = {
 type RawProviderProfile =
   | {
       display_name?: string | null;
+      public_slug?: string | null;
       city?: string | null;
       state?: string | null;
       id?: string;
       bio?: string | null;
       is_verified?: boolean;
       plan?: string;
+      whatsapp_number?: string | null;
     }
   | Array<{
       display_name?: string | null;
+      public_slug?: string | null;
       city?: string | null;
       state?: string | null;
       id?: string;
       bio?: string | null;
       is_verified?: boolean;
       plan?: string;
+      whatsapp_number?: string | null;
     }>
   | null;
 
@@ -148,7 +156,8 @@ async function getMarketplaceServicesQuery(
       provider_profile:provider_profiles (
         display_name,
         city,
-        state
+        state,
+        public_slug
       )
     `
     )
@@ -470,11 +479,13 @@ const getCachedMarketplaceServiceBySlug = unstable_cache(
         provider_profile:provider_profiles (
           id,
           display_name,
+          public_slug,
           bio,
           city,
           state,
           is_verified,
-          plan
+          plan,
+          whatsapp_number
         ),
         availability:service_availability (
           id,

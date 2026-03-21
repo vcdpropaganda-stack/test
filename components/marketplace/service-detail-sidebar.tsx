@@ -1,15 +1,20 @@
 import Link from "next/link";
 import { Check, ChevronRight, Clock3, MapPin, ShieldCheck, Star } from "lucide-react";
+import { ShareLinkButton } from "@/components/shared/share-link-button";
 import { Button } from "@/components/ui/button";
 import { formatPrice } from "@/lib/marketplace";
 
 type ServiceDetailSidebarProps = {
+  serviceId: string;
   priceCents: number;
   durationMinutes: number;
   availabilityCount: number;
+  providerProfileId: string;
   providerName: string;
+  providerSlug: string | null;
   providerBio: string | null | undefined;
   providerPlan: string | null | undefined;
+  hasWhatsappContact: boolean;
   averageRating: number | null | undefined;
   reviewsCount: number | undefined;
   location: string;
@@ -22,18 +27,27 @@ function formatPlan(plan: string | null | undefined) {
 }
 
 export function ServiceDetailSidebar({
+  serviceId,
   priceCents,
   durationMinutes,
   availabilityCount,
+  providerProfileId,
   providerName,
+  providerSlug,
   providerBio,
   providerPlan,
+  hasWhatsappContact,
   averageRating,
   reviewsCount,
   location,
 }: ServiceDetailSidebarProps) {
   const completePrice = Math.round(priceCents * 1.45);
   const standardPrice = Math.round(priceCents * 1.2);
+  const providerProfilePath = providerSlug ? `/prestadores/${providerSlug}` : null;
+  const providerShareUrl = providerSlug
+    ? `${process.env.NEXT_PUBLIC_SITE_URL ?? "https://vitrinelojas-fawn.vercel.app"}${providerProfilePath}`
+    : null;
+  const messagesBase = `/dashboard/mensagens?service=${serviceId}&provider=${providerProfileId}`;
 
   return (
     <aside className="order-first space-y-4 lg:order-none lg:sticky lg:top-28 lg:self-start lg:space-y-6">
@@ -105,11 +119,18 @@ export function ServiceDetailSidebar({
                 Sem horários no momento
               </Button>
             )}
-            <Link href="/contato" className="block">
+            <Link href={messagesBase} className="block">
               <span className="inline-flex min-h-11 w-full items-center justify-center rounded-full border border-border bg-white px-5 py-3 text-sm font-semibold text-slate-950 hover:bg-slate-50">
-                Falar com a equipe
+                Conversar com o prestador
               </span>
             </Link>
+            {hasWhatsappContact ? (
+              <Link href={`${messagesBase}&request_wpp=1`} className="block">
+                <span className="inline-flex min-h-11 w-full items-center justify-center rounded-full border border-border bg-white px-5 py-3 text-sm font-semibold text-slate-950 hover:bg-slate-50">
+                  Solicitar WhatsApp
+                </span>
+              </Link>
+            ) : null}
           </div>
         </div>
       </div>
@@ -143,6 +164,23 @@ export function ServiceDetailSidebar({
             <ShieldCheck className="h-4 w-4 text-emerald-600" />
             Plano {formatPlan(providerPlan)}
           </p>
+        </div>
+        <div className="mt-6 flex flex-col gap-3">
+          {providerProfilePath ? (
+            <Link href={providerProfilePath} className="inline-flex">
+              <Button variant="secondary" className="w-full">
+                Ver perfil do prestador
+              </Button>
+            </Link>
+          ) : null}
+          {providerShareUrl ? (
+            <ShareLinkButton
+              url={providerShareUrl}
+              title={`Perfil de ${providerName}`}
+              text={`Conheça ${providerName} na Vitrine Lojas`}
+              className="w-full"
+            />
+          ) : null}
         </div>
       </div>
 

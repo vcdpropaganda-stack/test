@@ -42,7 +42,7 @@ export default async function ProviderDashboardPage({
 
   const providerProfileResult = await supabase
     .from("provider_profiles")
-    .select("id, plan")
+    .select("id, plan, public_slug")
     .eq("profile_id", user.id)
     .single();
 
@@ -126,7 +126,7 @@ export default async function ProviderDashboardPage({
         ))}
       </div>
 
-      <div className="mt-8 grid gap-5 md:grid-cols-2">
+      <div className="mt-8 grid gap-5 md:grid-cols-4">
         <Link href="/dashboard/provider/servicos" className="rounded-[1.5rem] border border-border bg-surface p-6">
           <p className="font-semibold text-slate-950">Gerenciar serviços</p>
           <p className="mt-3 text-sm text-muted-strong">
@@ -139,6 +139,27 @@ export default async function ProviderDashboardPage({
             Configure disponibilidade real por serviço.
           </p>
         </Link>
+        <Link href="/dashboard/mensagens" className="rounded-[1.5rem] border border-border bg-surface p-6">
+          <p className="font-semibold text-slate-950">Mensagens</p>
+          <p className="mt-3 text-sm text-muted-strong">
+            Converse com clientes em um fluxo interno da plataforma.
+          </p>
+        </Link>
+        {providerProfile?.public_slug ? (
+          <Link href={`/prestadores/${providerProfile.public_slug}`} className="rounded-[1.5rem] border border-border bg-surface p-6">
+            <p className="font-semibold text-slate-950">Meu perfil público</p>
+            <p className="mt-3 text-sm text-muted-strong">
+              Compartilhe sua página pública com potenciais clientes.
+            </p>
+          </Link>
+        ) : (
+          <Link href="/dashboard/provider/perfil" className="rounded-[1.5rem] border border-border bg-surface p-6">
+            <p className="font-semibold text-slate-950">Configurar perfil</p>
+            <p className="mt-3 text-sm text-muted-strong">
+              Defina nome público, link, bio e WhatsApp.
+            </p>
+          </Link>
+        )}
       </div>
 
       <section className="mt-8 rounded-[2rem] border border-border bg-white p-8">
@@ -170,6 +191,9 @@ export default async function ProviderDashboardPage({
                     </p>
                   </div>
                   <div className="flex flex-wrap gap-2">
+                    <Link href={`/dashboard/mensagens?booking=${booking.id}`}>
+                      <Button variant="ghost">Chat</Button>
+                    </Link>
                     {booking.status === "pending" ? (
                       <form action={markBookingConfirmedAction}>
                         <input type="hidden" name="booking_id" value={booking.id} />
@@ -183,6 +207,11 @@ export default async function ProviderDashboardPage({
                         <input type="hidden" name="booking_id" value={booking.id} />
                         <Button type="submit">Marcar como concluído</Button>
                       </form>
+                    ) : null}
+                    {booking.status === "completed" ? (
+                      <Link href={`/dashboard/provider/agendamentos/${booking.id}/avaliar-cliente`}>
+                        <Button variant="secondary">Avaliar cliente</Button>
+                      </Link>
                     ) : null}
                     <span className="rounded-full bg-primary-soft px-3 py-2 text-xs font-semibold text-primary-strong">
                       {booking.status}

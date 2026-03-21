@@ -55,12 +55,12 @@ export default async function ClientDashboardPage() {
             {confirmedBookings} confirmados e {pendingBookings} pendentes.
           </p>
         </Link>
-        <section className="rounded-[1.5rem] border border-border bg-surface p-6">
-          <p className="font-semibold text-slate-950">Serviços favoritos</p>
+        <Link href="/dashboard/mensagens" className="rounded-[1.5rem] border border-border bg-surface p-6">
+          <p className="font-semibold text-slate-950">Mensagens</p>
           <p className="mt-3 text-sm text-muted-strong">
-            Base reservada para wishlist e histórico de descoberta.
+            Tire dúvidas, solicite WhatsApp e alinhe detalhes com o prestador.
           </p>
-        </section>
+        </Link>
         <Link href="/dashboard/client/agendamentos" className="rounded-[1.5rem] border border-border bg-surface p-6">
           <p className="font-semibold text-slate-950">Avaliações pendentes</p>
           <p className="mt-3 text-sm text-muted-strong">

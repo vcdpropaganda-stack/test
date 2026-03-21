@@ -30,6 +30,22 @@ begin
   ) then
     create type public.subscription_plan as enum ('basic', 'pro', 'premium');
   end if;
+
+  if not exists (
+    select 1
+    from pg_type
+    where typname = 'conversation_status'
+  ) then
+    create type public.conversation_status as enum ('open', 'closed');
+  end if;
+
+  if not exists (
+    select 1
+    from pg_type
+    where typname = 'conversation_message_kind'
+  ) then
+    create type public.conversation_message_kind as enum ('text', 'system', 'whatsapp_request', 'whatsapp_share');
+  end if;
 end $$;
 
 create or replace function public.handle_updated_at()
@@ -40,6 +56,25 @@ begin
   new.updated_at = timezone('utc', now());
   return new;
 end;
+$$;
+
+create or replace function public.slugify(input text)
+returns text
+language sql
+immutable
+as $$
+  select trim(both '-' from regexp_replace(
+    lower(
+      translate(
+        coalesce(input, ''),
+        'áàãâäéèêëíìîïóòõôöúùûüçÁÀÃÂÄÉÈÊËÍÌÎÏÓÒÕÔÖÚÙÛÜÇ',
+        'aaaaaeeeeiiiiooooouuuucaaaaaeeeeiiiiooooouuuuc'
+      )
+    ),
+    '[^a-z0-9]+',
+    '-',
+    'g'
+  ));
 $$;
 
 create or replace function public.handle_new_user()
@@ -122,9 +157,11 @@ create table if not exists public.provider_profiles (
   id uuid primary key default gen_random_uuid(),
   profile_id uuid not null unique references public.profiles(id) on delete cascade,
   display_name text not null,
+  public_slug text,
   bio text,
   city text,
   state text,
+  whatsapp_number text,
   is_verified boolean not null default false,
   plan public.subscription_plan not null default 'basic',
   stripe_customer_id text,
@@ -206,6 +243,37 @@ create table if not exists public.reviews (
   created_at timestamptz not null default timezone('utc', now())
 );
 
+create table if not exists public.client_reviews (
+  id uuid primary key default gen_random_uuid(),
+  booking_id uuid not null unique references public.bookings(id) on delete cascade,
+  client_id uuid not null references public.profiles(id) on delete cascade,
+  provider_profile_id uuid not null references public.provider_profiles(id) on delete cascade,
+  rating integer not null check (rating between 1 and 5),
+  comment text,
+  created_at timestamptz not null default timezone('utc', now())
+);
+
+create table if not exists public.conversations (
+  id uuid primary key default gen_random_uuid(),
+  service_id uuid not null references public.services(id) on delete cascade,
+  booking_id uuid references public.bookings(id) on delete set null,
+  client_id uuid not null references public.profiles(id) on delete cascade,
+  provider_profile_id uuid not null references public.provider_profiles(id) on delete cascade,
+  status public.conversation_status not null default 'open',
+  created_at timestamptz not null default timezone('utc', now()),
+  updated_at timestamptz not null default timezone('utc', now())
+);
+
+create table if not exists public.conversation_messages (
+  id uuid primary key default gen_random_uuid(),
+  conversation_id uuid not null references public.conversations(id) on delete cascade,
+  sender_id uuid not null references public.profiles(id) on delete cascade,
+  kind public.conversation_message_kind not null default 'text',
+  body text,
+  created_at timestamptz not null default timezone('utc', now()),
+  check (kind <> 'text' or body is not null)
+);
+
 create table if not exists public.email_logs (
   id uuid primary key default gen_random_uuid(),
   booking_id uuid references public.bookings(id) on delete set null,
@@ -219,6 +287,23 @@ create table if not exists public.email_logs (
 insert into storage.buckets (id, name, public)
 values ('service-images', 'service-images', true)
 on conflict (id) do nothing;
+
+alter table public.provider_profiles add column if not exists public_slug text;
+alter table public.provider_profiles add column if not exists whatsapp_number text;
+
+update public.provider_profiles
+set
+  public_slug = coalesce(
+    nullif(public_slug, ''),
+    public.slugify(display_name || '-' || left(id::text, 8))
+  ),
+  whatsapp_number = coalesce(whatsapp_number, null)
+where public_slug is null
+   or public_slug = '';
+
+create unique index if not exists provider_profiles_public_slug_key
+on public.provider_profiles(public_slug)
+where public_slug is not null;
 
 create or replace function public.enforce_service_limit()
 returns trigger
@@ -279,6 +364,12 @@ before update on public.bookings
 for each row
 execute function public.handle_updated_at();
 
+drop trigger if exists conversations_set_updated_at on public.conversations;
+create trigger conversations_set_updated_at
+before update on public.conversations
+for each row
+execute function public.handle_updated_at();
+
 drop trigger if exists on_auth_user_created on auth.users;
 create trigger on_auth_user_created
 after insert on auth.users
@@ -292,6 +383,9 @@ alter table public.service_categories enable row level security;
 alter table public.service_availability enable row level security;
 alter table public.bookings enable row level security;
 alter table public.reviews enable row level security;
+alter table public.client_reviews enable row level security;
+alter table public.conversations enable row level security;
+alter table public.conversation_messages enable row level security;
 alter table public.email_logs enable row level security;
 alter table public.subscription_limits enable row level security;
 
@@ -498,6 +592,147 @@ with check (
     where b.id = booking_id
       and b.client_id = auth.uid()
       and b.status = 'completed'
+  )
+);
+
+drop policy if exists "client_reviews_related_read" on public.client_reviews;
+create policy "client_reviews_related_read"
+on public.client_reviews
+for select
+using (
+  public.get_my_role() = 'admin'
+  or client_id = auth.uid()
+  or exists (
+    select 1
+    from public.provider_profiles pp
+    where pp.id = provider_profile_id
+      and pp.profile_id = auth.uid()
+  )
+);
+
+drop policy if exists "client_reviews_provider_insert_own" on public.client_reviews;
+create policy "client_reviews_provider_insert_own"
+on public.client_reviews
+for insert
+with check (
+  exists (
+    select 1
+    from public.provider_profiles pp
+    join public.bookings b on b.provider_profile_id = pp.id
+    where pp.profile_id = auth.uid()
+      and b.id = booking_id
+      and b.client_id = client_id
+      and b.status = 'completed'
+      and b.provider_profile_id = provider_profile_id
+  )
+);
+
+drop policy if exists "client_reviews_provider_update_own" on public.client_reviews;
+create policy "client_reviews_provider_update_own"
+on public.client_reviews
+for update
+using (
+  exists (
+    select 1
+    from public.provider_profiles pp
+    where pp.id = provider_profile_id
+      and pp.profile_id = auth.uid()
+  )
+)
+with check (
+  exists (
+    select 1
+    from public.provider_profiles pp
+    where pp.id = provider_profile_id
+      and pp.profile_id = auth.uid()
+  )
+);
+
+drop policy if exists "conversations_related_read" on public.conversations;
+create policy "conversations_related_read"
+on public.conversations
+for select
+using (
+  public.get_my_role() = 'admin'
+  or client_id = auth.uid()
+  or exists (
+    select 1
+    from public.provider_profiles pp
+    where pp.id = provider_profile_id
+      and pp.profile_id = auth.uid()
+  )
+);
+
+drop policy if exists "conversations_client_or_provider_insert" on public.conversations;
+create policy "conversations_client_or_provider_insert"
+on public.conversations
+for insert
+with check (
+  public.get_my_role() = 'admin'
+  or client_id = auth.uid()
+  or exists (
+    select 1
+    from public.provider_profiles pp
+    where pp.id = provider_profile_id
+      and pp.profile_id = auth.uid()
+  )
+);
+
+drop policy if exists "conversations_related_update" on public.conversations;
+create policy "conversations_related_update"
+on public.conversations
+for update
+using (
+  public.get_my_role() = 'admin'
+  or client_id = auth.uid()
+  or exists (
+    select 1
+    from public.provider_profiles pp
+    where pp.id = provider_profile_id
+      and pp.profile_id = auth.uid()
+  )
+)
+with check (
+  public.get_my_role() = 'admin'
+  or client_id = auth.uid()
+  or exists (
+    select 1
+    from public.provider_profiles pp
+    where pp.id = provider_profile_id
+      and pp.profile_id = auth.uid()
+  )
+);
+
+drop policy if exists "conversation_messages_related_read" on public.conversation_messages;
+create policy "conversation_messages_related_read"
+on public.conversation_messages
+for select
+using (
+  public.get_my_role() = 'admin'
+  or exists (
+    select 1
+    from public.conversations c
+    left join public.provider_profiles pp on pp.id = c.provider_profile_id
+    where c.id = conversation_id
+      and (c.client_id = auth.uid() or pp.profile_id = auth.uid())
+  )
+);
+
+drop policy if exists "conversation_messages_related_insert" on public.conversation_messages;
+create policy "conversation_messages_related_insert"
+on public.conversation_messages
+for insert
+with check (
+  sender_id = auth.uid()
+  and (
+    public.get_my_role() = 'admin'
+    or exists (
+      select 1
+      from public.conversations c
+      left join public.provider_profiles pp on pp.id = c.provider_profile_id
+      where c.id = conversation_id
+        and (c.client_id = auth.uid() or pp.profile_id = auth.uid())
+    )
   )
 );
 

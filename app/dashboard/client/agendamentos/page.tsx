@@ -48,7 +48,8 @@ export default async function ClientBookingsPage({
         slug
       ),
       provider_profile:provider_profiles (
-        display_name
+        display_name,
+        public_slug
       )
     `
     )
@@ -115,6 +116,16 @@ export default async function ClientBookingsPage({
                     R$ {(booking.total_price_cents / 100).toFixed(2).replace(".", ",")}
                   </p>
                   <div className="flex flex-wrap gap-2">
+                    <Link href={`/dashboard/mensagens?booking=${booking.id}`}>
+                      <Button type="button" variant="ghost">
+                        Chat
+                      </Button>
+                    </Link>
+                    {booking.provider_profile?.public_slug ? (
+                      <Link href={`/prestadores/${booking.provider_profile.public_slug}`}>
+                        <Button variant="ghost">Perfil do prestador</Button>
+                      </Link>
+                    ) : null}
                     {booking.status === "pending" ? (
                       <form action={goToCheckoutAction}>
                         <input type="hidden" name="booking_id" value={booking.id} />

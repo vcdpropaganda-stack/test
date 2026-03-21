@@ -258,6 +258,20 @@ set
     when '00000000-0000-4000-8000-000000000013'::uuid then 'pro'::public.subscription_plan
     when '00000000-0000-4000-8000-000000000014'::uuid then 'premium'::public.subscription_plan
     else plan
+  end,
+  public_slug = case profile_id
+    when '00000000-0000-4000-8000-000000000011'::uuid then 'ana-clean'
+    when '00000000-0000-4000-8000-000000000012'::uuid then 'bruno-tech'
+    when '00000000-0000-4000-8000-000000000013'::uuid then 'carla-beauty'
+    when '00000000-0000-4000-8000-000000000014'::uuid then 'voce-digital-propaganda'
+    else public_slug
+  end,
+  whatsapp_number = case profile_id
+    when '00000000-0000-4000-8000-000000000011'::uuid then '+5511990001111'
+    when '00000000-0000-4000-8000-000000000012'::uuid then '+5511990002222'
+    when '00000000-0000-4000-8000-000000000013'::uuid then '+5511990003333'
+    when '00000000-0000-4000-8000-000000000014'::uuid then '+5511990004444'
+    else whatsapp_number
   end
 where profile_id in (
   '00000000-0000-4000-8000-000000000011'::uuid,
