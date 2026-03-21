@@ -5,11 +5,21 @@ import { createSupabaseServerClient } from "@/lib/supabase/server";
 export async function GET(request: NextRequest) {
   const { searchParams, origin } = new URL(request.url);
   const tokenHash = searchParams.get("token_hash");
+  const code = searchParams.get("code");
   const type = searchParams.get("type");
   const next = searchParams.get("next") ?? "/dashboard";
 
+  const supabase = await createSupabaseServerClient();
+
+  if (code) {
+    const { error } = await supabase.auth.exchangeCodeForSession(code);
+
+    if (!error) {
+      redirect(`${origin}${next}`);
+    }
+  }
+
   if (tokenHash && type) {
-    const supabase = await createSupabaseServerClient();
     const { error } = await supabase.auth.verifyOtp({
       type: type as
         | "signup"
