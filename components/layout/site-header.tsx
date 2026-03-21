@@ -36,7 +36,12 @@ export async function SiteHeader() {
     <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur supports-[padding:max(0px)]:pt-[max(env(safe-area-inset-top),0px)]">
       <div className="mx-auto flex max-w-7xl flex-col gap-2 px-4 py-2.5 sm:px-6 sm:py-3 lg:gap-4 lg:px-10">
         <div className="flex items-start justify-between gap-2 sm:items-center sm:gap-3">
-          <Link href="/" className="flex min-w-0 items-center gap-2 rounded-2xl sm:gap-3">
+          <Link
+            href="/"
+            data-reveal
+            data-reveal-delay="40"
+            className="flex min-w-0 items-center gap-2 rounded-2xl sm:gap-3"
+          >
             <VlMonogram className="h-9 w-9 shrink-0 sm:h-12 sm:w-12" />
             <div className="min-w-0">
               <p className="truncate font-sans text-[1.05rem] leading-[1.15] font-bold tracking-tight text-slate-950 sm:text-lg sm:leading-[1.15]">
@@ -84,6 +89,8 @@ export async function SiteHeader() {
         </div>
 
         <nav
+          data-reveal
+          data-reveal-delay="100"
           aria-label="Navegação principal"
           className="touch-scroll-x flex items-center gap-2 overflow-x-auto rounded-[1.75rem] border border-slate-200 bg-white/92 p-2 elevated-card sm:justify-center"
         >

@@ -36,7 +36,10 @@ export function SiteFooter() {
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(99,102,241,0.14),transparent_28%),radial-gradient(circle_at_bottom_right,rgba(59,130,246,0.12),transparent_24%)]" />
       <div className="page-shell relative py-8 sm:py-10 lg:py-12">
         <div className="grid gap-4 lg:grid-cols-[1.15fr_1.85fr] lg:gap-8">
-          <div className="rounded-[1.5rem] border border-white/10 bg-white/5 p-4 backdrop-blur-sm sm:p-5 lg:rounded-[1.75rem] lg:p-6">
+          <div
+            data-reveal
+            className="rounded-[1.5rem] border border-white/10 bg-white/5 p-4 backdrop-blur-sm sm:p-5 lg:rounded-[1.75rem] lg:p-6"
+          >
             <div className="flex items-center gap-3">
               <VlMonogram className="h-11 w-11 shrink-0 sm:h-12 sm:w-12" dark />
               <div className="min-w-0">
@@ -77,6 +80,7 @@ export function SiteFooter() {
             {footerGroups.map((group) => (
               <nav
                 key={group.title}
+                data-reveal
                 aria-label={group.title}
                 className="rounded-[1.25rem] border border-white/10 bg-white/4 p-4 backdrop-blur-sm sm:p-5"
               >

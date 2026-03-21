@@ -16,7 +16,10 @@ export function SectionHeading({
   className,
 }: SectionHeadingProps) {
   return (
-    <div className={cn("max-w-2xl", className)}>
+    <div
+      data-reveal
+      className={cn("max-w-2xl", className)}
+    >
       <p
         className={cn(
           "text-sm font-semibold tracking-[0.24em] uppercase",

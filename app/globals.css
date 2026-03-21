@@ -57,6 +57,7 @@ body {
   color: var(--foreground);
   font-family: var(--font-inter), sans-serif;
   line-height: 1.5;
+  text-rendering: optimizeLegibility;
 }
 
 a {
@@ -144,6 +145,19 @@ a {
     linear-gradient(rgba(99, 102, 241, 0.08) 1px, transparent 1px),
     linear-gradient(90deg, rgba(99, 102, 241, 0.08) 1px, transparent 1px);
   background-size: 32px 32px;
+}
+
+[data-reveal] {
+  transform-origin: 50% 50%;
+}
+
+@media (hover: hover) {
+  .elevated-card {
+    transition:
+      transform 240ms ease,
+      box-shadow 240ms ease,
+      border-color 240ms ease;
+  }
 }
 
 .line-clamp-2 {

@@ -5,6 +5,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { AuthErrorHandler } from "@/components/auth/auth-error-handler";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
+import { MotionOrchestrator } from "@/components/shared/motion-orchestrator";
 import { RouteScrollReset } from "@/components/shared/route-scroll-reset";
 import "./globals.css";
 
@@ -36,6 +37,7 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <AuthErrorHandler />
+        <MotionOrchestrator />
         <RouteScrollReset />
         <a href="#conteudo" className="skip-link">
           Pular para o conteúdo principal

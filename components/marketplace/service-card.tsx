@@ -31,7 +31,11 @@ export function ServiceCard({
 }: ServiceCardProps) {
   return (
     <Link href={href} prefetch aria-label={`Ver serviço ${title}`} className="block h-full min-w-0">
-      <article className="elevated-card group h-full overflow-hidden rounded-[1.5rem] border border-slate-200 bg-white shadow-[0_16px_40px_rgba(15,23,42,0.08)] transition duration-200 hover:-translate-y-1 hover:shadow-[0_24px_65px_rgba(15,23,42,0.14)] sm:rounded-[2rem]">
+      <article
+        data-reveal
+        className="elevated-card group relative h-full overflow-hidden rounded-[1.5rem] border border-slate-200/90 bg-white shadow-[0_16px_40px_rgba(15,23,42,0.08)] transition duration-300 hover:-translate-y-1.5 hover:border-primary/20 hover:shadow-[0_26px_70px_rgba(15,23,42,0.16)] sm:rounded-[2rem]"
+      >
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-28 bg-[linear-gradient(180deg,rgba(99,102,241,0.07),transparent)] opacity-0 transition duration-300 group-hover:opacity-100" />
         <div className="relative aspect-[4/3] overflow-hidden bg-slate-200">
           {imageUrl ? (
             <Image
@@ -39,7 +43,7 @@ export function ServiceCard({
               alt={title}
               fill
               sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
-              className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+              className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.06]"
               loading="lazy"
             />
           ) : (
@@ -110,7 +114,7 @@ export function ServiceCard({
               </p>
               <p className="text-2xl font-bold text-slate-950 sm:text-3xl">{price}</p>
             </div>
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-primary px-3 py-2 text-xs font-semibold text-white sm:gap-2 sm:bg-slate-950 sm:px-5 sm:py-3 sm:text-sm">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-linear-to-r from-primary-strong via-primary to-[#7c83ff] px-3 py-2 text-xs font-semibold text-white shadow-[0_14px_28px_rgba(99,102,241,0.28)] sm:gap-2 sm:px-5 sm:py-3 sm:text-sm">
               <span className="hidden sm:inline">Ver serviço</span>
               <span className="sm:hidden">Abrir</span>
               <ArrowUpRight className="h-3.5 w-3.5 sm:h-4 sm:w-4" />

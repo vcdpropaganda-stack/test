@@ -43,7 +43,10 @@ export default async function ServicesPage({ searchParams }: ServicesPageProps) 
 
   return (
     <main id="conteudo" className="page-shell py-10 sm:py-16">
-      <section className="overflow-hidden rounded-[1.6rem] border border-slate-200 bg-[linear-gradient(135deg,#0f172a,#312e81_58%,#6366f1)] px-5 py-6 text-white shadow-[0_24px_70px_rgba(15,23,42,0.16)] sm:rounded-[2rem] sm:px-8 sm:py-10">
+      <section
+        data-reveal
+        className="overflow-hidden rounded-[1.6rem] border border-slate-200 bg-[linear-gradient(135deg,#0f172a,#312e81_58%,#6366f1)] px-5 py-6 text-white shadow-[0_24px_70px_rgba(15,23,42,0.16)] sm:rounded-[2rem] sm:px-8 sm:py-10"
+      >
         <SectionHeading
           eyebrow="Marketplace"
           title="Todos os serviços publicados"
@@ -66,7 +69,11 @@ export default async function ServicesPage({ searchParams }: ServicesPageProps) 
         </div>
       </section>
 
-      <section className="elevated-card mt-6 rounded-[1.6rem] border border-border bg-white p-4 sm:mt-10 sm:rounded-[2rem] sm:p-6">
+      <section
+        data-reveal
+        data-reveal-delay="70"
+        className="elevated-card mt-6 rounded-[1.6rem] border border-border bg-white p-4 sm:mt-10 sm:rounded-[2rem] sm:p-6"
+      >
         <div className="mb-5 flex items-center gap-3 sm:mb-6">
           <div className="rounded-2xl bg-primary-soft p-2.5 text-primary-strong sm:p-3">
             <SlidersHorizontal className="h-5 w-5" />
