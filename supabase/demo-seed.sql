@@ -239,7 +239,7 @@ set
   plan = case profile_id
     when '00000000-0000-4000-8000-000000000011'::uuid then 'premium'::public.subscription_plan
     when '00000000-0000-4000-8000-000000000012'::uuid then 'pro'::public.subscription_plan
-    when '00000000-0000-4000-8000-000000000013'::uuid then 'basic'::public.subscription_plan
+    when '00000000-0000-4000-8000-000000000013'::uuid then 'pro'::public.subscription_plan
     else plan
   end
 where profile_id in (
@@ -253,7 +253,9 @@ values
   ('Limpeza', 'limpeza'),
   ('Tecnologia', 'tecnologia'),
   ('Beleza', 'beleza'),
-  ('Manutencao', 'manutencao')
+  ('Manutencao', 'manutencao'),
+  ('Consultoria', 'consultoria'),
+  ('Eventos', 'eventos')
 on conflict (slug) do update
 set name = excluded.name;
 
@@ -339,6 +341,17 @@ join (
       4
     ),
     (
+      '00000000-0000-4000-8000-000000000012'::uuid,
+      'consultoria',
+      'Consultoria digital para pequenos negocios',
+      'consultoria-digital-para-pequenos-negocios',
+      'Diagnostico rapido de presenca digital, atendimento no WhatsApp e ajustes para melhorar conversao local.',
+      'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=80',
+      32000,
+      90,
+      5
+    ),
+    (
       '00000000-0000-4000-8000-000000000013'::uuid,
       'beleza',
       'Maquiagem social em domicilio',
@@ -347,7 +360,7 @@ join (
       'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=1200&q=80',
       22000,
       75,
-      5
+      6
     ),
     (
       '00000000-0000-4000-8000-000000000013'::uuid,
@@ -358,7 +371,51 @@ join (
       'https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?auto=format&fit=crop&w=1200&q=80',
       14000,
       60,
-      6
+      7
+    ),
+    (
+      '00000000-0000-4000-8000-000000000013'::uuid,
+      'eventos',
+      'Producao de penteado para eventos',
+      'producao-de-penteado-para-eventos',
+      'Penteados e finalizacao para casamentos, ensaios, debutantes e eventos corporativos com atendimento em domicilio.',
+      'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=1200&q=80',
+      26000,
+      90,
+      8
+    ),
+    (
+      '00000000-0000-4000-8000-000000000011'::uuid,
+      'manutencao',
+      'Organizacao e limpeza de closets',
+      'organizacao-e-limpeza-de-closets',
+      'Servico focado em organizacao funcional, limpeza fina e reaproveitamento inteligente do espaco.',
+      'https://images.unsplash.com/photo-1484154218962-a197022b5858?auto=format&fit=crop&w=1200&q=80',
+      21000,
+      150,
+      9
+    ),
+    (
+      '00000000-0000-4000-8000-000000000012'::uuid,
+      'manutencao',
+      'Configuracao de home office',
+      'configuracao-de-home-office',
+      'Montagem de estacao produtiva com organizacao de cabos, monitor, webcam, audio e ergonomia basica.',
+      'https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=80',
+      19900,
+      100,
+      10
+    ),
+    (
+      '00000000-0000-4000-8000-000000000013'::uuid,
+      'beleza',
+      'Design de sobrancelhas premium',
+      'design-de-sobrancelhas-premium',
+      'Modelagem com acabamento preciso e consultoria de estilo para valorizar o rosto e a rotina do cliente.',
+      'https://images.unsplash.com/photo-1512496015851-a90fb38ba796?auto=format&fit=crop&w=1200&q=80',
+      9500,
+      45,
+      11
     )
 ) as svc(profile_id, category_slug, title, slug, description, cover_image_url, price_cents, duration_minutes, featured_rank)
   on svc.profile_id = pr.profile_id
@@ -383,8 +440,13 @@ where service_id in (
     'faxina-pos-obra-express',
     'suporte-tecnico-residencial',
     'instalacao-de-rede-e-wifi',
+    'consultoria-digital-para-pequenos-negocios',
     'maquiagem-social-em-domicilio',
-    'escova-e-finalizacao-premium'
+    'escova-e-finalizacao-premium',
+    'producao-de-penteado-para-eventos',
+    'organizacao-e-limpeza-de-closets',
+    'configuracao-de-home-office',
+    'design-de-sobrancelhas-premium'
   )
 );
 
@@ -403,10 +465,15 @@ join (
     ('suporte-tecnico-residencial', timezone('utc', now()) + interval '1 day' + interval '10 hour', timezone('utc', now()) + interval '1 day' + interval '11 hour 30 minute'),
     ('suporte-tecnico-residencial', timezone('utc', now()) + interval '5 day' + interval '14 hour', timezone('utc', now()) + interval '5 day' + interval '15 hour 30 minute'),
     ('instalacao-de-rede-e-wifi', timezone('utc', now()) + interval '2 day' + interval '15 hour', timezone('utc', now()) + interval '2 day' + interval '17 hour'),
+    ('consultoria-digital-para-pequenos-negocios', timezone('utc', now()) + interval '4 day' + interval '10 hour', timezone('utc', now()) + interval '4 day' + interval '11 hour 30 minute'),
     ('maquiagem-social-em-domicilio', timezone('utc', now()) + interval '2 day' + interval '16 hour', timezone('utc', now()) + interval '2 day' + interval '17 hour 15 minute'),
     ('maquiagem-social-em-domicilio', timezone('utc', now()) + interval '6 day' + interval '9 hour', timezone('utc', now()) + interval '6 day' + interval '10 hour 15 minute'),
     ('escova-e-finalizacao-premium', timezone('utc', now()) + interval '1 day' + interval '15 hour', timezone('utc', now()) + interval '1 day' + interval '16 hour'),
-    ('escova-e-finalizacao-premium', timezone('utc', now()) + interval '3 day' + interval '11 hour', timezone('utc', now()) + interval '3 day' + interval '12 hour')
+    ('escova-e-finalizacao-premium', timezone('utc', now()) + interval '3 day' + interval '11 hour', timezone('utc', now()) + interval '3 day' + interval '12 hour'),
+    ('producao-de-penteado-para-eventos', timezone('utc', now()) + interval '5 day' + interval '8 hour', timezone('utc', now()) + interval '5 day' + interval '9 hour 30 minute'),
+    ('organizacao-e-limpeza-de-closets', timezone('utc', now()) + interval '7 day' + interval '13 hour', timezone('utc', now()) + interval '7 day' + interval '15 hour 30 minute'),
+    ('configuracao-de-home-office', timezone('utc', now()) + interval '2 day' + interval '9 hour', timezone('utc', now()) + interval '2 day' + interval '10 hour 40 minute'),
+    ('design-de-sobrancelhas-premium', timezone('utc', now()) + interval '4 day' + interval '16 hour', timezone('utc', now()) + interval '4 day' + interval '16 hour 45 minute')
 ) as slot(slug, start_at, end_at)
   on slot.slug = s.slug;
 

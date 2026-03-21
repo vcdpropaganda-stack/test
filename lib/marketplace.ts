@@ -7,6 +7,10 @@ export type MarketplaceService = {
   title: string;
   description: string;
   cover_image_url: string | null;
+  category: {
+    name: string;
+    slug: string;
+  } | null;
   price_cents: number;
   duration_minutes: number;
   featured_rank: number | null;
@@ -25,6 +29,7 @@ type MarketplaceFilters = {
   limit?: number;
   query?: string;
   city?: string;
+  category?: string;
   sort?: "recent" | "price_asc" | "price_desc";
 };
 
@@ -62,6 +67,28 @@ function normalizeProviderProfile<T extends { provider_profile?: RawProviderProf
   };
 }
 
+type RawCategory =
+  | {
+      name?: string | null;
+      slug?: string | null;
+    }
+  | Array<{
+      name?: string | null;
+      slug?: string | null;
+    }>
+  | null;
+
+function normalizeCategory<T extends { category?: RawCategory }>(service: T) {
+  const category = Array.isArray(service.category)
+    ? service.category[0] ?? null
+    : service.category ?? null;
+
+  return {
+    ...service,
+    category,
+  };
+}
+
 export async function getMarketplaceServices(
   filters: MarketplaceFilters | number = {}
 ) {
@@ -81,6 +108,10 @@ export async function getMarketplaceServices(
       title,
       description,
       cover_image_url,
+      category:service_categories (
+        name,
+        slug
+      ),
       price_cents,
       duration_minutes,
       featured_rank,
@@ -105,6 +136,10 @@ export async function getMarketplaceServices(
     query = query.eq("provider_profiles.city", resolvedFilters.city);
   }
 
+  if (resolvedFilters.category) {
+    query = query.eq("service_categories.slug", resolvedFilters.category);
+  }
+
   if (resolvedFilters.sort === "price_asc") {
     query = query.order("price_cents", { ascending: true });
   } else if (resolvedFilters.sort === "price_desc") {
@@ -124,7 +159,7 @@ export async function getMarketplaceServices(
   }
 
   const normalizedServices = ((data ?? []).map((service) =>
-    normalizeProviderProfile(service)
+    normalizeCategory(normalizeProviderProfile(service))
   ) ?? []) as MarketplaceService[];
   const serviceIds = normalizedServices.map((service) => service.id);
 
@@ -178,6 +213,24 @@ export async function getMarketplaceCities() {
   ).sort((a, b) => a.localeCompare(b, "pt-BR"));
 }
 
+export async function getMarketplaceCategories() {
+  if (!hasSupabaseEnv()) {
+    return [];
+  }
+
+  const supabase = await createSupabaseServerClient();
+  const { data, error } = await supabase
+    .from("service_categories")
+    .select("name, slug")
+    .order("name", { ascending: true });
+
+  if (error) {
+    return [];
+  }
+
+  return data ?? [];
+}
+
 export async function getMarketplaceServiceBySlug(slug: string) {
   if (!hasSupabaseEnv()) {
     return null;
@@ -193,6 +246,10 @@ export async function getMarketplaceServiceBySlug(slug: string) {
       title,
       description,
       cover_image_url,
+      category:service_categories (
+        name,
+        slug
+      ),
       price_cents,
       duration_minutes,
       featured_rank,
@@ -222,7 +279,7 @@ export async function getMarketplaceServiceBySlug(slug: string) {
     return null;
   }
 
-  const normalized = normalizeProviderProfile(data);
+  const normalized = normalizeCategory(normalizeProviderProfile(data));
   const { data: bookedSlots } = await supabase
     .from("bookings")
     .select("scheduled_start, scheduled_end, status")

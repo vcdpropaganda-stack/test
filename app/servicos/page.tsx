@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
-import { Search } from "lucide-react";
+import { Layers3, Search, SlidersHorizontal } from "lucide-react";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { InputField, SelectField } from "@/components/ui/input";
 import { ServiceCard } from "@/components/marketplace/service-card";
 import {
+  getMarketplaceCategories,
   formatPrice,
   getMarketplaceCities,
   getMarketplaceServices,
@@ -20,19 +21,22 @@ type ServicesPageProps = {
   searchParams: Promise<{
     q?: string;
     city?: string;
+    category?: string;
     sort?: "recent" | "price_asc" | "price_desc";
   }>;
 };
 
 export default async function ServicesPage({ searchParams }: ServicesPageProps) {
-  const { q = "", city = "", sort = "recent" } = await searchParams;
-  const [services, cities] = await Promise.all([
+  const { q = "", city = "", category = "", sort = "recent" } = await searchParams;
+  const [services, cities, categories] = await Promise.all([
     getMarketplaceServices({
       query: q || undefined,
       city: city || undefined,
+      category: category || undefined,
       sort,
     }),
     getMarketplaceCities(),
+    getMarketplaceCategories(),
   ]);
 
   return (
@@ -48,6 +52,9 @@ export default async function ServicesPage({ searchParams }: ServicesPageProps) 
             {services.length} servicos ativos
           </span>
           <span className="rounded-full border border-white/15 bg-white/10 px-4 py-2 backdrop-blur-sm">
+            {categories.length} categorias
+          </span>
+          <span className="rounded-full border border-white/15 bg-white/10 px-4 py-2 backdrop-blur-sm">
             {cities.length} cidades mapeadas
           </span>
           <span className="rounded-full border border-white/15 bg-white/10 px-4 py-2 backdrop-blur-sm">
@@ -57,7 +64,18 @@ export default async function ServicesPage({ searchParams }: ServicesPageProps) 
       </section>
 
       <section className="elevated-card mt-10 rounded-[2rem] border border-border bg-white p-6">
-        <form className="grid gap-4 lg:grid-cols-[1.4fr_0.8fr_0.8fr_auto] lg:items-end">
+        <div className="mb-6 flex items-center gap-3">
+          <div className="rounded-2xl bg-primary-soft p-3 text-primary-strong">
+            <SlidersHorizontal className="h-5 w-5" />
+          </div>
+          <div>
+            <p className="text-sm font-semibold text-slate-950">Filtros do marketplace</p>
+            <p className="text-sm text-muted-strong">
+              Refine por busca, categoria, cidade e ordenacao.
+            </p>
+          </div>
+        </div>
+        <form className="grid gap-4 lg:grid-cols-[1.2fr_0.8fr_0.8fr_0.8fr_auto] lg:items-end">
           <div className="relative">
             <InputField
               name="q"
@@ -68,6 +86,15 @@ export default async function ServicesPage({ searchParams }: ServicesPageProps) 
             />
             <Search className="pointer-events-none absolute top-[47px] left-4 h-4 w-4 text-muted" />
           </div>
+
+          <SelectField name="category" label="Categoria" defaultValue={category}>
+            <option value="">Todas as categorias</option>
+            {categories.map((currentCategory) => (
+              <option key={currentCategory.slug} value={currentCategory.slug}>
+                {currentCategory.name}
+              </option>
+            ))}
+          </SelectField>
 
           <SelectField name="city" label="Cidade" defaultValue={city}>
             <option value="">Todas as cidades</option>
@@ -88,6 +115,31 @@ export default async function ServicesPage({ searchParams }: ServicesPageProps) 
             Aplicar filtros
           </button>
         </form>
+        <div className="mt-6 flex flex-wrap gap-3">
+          {categories.map((currentCategory) => {
+            const isActive = currentCategory.slug === category;
+            const params = new URLSearchParams();
+            if (q) params.set("q", q);
+            if (city) params.set("city", city);
+            if (sort) params.set("sort", sort);
+            if (!isActive) params.set("category", currentCategory.slug);
+
+            return (
+              <a
+                key={currentCategory.slug}
+                href={`/servicos${params.toString() ? `?${params.toString()}` : ""}`}
+                className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold ${
+                  isActive
+                    ? "bg-slate-950 text-white"
+                    : "border border-slate-200 bg-slate-50 text-slate-700 hover:border-primary/30 hover:text-primary-strong"
+                }`}
+              >
+                <Layers3 className="h-4 w-4" />
+                {currentCategory.name}
+              </a>
+            );
+          })}
+        </div>
       </section>
 
       <div className="mt-10 grid gap-6 lg:grid-cols-3">
