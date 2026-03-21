@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Termos | TESTE",
-  description: "Pagina base de termos de uso da plataforma TESTE.",
+  title: "Termos | Vitrine Lojas",
+  description: "Pagina base de termos de uso da plataforma Vitrine Lojas.",
 };
 
 export default function TermosPage() {

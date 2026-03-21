@@ -15,7 +15,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "TESTE | Marketplace de Servicos Locais",
+  title: "Vitrine Lojas | Marketplace de Servicos Locais",
   description:
     "Marketplace premium para conectar clientes a prestadores de servicos com agendamento, assinaturas e operacao escalavel.",
 };

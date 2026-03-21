@@ -6,8 +6,8 @@ import { InputField } from "@/components/ui/input";
 import { Notice } from "@/components/ui/notice";
 
 export const metadata: Metadata = {
-  title: "Entrar | TESTE",
-  description: "Acesse sua conta de cliente ou prestador na plataforma TESTE.",
+  title: "Entrar | Vitrine Lojas",
+  description: "Acesse sua conta de cliente ou prestador na plataforma Vitrine Lojas.",
 };
 
 export default async function LoginPage({

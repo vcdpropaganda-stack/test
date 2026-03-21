@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { signOutAction } from "@/app/auth/actions";
+import { hasSupabaseEnv } from "@/lib/env";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 const links = [
@@ -12,10 +13,17 @@ const links = [
 ];
 
 export async function SiteHeader() {
-  const supabase = await createSupabaseServerClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  let user = null;
+
+  if (hasSupabaseEnv()) {
+    try {
+      const supabase = await createSupabaseServerClient();
+      const authResult = await supabase.auth.getUser();
+      user = authResult.data.user;
+    } catch {
+      user = null;
+    }
+  }
 
   const isAuthenticated = Boolean(user);
   const role = String(user?.user_metadata.role ?? "client");
@@ -31,9 +39,9 @@ export async function SiteHeader() {
           </div>
           <div>
             <p className="font-sans text-lg font-bold tracking-tight text-slate-950">
-              TESTE
+              Vitrine Lojas
             </p>
-            <p className="text-xs text-muted">Servicos locais premium</p>
+            <p className="text-xs text-muted">Marketplace premium de lojas e servicos</p>
           </div>
         </Link>
 

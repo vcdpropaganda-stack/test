@@ -1,3 +1,4 @@
+import { hasSupabaseEnv } from "@/lib/env";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 export type MarketplaceService = {
@@ -64,6 +65,10 @@ function normalizeProviderProfile<T extends { provider_profile?: RawProviderProf
 export async function getMarketplaceServices(
   filters: MarketplaceFilters | number = {}
 ) {
+  if (!hasSupabaseEnv()) {
+    return [];
+  }
+
   const resolvedFilters =
     typeof filters === "number" ? { limit: filters } : filters;
   const supabase = await createSupabaseServerClient();
@@ -159,6 +164,10 @@ export async function getMarketplaceServices(
 }
 
 export async function getMarketplaceCities() {
+  if (!hasSupabaseEnv()) {
+    return [];
+  }
+
   const services = await getMarketplaceServices();
   return Array.from(
     new Set(
@@ -170,6 +179,10 @@ export async function getMarketplaceCities() {
 }
 
 export async function getMarketplaceServiceBySlug(slug: string) {
+  if (!hasSupabaseEnv()) {
+    return null;
+  }
+
   const supabase = await createSupabaseServerClient();
   const { data, error } = await supabase
     .from("services")

@@ -1,7 +1,7 @@
 # Estrutura Inicial Proposta
 
 ```text
-TESTE-App/
+Vitrine-Lojas/
 ├─ app/
 │  ├─ (marketing)/
 │  │  ├─ page.tsx

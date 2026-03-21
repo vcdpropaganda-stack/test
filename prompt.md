@@ -2,7 +2,7 @@
 
 Atue como um Engenheiro de Software Full-Stack Senior e Especialista em UI/UX.
 
-Estamos desenvolvendo um marketplace de servicos locais chamado "TESTE". O objetivo e conectar clientes a prestadores de servicos, similar ao Workana ou 20pila. O projeto deve ser construido usando **Next.js (App Router), React, Tailwind CSS, TypeScript e Supabase** para o backend/banco de dados.
+Estamos desenvolvendo um marketplace de servicos locais chamado "Vitrine Lojas". O objetivo e conectar clientes a prestadores de servicos, similar ao Workana ou 20pila. O projeto deve ser construido usando **Next.js (App Router), React, Tailwind CSS, TypeScript e Supabase** para o backend/banco de dados.
 
 ## Regras de Negocio e Arquitetura
 1. **Banco de Dados (Supabase):** Crie a estrutura de tabelas e as politicas de seguranca (RLS) garantindo que existam tres perfis estritamente separados: `admin`, `provider` e `client`.

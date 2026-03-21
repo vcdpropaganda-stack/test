@@ -3,9 +3,9 @@ import { InputField } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
 export const metadata: Metadata = {
-  title: "Contato | TESTE",
+  title: "Contato | Vitrine Lojas",
   description:
-    "Canal de contato inicial para parceiros, clientes e prestadores da TESTE.",
+    "Canal de contato inicial para parceiros, clientes e prestadores da Vitrine Lojas.",
 };
 
 export default function ContatoPage() {

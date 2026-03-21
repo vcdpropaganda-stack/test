@@ -15,7 +15,7 @@ import { ServiceCard } from "@/components/marketplace/service-card";
 import { Button } from "@/components/ui/button";
 
 export const metadata: Metadata = {
-  title: "TESTE | Marketplace de Servicos Locais",
+  title: "Vitrine Lojas | Marketplace de Servicos Locais",
   description:
     "Encontre e gerencie servicos locais com uma experiencia premium, segura e pronta para escalar.",
 };
@@ -46,7 +46,7 @@ export default async function Home() {
                 moderna e pronta para escalar.
               </h1>
               <p className="mt-6 max-w-2xl text-lg leading-8 text-muted">
-                A base do TESTE ja nasce com Next.js, Supabase, agendamentos,
+                A base da Vitrine Lojas ja nasce com Next.js, Supabase, agendamentos,
                 niveis de assinatura e uma identidade visual premium pensada
                 para conversao.
               </p>
@@ -103,7 +103,7 @@ export default async function Home() {
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-sm text-slate-300">Marketplace ao vivo</p>
-                    <p className="mt-1 text-2xl font-semibold">Curadoria TESTE</p>
+                    <p className="mt-1 text-2xl font-semibold">Curadoria Vitrine Lojas</p>
                   </div>
                   <div className="rounded-full bg-white/10 px-3 py-1 text-xs font-semibold text-slate-200">
                     {activeServicesCount} servicos em destaque
@@ -131,7 +131,7 @@ export default async function Home() {
                           </div>
                           <p className="mt-4 font-semibold">{service.title}</p>
                           <p className="mt-1 text-sm text-slate-300">
-                            {service.provider_profile?.display_name ?? "Prestador TESTE"}
+                            {service.provider_profile?.display_name ?? "Prestador Vitrine Lojas"}
                           </p>
                           <div className="mt-4 flex items-center justify-between text-sm">
                             <span className="font-semibold text-white">
@@ -172,7 +172,7 @@ export default async function Home() {
                   key={service.id}
                   href={`/servicos/${service.slug}`}
                   title={service.title}
-                  provider={service.provider_profile?.display_name ?? "Prestador TESTE"}
+                  provider={service.provider_profile?.display_name ?? "Prestador Vitrine Lojas"}
                   price={formatPrice(service.price_cents)}
                   tag={getServiceTag(service)}
                   rating={service.average_rating}

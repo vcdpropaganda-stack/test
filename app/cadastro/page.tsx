@@ -6,9 +6,9 @@ import { InputField, SelectField } from "@/components/ui/input";
 import { Notice } from "@/components/ui/notice";
 
 export const metadata: Metadata = {
-  title: "Cadastro | TESTE",
+  title: "Cadastro | Vitrine Lojas",
   description:
-    "Crie sua conta como cliente ou prestador na plataforma TESTE.",
+    "Crie sua conta como cliente ou prestador na plataforma Vitrine Lojas.",
 };
 
 export default async function CadastroPage({

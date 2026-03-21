@@ -1,4 +1,4 @@
-# Backlog do Produto: TESTE App
+# Backlog do Produto: Vitrine Lojas
 
 ## Fase 1: Fundacao e Autenticacao
 - [ ] Configuracao do repositorio com Next.js, Tailwind CSS e TypeScript.

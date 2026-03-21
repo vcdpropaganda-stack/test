@@ -3,8 +3,8 @@ import { redirect } from "next/navigation";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 export const metadata: Metadata = {
-  title: "Admin | TESTE",
-  description: "Painel administrativo inicial da plataforma TESTE.",
+  title: "Admin | Vitrine Lojas",
+  description: "Painel administrativo inicial da plataforma Vitrine Lojas.",
 };
 
 export default async function AdminDashboardPage() {

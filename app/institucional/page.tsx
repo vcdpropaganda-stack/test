@@ -3,9 +3,9 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
 export const metadata: Metadata = {
-  title: "Institucional | TESTE",
+  title: "Institucional | Vitrine Lojas",
   description:
-    "Apresentacao institucional da plataforma TESTE para clientes, prestadores e parceiros.",
+    "Apresentacao institucional da plataforma Vitrine Lojas para clientes, prestadores e parceiros.",
 };
 
 export default function InstitucionalPage() {
@@ -20,7 +20,7 @@ export default function InstitucionalPage() {
             Uma plataforma pensada para confianca, velocidade operacional e escala.
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-8 text-muted-strong">
-            O TESTE nasce para parecer uma empresa de produto madura: limpa,
+            A Vitrine Lojas nasce para parecer uma empresa de produto madura: limpa,
             objetiva e preparada para clientes, prestadores, parceiros e
             futuras extensoes mobile.
           </p>

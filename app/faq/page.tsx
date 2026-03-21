@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "FAQ | TESTE",
+  title: "FAQ | Vitrine Lojas",
   description:
-    "Perguntas frequentes sobre funcionamento, planos e operacao da plataforma TESTE.",
+    "Perguntas frequentes sobre funcionamento, planos e operacao da plataforma Vitrine Lojas.",
 };
 
 const faqs = [
   {
-    question: "O TESTE e um marketplace ou um SaaS?",
+    question: "A Vitrine Lojas e um marketplace ou um SaaS?",
     answer:
       "Ele nasce como os dois: uma experiencia de marketplace para descoberta e agendamento, com uma estrutura de SaaS para gestao, assinatura e operacao.",
   },

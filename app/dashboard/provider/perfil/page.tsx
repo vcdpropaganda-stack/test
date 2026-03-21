@@ -7,7 +7,7 @@ import { Notice } from "@/components/ui/notice";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 export const metadata: Metadata = {
-  title: "Perfil do Prestador | TESTE",
+  title: "Perfil do Prestador | Vitrine Lojas",
   description: "Edicao do perfil publico do prestador.",
 };
 

@@ -38,7 +38,7 @@ export function SiteFooter() {
                 T
               </div>
               <div>
-                <p className="font-sans text-xl font-bold tracking-tight">TESTE</p>
+                <p className="font-sans text-xl font-bold tracking-tight">Vitrine Lojas</p>
                 <p className="text-sm text-slate-400">
                   SaaS para marketplaces de servicos locais
                 </p>
@@ -72,7 +72,7 @@ export function SiteFooter() {
         </div>
 
         <div className="mt-12 border-t border-white/10 pt-6 text-sm text-slate-500">
-          TESTE. Base SaaS pronta para web e mobile com consistencia visual e
+          Vitrine Lojas. Base SaaS pronta para web e mobile com consistencia visual e
           acessibilidade.
         </div>
       </div>

@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 export const metadata: Metadata = {
-  title: "Painel do Cliente | TESTE",
+  title: "Painel do Cliente | Vitrine Lojas",
   description:
     "Area inicial do cliente para acompanhar agendamentos e servicos favoritos.",
 };

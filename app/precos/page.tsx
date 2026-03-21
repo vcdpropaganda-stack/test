@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { Check } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Precos | TESTE",
+  title: "Precos | Vitrine Lojas",
   description:
-    "Planos iniciais do TESTE para prestadores com progressao clara de recursos.",
+    "Planos iniciais da Vitrine Lojas para prestadores com progressao clara de recursos.",
 };
 
 const plans = [

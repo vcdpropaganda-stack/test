@@ -11,9 +11,9 @@ import {
 } from "@/lib/marketplace";
 
 export const metadata: Metadata = {
-  title: "Servicos | TESTE",
+  title: "Servicos | Vitrine Lojas",
   description:
-    "Explore os servicos publicados no marketplace TESTE.",
+    "Explore os servicos publicados no marketplace Vitrine Lojas.",
 };
 
 type ServicesPageProps = {
@@ -84,7 +84,7 @@ export default async function ServicesPage({ searchParams }: ServicesPageProps) 
               key={service.id}
               href={`/servicos/${service.slug}`}
               title={service.title}
-              provider={service.provider_profile?.display_name ?? "Prestador TESTE"}
+              provider={service.provider_profile?.display_name ?? "Prestador Vitrine Lojas"}
               price={formatPrice(service.price_cents)}
               tag={getServiceTag(service)}
               rating={service.average_rating}

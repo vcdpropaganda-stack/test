@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Privacidade | TESTE",
-  description: "Pagina base de privacidade da plataforma TESTE.",
+  title: "Privacidade | Vitrine Lojas",
+  description: "Pagina base de privacidade da plataforma Vitrine Lojas.",
 };
 
 export default function PrivacidadePage() {

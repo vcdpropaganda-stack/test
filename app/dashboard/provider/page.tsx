@@ -12,7 +12,7 @@ import { Notice } from "@/components/ui/notice";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 export const metadata: Metadata = {
-  title: "Painel do Prestador | TESTE",
+  title: "Painel do Prestador | Vitrine Lojas",
   description:
     "Area inicial do prestador para gerenciar servicos, disponibilidade e assinaturas.",
 };

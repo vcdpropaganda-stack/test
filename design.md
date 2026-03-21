@@ -1,7 +1,7 @@
-# Design System: TESTE
+# Design System: Vitrine Lojas
 
 ## 1. Identidade da Marca
-- **Nome:** TESTE
+- **Nome:** Vitrine Lojas
 - **Conceito:** Moderno, confiável, focado em conversao e usabilidade. Marketplace premium de servicos locais.
 
 ## 2. Paleta de Cores

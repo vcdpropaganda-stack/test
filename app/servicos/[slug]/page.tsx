@@ -21,12 +21,12 @@ export async function generateMetadata({
 
   if (!service) {
     return {
-      title: "Servico nao encontrado | TESTE",
+      title: "Servico nao encontrado | Vitrine Lojas",
     };
   }
 
   return {
-    title: `${service.title} | TESTE`,
+    title: `${service.title} | Vitrine Lojas`,
     description: service.description,
   };
 }
@@ -155,7 +155,7 @@ export default async function ServiceDetailPage({
           <div className="rounded-[2rem] border border-border bg-slate-950 p-8 text-white">
             <p className="text-sm text-slate-300">Prestador</p>
             <h2 className="mt-3 font-sans text-3xl font-bold tracking-tight">
-              {service.provider_profile?.display_name ?? "Prestador TESTE"}
+              {service.provider_profile?.display_name ?? "Prestador Vitrine Lojas"}
             </h2>
             <div className="mt-6 space-y-3 text-sm text-slate-200">
               <p>Preco: {formatPrice(service.price_cents)}</p>
