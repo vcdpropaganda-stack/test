@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Clock3, MapPin, ShieldCheck, Star } from "lucide-react";
 import { createBookingAction } from "@/app/servicos/[slug]/actions";
 import { Button } from "@/components/ui/button";
 import { Notice } from "@/components/ui/notice";
@@ -66,16 +68,30 @@ export default async function ServiceDetailPage({
     <main id="conteudo" className="page-shell py-16">
       <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
         <section className="space-y-6">
-          <div className="rounded-[2rem] border border-border bg-white p-8">
-            <p className="text-sm font-semibold tracking-[0.22em] text-primary uppercase">
-              Servico
-            </p>
-            <h1 className="mt-4 font-sans text-5xl font-bold tracking-tight text-slate-950">
-              {service.title}
-            </h1>
-            <p className="mt-6 max-w-3xl text-lg leading-8 text-muted-strong">
-              {service.description}
-            </p>
+          <div className="overflow-hidden rounded-[2rem] border border-slate-200 bg-white">
+            <div className="relative aspect-[16/10] bg-slate-950">
+              {service.cover_image_url ? (
+                <Image
+                  src={service.cover_image_url}
+                  alt={service.title}
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 60vw"
+                  className="object-cover"
+                />
+              ) : null}
+              <div className="absolute inset-0 bg-linear-to-t from-slate-950/80 via-slate-950/25 to-transparent" />
+              <div className="absolute inset-x-0 bottom-0 p-8 text-white">
+                <p className="text-sm font-semibold tracking-[0.22em] text-indigo-100 uppercase">
+                  Servico
+                </p>
+                <h1 className="mt-4 max-w-3xl font-sans text-5xl font-bold tracking-tight">
+                  {service.title}
+                </h1>
+                <p className="mt-5 max-w-3xl text-base leading-8 text-slate-200">
+                  {service.description}
+                </p>
+              </div>
+            </div>
           </div>
 
           <div className="rounded-[2rem] border border-border bg-white p-8">
@@ -83,9 +99,9 @@ export default async function ServiceDetailPage({
               O que o cliente encontra aqui
             </h2>
             <ul className="mt-5 space-y-3 text-sm leading-7 text-muted-strong">
-              <li>Descricao clara do servico e proposta de valor.</li>
-              <li>Preco base e duracao estimada de atendimento.</li>
-              <li>Contexto do prestador e origem do atendimento.</li>
+              <li>Apresentacao visual forte com imagem real do servico.</li>
+              <li>Preco base, duracao estimada e reputacao visivel.</li>
+              <li>Contexto do prestador, localidade e agenda disponivel.</li>
             </ul>
           </div>
 
@@ -157,11 +173,26 @@ export default async function ServiceDetailPage({
             <h2 className="mt-3 font-sans text-3xl font-bold tracking-tight">
               {service.provider_profile?.display_name ?? "Prestador Vitrine Lojas"}
             </h2>
-            <div className="mt-6 space-y-3 text-sm text-slate-200">
-              <p>Preco: {formatPrice(service.price_cents)}</p>
-              <p>Duracao: {service.duration_minutes} min</p>
-              <p>Local: {location}</p>
-              <p>Plano: {service.provider_profile?.plan ?? "basic"}</p>
+            <div className="mt-6 grid gap-3 text-sm text-slate-200">
+              <p className="inline-flex items-center gap-2">
+                <Star className="h-4 w-4 text-amber-300" />
+                {service.average_rating ? `${service.average_rating.toFixed(1)} de media` : "Novo perfil"}
+              </p>
+              <p className="inline-flex items-center gap-2">
+                <Clock3 className="h-4 w-4 text-indigo-200" />
+                {service.duration_minutes} min
+              </p>
+              <p className="inline-flex items-center gap-2">
+                <MapPin className="h-4 w-4 text-indigo-200" />
+                {location}
+              </p>
+              <p className="inline-flex items-center gap-2">
+                <ShieldCheck className="h-4 w-4 text-emerald-300" />
+                Plano {service.provider_profile?.plan ?? "basic"}
+              </p>
+              <p className="pt-2 text-3xl font-bold text-white">
+                {formatPrice(service.price_cents)}
+              </p>
             </div>
             <div className="mt-8 flex flex-col gap-3">
               <Button disabled={availability.length === 0}>

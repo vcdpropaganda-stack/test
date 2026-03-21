@@ -87,6 +87,7 @@ export default async function ServicesPage({ searchParams }: ServicesPageProps) 
               provider={service.provider_profile?.display_name ?? "Prestador Vitrine Lojas"}
               price={formatPrice(service.price_cents)}
               tag={getServiceTag(service)}
+              imageUrl={service.cover_image_url}
               rating={service.average_rating}
               reviewsCount={service.reviews_count}
               duration={`${service.duration_minutes} min`}

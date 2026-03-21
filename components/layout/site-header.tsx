@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { signOutAction } from "@/app/auth/actions";
+import { VlMonogram } from "@/components/brand/vl-monogram";
 import { hasSupabaseEnv } from "@/lib/env";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
@@ -34,9 +35,7 @@ export async function SiteHeader() {
     <header className="sticky top-0 z-50 border-b border-border bg-background/90 backdrop-blur">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-10">
         <Link href="/" className="flex items-center gap-3 rounded-2xl">
-          <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-slate-950 text-sm font-bold text-white">
-            T
-          </div>
+          <VlMonogram className="h-12 w-12 shrink-0" />
           <div>
             <p className="font-sans text-lg font-bold tracking-tight text-slate-950">
               Vitrine Lojas

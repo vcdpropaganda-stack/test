@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { VlMonogram } from "@/components/brand/vl-monogram";
 
 const footerGroups = [
   {
@@ -34,9 +35,7 @@ export function SiteFooter() {
         <div className="grid gap-10 lg:grid-cols-[1.2fr_1.8fr]">
           <div>
             <div className="flex items-center gap-3">
-              <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white text-sm font-bold text-slate-950">
-                T
-              </div>
+              <VlMonogram className="h-12 w-12 shrink-0" dark />
               <div>
                 <p className="font-sans text-xl font-bold tracking-tight">Vitrine Lojas</p>
                 <p className="text-sm text-slate-400">
