@@ -30,6 +30,24 @@ const pillars = [
   "Padrões de foco, contraste e interação pensados para acessibilidade real.",
 ];
 
+const productHighlights = [
+  {
+    title: "Perfis segregados com RLS",
+    description: "Regras distintas para admin, cliente e prestador.",
+    icon: ShieldCheck,
+  },
+  {
+    title: "Agenda e disponibilidade",
+    description: "Fluxo de booking pronto para evoluir com Cal.com ou agenda própria.",
+    icon: CalendarClock,
+  },
+  {
+    title: "Assinaturas por plano",
+    description: "Base pronta para Stripe em modo de teste.",
+    icon: CreditCard,
+  },
+];
+
 export default async function Home() {
   const featuredServices = await getMarketplaceServices(3);
   const activeServicesCount = featuredServices.length;
@@ -78,36 +96,6 @@ export default async function Home() {
                 <span className="rounded-full border border-slate-200 bg-white/80 px-4 py-2 shadow-sm">
                   Booking e checkout protótipo
                 </span>
-              </div>
-              <div className="mt-12 grid gap-4 sm:grid-cols-3">
-                <div className="glass-panel elevated-card rounded-3xl border border-white/70 p-5">
-                  <ShieldCheck className="h-5 w-5 text-primary" />
-                  <p className="mt-4 text-sm font-semibold text-slate-950">
-                    Perfis segregados com RLS
-                  </p>
-                  <p className="mt-2 text-sm text-muted-strong">
-                    Regras distintas para admin, cliente e prestador.
-                  </p>
-                </div>
-                <div className="glass-panel elevated-card rounded-3xl border border-white/70 p-5">
-                  <CalendarClock className="h-5 w-5 text-primary" />
-                  <p className="mt-4 text-sm font-semibold text-slate-950">
-                    Agenda e disponibilidade
-                  </p>
-                  <p className="mt-2 text-sm text-muted-strong">
-                    Fluxo de booking pronto para evoluir com Cal.com ou agenda
-                    própria.
-                  </p>
-                </div>
-                <div className="glass-panel elevated-card rounded-3xl border border-white/70 p-5">
-                  <CreditCard className="h-5 w-5 text-primary" />
-                  <p className="mt-4 text-sm font-semibold text-slate-950">
-                    Assinaturas por plano
-                  </p>
-                  <p className="mt-2 text-sm text-muted-strong">
-                    Base pronta para Stripe em modo de teste.
-                  </p>
-                </div>
               </div>
             </div>
 
@@ -240,6 +228,34 @@ export default async function Home() {
             <Link href="/servicos" className="inline-flex">
               <Button variant="secondary">Explorar todos os serviços</Button>
             </Link>
+          </div>
+        </section>
+
+        <section className="border-y border-border bg-[linear-gradient(180deg,rgba(255,255,255,0.94),rgba(238,242,255,0.72))]">
+          <div className="page-shell py-18">
+            <SectionHeading
+              eyebrow="Infraestrutura"
+              title="Base sólida para operar, agendar e escalar com consistência"
+              description="Os pilares técnicos e operacionais do produto aparecem aqui, fora da dobra principal, com mais espaço para leitura e melhor hierarquia visual."
+            />
+            <div className="mt-8 grid gap-6 lg:grid-cols-3">
+              {productHighlights.map((item) => (
+                <article
+                  key={item.title}
+                  className="elevated-card rounded-[2rem] border border-white/70 bg-white/90 p-8 shadow-[0_20px_50px_rgba(99,102,241,0.08)] backdrop-blur"
+                >
+                  <div className="inline-flex rounded-2xl bg-primary-soft p-3 text-primary-strong">
+                    <item.icon className="h-5 w-5" />
+                  </div>
+                  <h3 className="mt-6 max-w-xs font-sans text-2xl font-bold tracking-tight text-slate-950">
+                    {item.title}
+                  </h3>
+                  <p className="mt-4 max-w-sm text-base leading-8 text-muted-strong">
+                    {item.description}
+                  </p>
+                </article>
+              ))}
+            </div>
           </div>
         </section>
 

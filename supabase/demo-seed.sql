@@ -65,9 +65,9 @@ with demo_users as (
       (
         '00000000-0000-4000-8000-000000000014'::uuid,
         'vocedigitalpropaganda@gmail.com',
-        'Voce Digital Propaganda',
+        'Você Digital Propaganda',
         'provider'::public.user_role,
-        'Voce Digital Propaganda'
+        'Você Digital Propaganda'
       ),
       (
         '00000000-0000-4000-8000-000000000021'::uuid,
@@ -187,7 +187,7 @@ set
     when '00000000-0000-4000-8000-000000000011'::uuid then 'Ana Silva'
     when '00000000-0000-4000-8000-000000000012'::uuid then 'Bruno Costa'
     when '00000000-0000-4000-8000-000000000013'::uuid then 'Carla Oliveira'
-    when '00000000-0000-4000-8000-000000000014'::uuid then 'Voce Digital Propaganda'
+    when '00000000-0000-4000-8000-000000000014'::uuid then 'Você Digital Propaganda'
     when '00000000-0000-4000-8000-000000000021'::uuid then 'Mariana Souza'
     when '00000000-0000-4000-8000-000000000022'::uuid then 'Lucas Pereira'
     when '00000000-0000-4000-8000-000000000023'::uuid then 'Fernanda Lima'
@@ -227,21 +227,21 @@ set
     when '00000000-0000-4000-8000-000000000011'::uuid then 'Ana Clean'
     when '00000000-0000-4000-8000-000000000012'::uuid then 'Bruno Tech'
     when '00000000-0000-4000-8000-000000000013'::uuid then 'Carla Beauty'
-    when '00000000-0000-4000-8000-000000000014'::uuid then 'Voce Digital Propaganda'
+    when '00000000-0000-4000-8000-000000000014'::uuid then 'Você Digital Propaganda'
     else display_name
   end,
   bio = case profile_id
     when '00000000-0000-4000-8000-000000000011'::uuid then 'Especialista em limpeza residencial premium com atendimento agendado e recorrente.'
-    when '00000000-0000-4000-8000-000000000012'::uuid then 'Suporte tecnico para computadores, redes e pequenos negocios com atendimento local.'
-    when '00000000-0000-4000-8000-000000000013'::uuid then 'Servicos de beleza e autocuidado com experiencia sob medida para eventos e rotina.'
-    when '00000000-0000-4000-8000-000000000014'::uuid then 'Agencia de marketing digital de Jundiai focada em conversao, posicionamento de marca e crescimento de negocios.'
+    when '00000000-0000-4000-8000-000000000012'::uuid then 'Suporte técnico para computadores, redes e pequenos negócios com atendimento local.'
+    when '00000000-0000-4000-8000-000000000013'::uuid then 'Serviços de beleza e autocuidado com experiência sob medida para eventos e rotina.'
+    when '00000000-0000-4000-8000-000000000014'::uuid then 'Agência de marketing digital de Jundiaí focada em conversão, posicionamento de marca e crescimento de negócios.'
     else bio
   end,
   city = case profile_id
-    when '00000000-0000-4000-8000-000000000011'::uuid then 'Sao Paulo'
+    when '00000000-0000-4000-8000-000000000011'::uuid then 'São Paulo'
     when '00000000-0000-4000-8000-000000000012'::uuid then 'Campinas'
-    when '00000000-0000-4000-8000-000000000013'::uuid then 'Sao Paulo'
-    when '00000000-0000-4000-8000-000000000014'::uuid then 'Jundiai'
+    when '00000000-0000-4000-8000-000000000013'::uuid then 'São Paulo'
+    when '00000000-0000-4000-8000-000000000014'::uuid then 'Jundiaí'
     else city
   end,
   state = case profile_id
@@ -271,12 +271,12 @@ values
   ('Limpeza', 'limpeza'),
   ('Tecnologia', 'tecnologia'),
   ('Beleza', 'beleza'),
-  ('Manutencao', 'manutencao'),
+  ('Manutenção', 'manutencao'),
   ('Consultoria', 'consultoria'),
   ('Eventos', 'eventos'),
   ('Design', 'design'),
   ('Webdesign', 'webdesign'),
-  ('Gestao de Trafego', 'gestao-de-trafego'),
+  ('Gestão de Tráfego', 'gestao-de-trafego'),
   ('Social Media', 'social-media')
 on conflict (slug) do update
 set name = excluded.name;
@@ -324,7 +324,7 @@ join (
       'limpeza',
       'Limpeza residencial premium',
       'limpeza-residencial-premium',
-      'Limpeza completa com checklist detalhado, materiais premium e opcao de recorrencia.',
+      'Limpeza completa com checklist detalhado, materiais premium e opção de recorrência.',
       'https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=1200&q=80',
       18900,
       180,
@@ -333,9 +333,9 @@ join (
     (
       '00000000-0000-4000-8000-000000000011'::uuid,
       'limpeza',
-      'Faxina pos-obra express',
+      'Faxina pós-obra express',
       'faxina-pos-obra-express',
-      'Servico de limpeza pos-obra com foco em entrega rapida e acabamento visual impecavel.',
+      'Serviço de limpeza pós-obra com foco em entrega rápida e acabamento visual impecável.',
       'https://images.unsplash.com/photo-1600566753151-384129cf4e3e?auto=format&fit=crop&w=1200&q=80',
       25900,
       240,
@@ -344,9 +344,9 @@ join (
     (
       '00000000-0000-4000-8000-000000000012'::uuid,
       'tecnologia',
-      'Suporte tecnico residencial',
+      'Suporte técnico residencial',
       'suporte-tecnico-residencial',
-      'Instalacao, manutencao e diagnostico para notebooks, desktops, impressoras e wifi.',
+      'Instalação, manutenção e diagnóstico para notebooks, desktops, impressoras e wi-fi.',
       'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=80',
       14900,
       90,
@@ -355,9 +355,9 @@ join (
     (
       '00000000-0000-4000-8000-000000000012'::uuid,
       'tecnologia',
-      'Instalacao de rede e wifi',
+      'Instalação de rede e wi-fi',
       'instalacao-de-rede-e-wifi',
-      'Configuracao de roteadores, repetidores e rede local para casas e pequenos escritorios.',
+      'Configuração de roteadores, repetidores e rede local para casas e pequenos escritórios.',
       'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=1200&q=80',
       22900,
       120,
@@ -366,9 +366,9 @@ join (
     (
       '00000000-0000-4000-8000-000000000012'::uuid,
       'consultoria',
-      'Consultoria digital para pequenos negocios',
+      'Consultoria digital para pequenos negócios',
       'consultoria-digital-para-pequenos-negocios',
-      'Diagnostico rapido de presenca digital, atendimento no WhatsApp e ajustes para melhorar conversao local.',
+      'Diagnóstico rápido de presença digital, atendimento no WhatsApp e ajustes para melhorar a conversão local.',
       'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=80',
       32000,
       90,
@@ -377,9 +377,9 @@ join (
     (
       '00000000-0000-4000-8000-000000000013'::uuid,
       'beleza',
-      'Maquiagem social em domicilio',
+      'Maquiagem social em domicílio',
       'maquiagem-social-em-domicilio',
-      'Atendimento em domicilio para eventos, ensaios e compromissos especiais com acabamento sofisticado.',
+      'Atendimento em domicílio para eventos, ensaios e compromissos especiais, com acabamento sofisticado.',
       'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=1200&q=80',
       22000,
       75,
@@ -388,9 +388,9 @@ join (
     (
       '00000000-0000-4000-8000-000000000013'::uuid,
       'beleza',
-      'Escova e finalizacao premium',
+      'Escova e finalização premium',
       'escova-e-finalizacao-premium',
-      'Escova modelada com finalizacao premium para rotina, reunioes e eventos.',
+      'Escova modelada com finalização premium para rotina, reuniões e eventos.',
       'https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?auto=format&fit=crop&w=1200&q=80',
       14000,
       60,
@@ -399,9 +399,9 @@ join (
     (
       '00000000-0000-4000-8000-000000000013'::uuid,
       'eventos',
-      'Producao de penteado para eventos',
+      'Produção de penteado para eventos',
       'producao-de-penteado-para-eventos',
-      'Penteados e finalizacao para casamentos, ensaios, debutantes e eventos corporativos com atendimento em domicilio.',
+      'Penteados e finalização para casamentos, ensaios, debutantes e eventos corporativos, com atendimento em domicílio.',
       'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=1200&q=80',
       26000,
       90,
@@ -410,9 +410,9 @@ join (
     (
       '00000000-0000-4000-8000-000000000011'::uuid,
       'manutencao',
-      'Organizacao e limpeza de closets',
+      'Organização e limpeza de closets',
       'organizacao-e-limpeza-de-closets',
-      'Servico focado em organizacao funcional, limpeza fina e reaproveitamento inteligente do espaco.',
+      'Serviço focado em organização funcional, limpeza fina e reaproveitamento inteligente do espaço.',
       'https://images.unsplash.com/photo-1484154218962-a197022b5858?auto=format&fit=crop&w=1200&q=80',
       21000,
       150,
@@ -421,9 +421,9 @@ join (
     (
       '00000000-0000-4000-8000-000000000012'::uuid,
       'manutencao',
-      'Configuracao de home office',
+      'Configuração de home office',
       'configuracao-de-home-office',
-      'Montagem de estacao produtiva com organizacao de cabos, monitor, webcam, audio e ergonomia basica.',
+      'Montagem de estação produtiva com organização de cabos, monitor, webcam, áudio e ergonomia básica.',
       'https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=80',
       19900,
       100,
@@ -443,9 +443,9 @@ join (
     (
       '00000000-0000-4000-8000-000000000014'::uuid,
       'design',
-      'Cartao de visita',
+      'Cartão de visita',
       'cartao-de-visita-vcd',
-      'Cartao de visita profissional com diagramação comercial, versoes para impressao e refinamento visual da marca.',
+      'Cartão de visita profissional com diagramação comercial, versões para impressão e refinamento visual da marca.',
       '/service-thumbs/cartao-de-visita-vcd.svg',
       12000,
       7,
@@ -454,9 +454,9 @@ join (
     (
       '00000000-0000-4000-8000-000000000014'::uuid,
       'design',
-      'Cartao de visita digital',
+      'Cartão de visita digital',
       'cartao-de-visita-digital-vcd',
-      'Versao digital do seu cartao com layout pensado para WhatsApp, QR code e apresentacao rapida da empresa.',
+      'Versão digital do seu cartão com layout pensado para WhatsApp, QR code e apresentação rápida da empresa.',
       '/service-thumbs/cartao-de-visita-digital-vcd.svg',
       9000,
       5,
@@ -467,7 +467,7 @@ join (
       'design',
       'Marca',
       'marca-vcd',
-      'Criacao de marca com conceito visual, estudo de aplicacao e direcao de posicionamento para o negocio.',
+      'Criação de marca com conceito visual, estudo de aplicação e direção de posicionamento para o negócio.',
       '/service-thumbs/marca-vcd.svg',
       180000,
       20,
@@ -478,7 +478,7 @@ join (
       'design',
       'Identidade visual',
       'identidade-visual-vcd',
-      'Sistema visual completo com logo, paleta, tipografia, padroes e materiais base para comunicar a empresa com consistencia.',
+      'Sistema visual completo com logo, paleta, tipografia, padrões e materiais-base para comunicar a empresa com consistência.',
       '/service-thumbs/identidade-visual-vcd.svg',
       250000,
       30,
@@ -489,7 +489,7 @@ join (
       'webdesign',
       'Onepage',
       'onepage-vcd',
-      'Pagina unica objetiva para apresentar negocio, proposta, prova social e captar leads com rapidez.',
+      'Página única objetiva para apresentar negócio, proposta, prova social e captar leads com rapidez.',
       '/service-thumbs/onepage-vcd.svg',
       180000,
       20,
@@ -500,7 +500,7 @@ join (
       'webdesign',
       'Landing page',
       'landing-page-vcd',
-      'Landing page focada em conversao com estrutura de oferta, copy, CTA e integracao para campanhas.',
+      'Landing page focada em conversão, com estrutura de oferta, copy, CTA e integração para campanhas.',
       '/service-thumbs/landing-page-vcd.svg',
       220000,
       25,
@@ -511,7 +511,7 @@ join (
       'webdesign',
       'Site full',
       'site-full-vcd',
-      'Site institucional completo com arquitetura de paginas, apresentacao da empresa e experiencia profissional.',
+      'Site institucional completo com arquitetura de páginas, apresentação da empresa e experiência profissional.',
       '/service-thumbs/site-full-vcd.svg',
       450000,
       40,
@@ -522,7 +522,7 @@ join (
       'webdesign',
       'Ecommerce',
       'ecommerce-vcd',
-      'Loja virtual com estrutura para catalogo, vendas online, meios de pagamento e crescimento digital.',
+      'Loja virtual com estrutura para catálogo, vendas online, meios de pagamento e crescimento digital.',
       '/service-thumbs/ecommerce-vcd.svg',
       650000,
       50,
@@ -531,9 +531,9 @@ join (
     (
       '00000000-0000-4000-8000-000000000014'::uuid,
       'gestao-de-trafego',
-      'Gestao de trafego',
+      'Gestão de tráfego',
       'gestao-de-trafego-vcd',
-      'Planejamento, criacao e otimizacao de campanhas em Meta e Google com foco em retorno e vendas.',
+      'Planejamento, criação e otimização de campanhas em Meta e Google com foco em retorno e vendas.',
       '/service-thumbs/gestao-de-trafego-vcd.svg',
       180000,
       30,
@@ -544,7 +544,7 @@ join (
       'social-media',
       'Social media',
       'social-media-vcd',
-      'Planejamento editorial, criacao de conteudo e gestao de redes sociais para fortalecer a marca e gerar demanda.',
+      'Planejamento editorial, criação de conteúdo e gestão de redes sociais para fortalecer a marca e gerar demanda.',
       '/service-thumbs/social-media-vcd.svg',
       160000,
       30,
@@ -734,12 +734,12 @@ from (
     (
       '10000000-0000-4000-8000-000000000001'::uuid,
       5,
-      'Atendimento impecavel, pontual e com acabamento excelente. Contrataria novamente sem pensar.'
+      'Atendimento impecável, pontual e com acabamento excelente. Contrataria novamente sem pensar.'
     ),
     (
       '10000000-0000-4000-8000-000000000004'::uuid,
       4,
-      'Resolveu a instalacao da rede com rapidez e deixou tudo funcionando muito melhor.'
+      'Resolveu a instalação da rede com rapidez e deixou tudo funcionando muito melhor.'
     )
 ) as r(booking_id, rating, comment)
 join public.bookings b

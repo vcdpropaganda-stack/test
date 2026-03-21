@@ -17,7 +17,7 @@ const plans = [
   {
     name: "Pro",
     price: "R$ 119",
-    description: "Para quem precisa de mais volume e apresentacao premium.",
+    description: "Para quem precisa de mais volume e apresentação premium.",
     features: ["Até 10 serviços", "Destaque no marketplace", "Métricas básicas"],
   },
   {

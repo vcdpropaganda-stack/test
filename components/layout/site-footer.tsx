@@ -22,8 +22,9 @@ const footerGroups = [
     title: "Legal",
     links: [
       { href: "/privacidade", label: "Privacidade" },
+      { href: "/lgpd", label: "LGPD" },
       { href: "/termos", label: "Termos" },
-      { href: "/login", label: "Entrar" },
+      { href: "/responsabilidades", label: "Responsabilidades" },
     ],
   },
 ];

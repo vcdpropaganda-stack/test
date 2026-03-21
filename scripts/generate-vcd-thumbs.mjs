@@ -8,15 +8,15 @@ const logoPath = path.join(projectRoot, "public/brands/logo-vcd.svg");
 const outputDir = path.join(projectRoot, "public/service-thumbs");
 
 const services = [
-  { slug: "cartao-de-visita-vcd", title: "Cartao de visita", category: "Design" },
-  { slug: "cartao-de-visita-digital-vcd", title: "Cartao de visita digital", category: "Design" },
+  { slug: "cartao-de-visita-vcd", title: "Cartão de visita", category: "Design" },
+  { slug: "cartao-de-visita-digital-vcd", title: "Cartão de visita digital", category: "Design" },
   { slug: "marca-vcd", title: "Marca", category: "Design" },
   { slug: "identidade-visual-vcd", title: "Identidade visual", category: "Design" },
   { slug: "onepage-vcd", title: "Onepage", category: "Webdesign" },
   { slug: "landing-page-vcd", title: "Landing page", category: "Webdesign" },
   { slug: "site-full-vcd", title: "Site full", category: "Webdesign" },
   { slug: "ecommerce-vcd", title: "Ecommerce", category: "Webdesign" },
-  { slug: "gestao-de-trafego-vcd", title: "Gestao de trafego", category: "Gestao de trafego" },
+  { slug: "gestao-de-trafego-vcd", title: "Gestão de tráfego", category: "Gestão de tráfego" },
   { slug: "social-media-vcd", title: "Social media", category: "Social media" },
 ];
 
@@ -51,7 +51,7 @@ async function main() {
   <rect x="88" y="88" width="1424" height="1024" rx="52" fill="#FFFFFF" fill-opacity="0.72" stroke="#CBD5E1"/>
   <text x="140" y="200" fill="${accent}" font-family="Arial, Helvetica, sans-serif" font-size="44" font-weight="700" letter-spacing="8">${category}</text>
   <text x="140" y="340" fill="#0F172A" font-family="Arial, Helvetica, sans-serif" font-size="112" font-weight="800">${title}</text>
-  <text x="140" y="425" fill="#475569" font-family="Arial, Helvetica, sans-serif" font-size="42" font-weight="500">Voce Digital Propaganda</text>
+  <text x="140" y="425" fill="#475569" font-family="Arial, Helvetica, sans-serif" font-size="42" font-weight="500">Você Digital Propaganda</text>
   <text x="140" y="980" fill="#334155" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="500">Produto cadastrado na vitrine Vitrine Lojas</text>
   <rect x="140" y="765" width="410" height="110" rx="55" fill="${accent}"/>
   <text x="206" y="835" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif" font-size="44" font-weight="700">Saiba mais</text>
