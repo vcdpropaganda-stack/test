@@ -1,4 +1,5 @@
-import { hasSupabaseEnv } from "@/lib/env";
+import { createClient } from "@supabase/supabase-js";
+import { getSupabaseEnv, hasSupabaseEnv } from "@/lib/env";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 export type MarketplaceService = {
@@ -229,6 +230,37 @@ export async function getMarketplaceCategories() {
   }
 
   return data ?? [];
+}
+
+export async function getMarketplaceServiceSlugs() {
+  if (!hasSupabaseEnv()) {
+    return [];
+  }
+
+  const { url, anonKey } = getSupabaseEnv();
+
+  if (!url || !anonKey) {
+    return [];
+  }
+
+  const supabase = createClient(url, anonKey, {
+    auth: {
+      persistSession: false,
+      autoRefreshToken: false,
+    },
+  });
+
+  const { data, error } = await supabase
+    .from("services")
+    .select("slug")
+    .eq("is_active", true)
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    return [];
+  }
+
+  return (data ?? []).map((service) => service.slug).filter(Boolean);
 }
 
 export async function getMarketplaceServiceBySlug(slug: string) {

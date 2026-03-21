@@ -2,17 +2,34 @@ import type { Metadata } from "next";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import Link from "next/link";
-import { notFound } from "next/navigation";
 import { Clock3, MapPin, ShieldCheck, Star } from "lucide-react";
 import { createBookingAction } from "@/app/servicos/[slug]/actions";
 import { Button } from "@/components/ui/button";
 import { Notice } from "@/components/ui/notice";
-import { formatPrice, getMarketplaceServiceBySlug } from "@/lib/marketplace";
+import {
+  formatPrice,
+  getMarketplaceServiceBySlug,
+  getMarketplaceServiceSlugs,
+} from "@/lib/marketplace";
 
 type ServiceDetailPageProps = {
   params: Promise<{ slug: string }>;
   searchParams: Promise<{ message?: string }>;
 };
+
+function humanizeSlug(slug: string) {
+  return slug
+    .split("-")
+    .filter(Boolean)
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(" ");
+}
+
+export async function generateStaticParams() {
+  const slugs = await getMarketplaceServiceSlugs();
+
+  return slugs.map((slug) => ({ slug }));
+}
 
 export async function generateMetadata({
   params,
@@ -22,7 +39,9 @@ export async function generateMetadata({
 
   if (!service) {
     return {
-      title: "Servico nao encontrado | Vitrine Lojas",
+      title: `${humanizeSlug(slug)} | Vitrine Lojas`,
+      description:
+        "Detalhes do servico no marketplace Vitrine Lojas.",
     };
   }
 
@@ -41,7 +60,44 @@ export default async function ServiceDetailPage({
   const service = await getMarketplaceServiceBySlug(slug);
 
   if (!service) {
-    notFound();
+    return (
+      <main id="conteudo" className="page-shell py-16">
+        <div className="mb-6">
+          <Link
+            href="/servicos"
+            className="inline-flex rounded-full border border-border bg-white px-4 py-2 text-sm font-semibold text-slate-900 hover:border-primary/30 hover:text-primary-strong"
+          >
+            Voltar para o marketplace
+          </Link>
+        </div>
+        <section className="overflow-hidden rounded-[2rem] border border-slate-200 bg-white p-10 shadow-[0_20px_55px_rgba(15,23,42,0.08)]">
+          <p className="text-sm font-semibold tracking-[0.22em] text-primary uppercase">
+            Servico
+          </p>
+          <h1 className="mt-4 font-sans text-4xl font-bold tracking-tight text-slate-950">
+            {humanizeSlug(slug)}
+          </h1>
+          <p className="mt-5 max-w-3xl text-base leading-8 text-muted-strong">
+            Esta pagina do servico ainda nao carregou todos os dados publicos,
+            mas o caminho ja existe e continua reservado no marketplace.
+          </p>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <Link
+              href="/servicos"
+              className="inline-flex rounded-full bg-slate-950 px-5 py-3 text-sm font-semibold text-white hover:bg-primary-strong"
+            >
+              Ver todos os servicos
+            </Link>
+            <Link
+              href="/contato"
+              className="inline-flex rounded-full border border-border bg-white px-5 py-3 text-sm font-semibold text-slate-900 hover:border-primary/30 hover:text-primary-strong"
+            >
+              Solicitar atendimento
+            </Link>
+          </div>
+        </section>
+      </main>
+    );
   }
 
   const location = service.provider_profile?.city
