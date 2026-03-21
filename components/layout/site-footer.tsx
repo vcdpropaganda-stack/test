@@ -33,57 +33,57 @@ export function SiteFooter() {
   return (
     <footer className="relative overflow-hidden border-t border-white/10 bg-slate-950 text-white">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(99,102,241,0.14),transparent_28%),radial-gradient(circle_at_bottom_right,rgba(59,130,246,0.12),transparent_24%)]" />
-      <div className="page-shell relative py-16 lg:py-20">
-        <div className="grid gap-12 lg:grid-cols-[1.2fr_1.8fr] lg:gap-16">
-          <div className="rounded-[2rem] border border-white/10 bg-white/5 p-6 backdrop-blur-sm lg:p-8">
-            <div className="flex items-center gap-4">
-              <VlMonogram className="h-14 w-14 shrink-0" dark />
-              <div>
-                <p className="font-sans text-2xl font-bold tracking-tight text-white">
+      <div className="page-shell relative py-10 sm:py-14 lg:py-20">
+        <div className="grid gap-6 lg:grid-cols-[1.1fr_1.9fr] lg:gap-12">
+          <div className="rounded-[1.8rem] border border-white/10 bg-white/5 p-5 backdrop-blur-sm sm:p-6 lg:rounded-[2rem] lg:p-8">
+            <div className="flex items-center gap-3">
+              <VlMonogram className="h-12 w-12 shrink-0 sm:h-14 sm:w-14" dark />
+              <div className="min-w-0">
+                <p className="truncate font-sans text-xl font-bold tracking-tight text-white sm:text-2xl">
                   Vitrine Lojas
                 </p>
-                <p className="text-sm font-medium text-slate-300">
+                <p className="text-xs font-medium text-slate-300 sm:text-sm">
                   Plataforma para marketplaces de serviços locais
                 </p>
               </div>
             </div>
-            <p className="mt-6 max-w-md text-base leading-8 text-slate-200">
+            <p className="mt-5 max-w-md text-sm leading-7 text-slate-200 sm:text-base sm:leading-8">
               Experiência clara para descoberta, agenda, contratação e operação
               de serviços com mais confiança, contraste e clareza comercial.
             </p>
-            <div className="mt-8 grid gap-3 sm:grid-cols-3">
-              <div className="rounded-[1.35rem] border border-white/10 bg-slate-900/70 px-4 py-4">
+            <div className="mt-6 grid gap-3 grid-cols-2 sm:grid-cols-3">
+              <div className="rounded-[1.2rem] border border-white/10 bg-slate-900/70 px-3 py-3.5 sm:px-4 sm:py-4">
                 <p className="text-[0.7rem] font-semibold tracking-[0.22em] text-slate-400 uppercase">
                   Catálogo
                 </p>
-                <p className="mt-2 text-lg font-semibold text-white">Serviços visuais</p>
+                <p className="mt-2 text-sm font-semibold text-white sm:text-lg">Serviços visuais</p>
               </div>
-              <div className="rounded-[1.35rem] border border-white/10 bg-slate-900/70 px-4 py-4">
+              <div className="rounded-[1.2rem] border border-white/10 bg-slate-900/70 px-3 py-3.5 sm:px-4 sm:py-4">
                 <p className="text-[0.7rem] font-semibold tracking-[0.22em] text-slate-400 uppercase">
                   Fluxo
                 </p>
-                <p className="mt-2 text-lg font-semibold text-white">Agenda e booking</p>
+                <p className="mt-2 text-sm font-semibold text-white sm:text-lg">Agenda e booking</p>
               </div>
-              <div className="rounded-[1.35rem] border border-white/10 bg-slate-900/70 px-4 py-4">
+              <div className="col-span-2 rounded-[1.2rem] border border-white/10 bg-slate-900/70 px-3 py-3.5 sm:col-span-1 sm:px-4 sm:py-4">
                 <p className="text-[0.7rem] font-semibold tracking-[0.22em] text-slate-400 uppercase">
                   Base
                 </p>
-                <p className="mt-2 text-lg font-semibold text-white">Web e mobile</p>
+                <p className="mt-2 text-sm font-semibold text-white sm:text-lg">Web e mobile</p>
               </div>
             </div>
           </div>
 
-          <div className="grid gap-6 sm:grid-cols-3">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {footerGroups.map((group) => (
               <nav
                 key={group.title}
                 aria-label={group.title}
-                className="rounded-[1.8rem] border border-white/10 bg-white/4 p-6 backdrop-blur-sm"
+                className="rounded-[1.5rem] border border-white/10 bg-white/4 p-5 backdrop-blur-sm sm:p-6"
               >
                 <p className="text-sm font-semibold tracking-[0.18em] text-white uppercase">
                   {group.title}
                 </p>
-                <ul className="mt-5 space-y-3.5 text-base text-slate-200">
+                <ul className="mt-4 space-y-2.5 text-sm text-slate-200 sm:mt-5 sm:space-y-3.5 sm:text-base">
                   {group.links.map((link) => (
                     <li key={link.href}>
                       <Link
@@ -100,8 +100,8 @@ export function SiteFooter() {
           </div>
         </div>
 
-        <div className="mt-12 flex flex-col gap-4 border-t border-white/10 pt-6 text-sm sm:flex-row sm:items-center sm:justify-between">
-          <p className="max-w-2xl leading-7 text-slate-300">
+        <div className="mt-8 flex flex-col gap-3 border-t border-white/10 pt-5 text-sm sm:mt-10 sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:pt-6">
+          <p className="max-w-2xl leading-6 text-slate-300 sm:leading-7">
             Vitrine Lojas. Base pronta para web e mobile com consistência visual,
             acessibilidade e uma apresentação mais sofisticada para serviços locais.
           </p>
