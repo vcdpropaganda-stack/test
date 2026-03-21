@@ -42,7 +42,7 @@ export async function SiteHeader() {
               Vitrine Lojas
               </p>
               <p className="truncate text-[11px] text-muted sm:text-xs">
-                Marketplace premium de lojas e serviços
+                Marketplace de lojas e serviços
               </p>
             </div>
           </Link>

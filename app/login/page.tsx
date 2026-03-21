@@ -69,7 +69,7 @@ export default async function LoginPage({
               </p>
               <p className="mt-3 max-w-lg text-base leading-7 text-slate-200">
                 Uma base SaaS preparada para transformar marketplace de serviços
-                em produto com apresentação mais premium, conversão melhor e
+                em produto com apresentação mais clara, conversão melhor e
                 leitura muito mais clara.
               </p>
             </div>

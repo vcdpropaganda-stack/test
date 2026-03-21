@@ -21,7 +21,7 @@ export default function ContatoPage() {
           </h1>
           <p className="mt-5 max-w-md text-sm leading-7 text-slate-300">
             A página já está pronta para virar canal comercial, suporte
-            premium, onboarding e atendimento institucional.
+            dedicado, onboarding e atendimento institucional.
           </p>
         </section>
 

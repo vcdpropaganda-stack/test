@@ -231,7 +231,7 @@ set
     else display_name
   end,
   bio = case profile_id
-    when '00000000-0000-4000-8000-000000000011'::uuid then 'Especialista em limpeza residencial premium com atendimento agendado e recorrente.'
+    when '00000000-0000-4000-8000-000000000011'::uuid then 'Especialista em limpeza residencial com atendimento agendado e recorrente.'
     when '00000000-0000-4000-8000-000000000012'::uuid then 'Suporte técnico para computadores, redes e pequenos negócios com atendimento local.'
     when '00000000-0000-4000-8000-000000000013'::uuid then 'Serviços de beleza e autocuidado com experiência sob medida para eventos e rotina.'
     when '00000000-0000-4000-8000-000000000014'::uuid then 'Agência de marketing digital de Jundiaí focada em conversão, posicionamento de marca e crescimento de negócios.'
@@ -322,9 +322,9 @@ join (
     (
       '00000000-0000-4000-8000-000000000011'::uuid,
       'limpeza',
-      'Limpeza residencial premium',
-      'limpeza-residencial-premium',
-      'Limpeza completa com checklist detalhado, materiais premium e opção de recorrência.',
+      'Limpeza residencial completa',
+      'limpeza-residencial-completa',
+      'Limpeza completa com checklist detalhado, materiais de apoio e opção de recorrência.',
       'https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=1200&q=80',
       18900,
       180,
@@ -388,9 +388,9 @@ join (
     (
       '00000000-0000-4000-8000-000000000013'::uuid,
       'beleza',
-      'Escova e finalização premium',
-      'escova-e-finalizacao-premium',
-      'Escova modelada com finalização premium para rotina, reuniões e eventos.',
+      'Escova e finalização completa',
+      'escova-e-finalizacao-completa',
+      'Escova modelada com finalização completa para rotina, reuniões e eventos.',
       'https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?auto=format&fit=crop&w=1200&q=80',
       14000,
       60,
@@ -432,8 +432,8 @@ join (
     (
       '00000000-0000-4000-8000-000000000013'::uuid,
       'beleza',
-      'Design de sobrancelhas premium',
-      'design-de-sobrancelhas-premium',
+      'Design de sobrancelhas',
+      'design-de-sobrancelhas',
       'Modelagem com acabamento preciso e consultoria de estilo para valorizar o rosto e a rotina do cliente.',
       'https://images.unsplash.com/photo-1512496015851-a90fb38ba796?auto=format&fit=crop&w=1200&q=80',
       9500,
@@ -569,17 +569,17 @@ where service_id in (
   select id
   from public.services
   where slug in (
-    'limpeza-residencial-premium',
+    'limpeza-residencial-completa',
     'faxina-pos-obra-express',
     'suporte-tecnico-residencial',
     'instalacao-de-rede-e-wifi',
     'consultoria-digital-para-pequenos-negocios',
     'maquiagem-social-em-domicilio',
-    'escova-e-finalizacao-premium',
+    'escova-e-finalizacao-completa',
     'producao-de-penteado-para-eventos',
     'organizacao-e-limpeza-de-closets',
     'configuracao-de-home-office',
-    'design-de-sobrancelhas-premium',
+    'design-de-sobrancelhas',
     'cartao-de-visita-vcd',
     'cartao-de-visita-digital-vcd',
     'marca-vcd',
@@ -602,8 +602,8 @@ select
 from public.services s
 join (
   values
-    ('limpeza-residencial-premium', timezone('utc', now()) + interval '2 day' + interval '9 hour', timezone('utc', now()) + interval '2 day' + interval '12 hour'),
-    ('limpeza-residencial-premium', timezone('utc', now()) + interval '4 day' + interval '13 hour', timezone('utc', now()) + interval '4 day' + interval '16 hour'),
+    ('limpeza-residencial-completa', timezone('utc', now()) + interval '2 day' + interval '9 hour', timezone('utc', now()) + interval '2 day' + interval '12 hour'),
+    ('limpeza-residencial-completa', timezone('utc', now()) + interval '4 day' + interval '13 hour', timezone('utc', now()) + interval '4 day' + interval '16 hour'),
     ('faxina-pos-obra-express', timezone('utc', now()) + interval '3 day' + interval '8 hour', timezone('utc', now()) + interval '3 day' + interval '12 hour'),
     ('suporte-tecnico-residencial', timezone('utc', now()) + interval '1 day' + interval '10 hour', timezone('utc', now()) + interval '1 day' + interval '11 hour 30 minute'),
     ('suporte-tecnico-residencial', timezone('utc', now()) + interval '5 day' + interval '14 hour', timezone('utc', now()) + interval '5 day' + interval '15 hour 30 minute'),
@@ -611,12 +611,12 @@ join (
     ('consultoria-digital-para-pequenos-negocios', timezone('utc', now()) + interval '4 day' + interval '10 hour', timezone('utc', now()) + interval '4 day' + interval '11 hour 30 minute'),
     ('maquiagem-social-em-domicilio', timezone('utc', now()) + interval '2 day' + interval '16 hour', timezone('utc', now()) + interval '2 day' + interval '17 hour 15 minute'),
     ('maquiagem-social-em-domicilio', timezone('utc', now()) + interval '6 day' + interval '9 hour', timezone('utc', now()) + interval '6 day' + interval '10 hour 15 minute'),
-    ('escova-e-finalizacao-premium', timezone('utc', now()) + interval '1 day' + interval '15 hour', timezone('utc', now()) + interval '1 day' + interval '16 hour'),
-    ('escova-e-finalizacao-premium', timezone('utc', now()) + interval '3 day' + interval '11 hour', timezone('utc', now()) + interval '3 day' + interval '12 hour'),
+    ('escova-e-finalizacao-completa', timezone('utc', now()) + interval '1 day' + interval '15 hour', timezone('utc', now()) + interval '1 day' + interval '16 hour'),
+    ('escova-e-finalizacao-completa', timezone('utc', now()) + interval '3 day' + interval '11 hour', timezone('utc', now()) + interval '3 day' + interval '12 hour'),
     ('producao-de-penteado-para-eventos', timezone('utc', now()) + interval '5 day' + interval '8 hour', timezone('utc', now()) + interval '5 day' + interval '9 hour 30 minute'),
     ('organizacao-e-limpeza-de-closets', timezone('utc', now()) + interval '7 day' + interval '13 hour', timezone('utc', now()) + interval '7 day' + interval '15 hour 30 minute'),
     ('configuracao-de-home-office', timezone('utc', now()) + interval '2 day' + interval '9 hour', timezone('utc', now()) + interval '2 day' + interval '10 hour 40 minute'),
-    ('design-de-sobrancelhas-premium', timezone('utc', now()) + interval '4 day' + interval '16 hour', timezone('utc', now()) + interval '4 day' + interval '16 hour 45 minute'),
+    ('design-de-sobrancelhas', timezone('utc', now()) + interval '4 day' + interval '16 hour', timezone('utc', now()) + interval '4 day' + interval '16 hour 45 minute'),
     ('cartao-de-visita-vcd', timezone('utc', now()) + interval '1 day' + interval '9 hour', timezone('utc', now()) + interval '1 day' + interval '9 hour 30 minute'),
     ('cartao-de-visita-digital-vcd', timezone('utc', now()) + interval '1 day' + interval '11 hour', timezone('utc', now()) + interval '1 day' + interval '11 hour 30 minute'),
     ('marca-vcd', timezone('utc', now()) + interval '2 day' + interval '14 hour', timezone('utc', now()) + interval '2 day' + interval '15 hour'),
@@ -655,7 +655,7 @@ from (
   values
     (
       '10000000-0000-4000-8000-000000000001'::uuid,
-      'limpeza-residencial-premium',
+      'limpeza-residencial-completa',
       '00000000-0000-4000-8000-000000000021'::uuid,
       'completed'::public.booking_status,
       timezone('utc', now()) - interval '6 day',
@@ -695,7 +695,7 @@ from (
     ),
     (
       '10000000-0000-4000-8000-000000000005'::uuid,
-      'escova-e-finalizacao-premium',
+      'escova-e-finalizacao-completa',
       '00000000-0000-4000-8000-000000000021'::uuid,
       'cancelled'::public.booking_status,
       timezone('utc', now()) - interval '1 day',

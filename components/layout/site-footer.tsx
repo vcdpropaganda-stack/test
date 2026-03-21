@@ -48,7 +48,7 @@ export function SiteFooter() {
               </div>
             </div>
             <p className="mt-6 max-w-md text-base leading-8 text-slate-200">
-              Experiência premium para descoberta, agenda, contratação e operação
+              Experiência clara para descoberta, agenda, contratação e operação
               de serviços com mais confiança, contraste e clareza comercial.
             </p>
             <div className="mt-8 grid gap-3 sm:grid-cols-3">

@@ -192,7 +192,7 @@ export default async function ProviderServicesPage({
               label="Título do serviço"
               required
               defaultValue={selectedService?.title ?? ""}
-              placeholder="Ex.: Limpeza residencial premium"
+              placeholder="Ex.: Limpeza residencial completa"
               hint="Use um título objetivo e fácil de encontrar."
             />
 

@@ -74,7 +74,7 @@ export function ServiceCard({
         <div className="flex h-[18.5rem] flex-col p-6">
           <div className="flex items-center justify-between gap-4">
             <span className="rounded-full bg-primary-soft px-3 py-1 text-xs font-semibold text-primary-strong">
-              {duration ?? "Atendimento premium"}
+              {duration ?? "Atendimento agendado"}
             </span>
             <span className="text-sm font-medium text-muted-strong">
               {reviewsCount ? `${reviewsCount} avaliações` : "Novo perfil"}
@@ -85,7 +85,7 @@ export function ServiceCard({
           </h3>
           <p className="mt-3 line-clamp-3 text-sm leading-7 text-muted-strong">
             {description ??
-              "Atendimento com padrão visual premium, agenda publicada e fluxo rápido de contratação."}
+              "Atendimento com agenda publicada, apresentação clara e fluxo rápido de contratação."}
           </p>
           {duration || location ? (
             <div className="mt-4 flex flex-wrap gap-3 text-sm text-muted-strong">

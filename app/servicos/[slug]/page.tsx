@@ -141,11 +141,11 @@ export default async function ServiceDetailPage({
         (a, b) =>
           new Date(a.start_at).getTime() - new Date(b.start_at).getTime()
       ) ?? [];
-  const premiumPrice = Math.round(service.price_cents * 1.45);
+  const completePrice = Math.round(service.price_cents * 1.45);
   const standardPrice = Math.round(service.price_cents * 1.2);
   const reviewHighlights = [
     "Atendimento profissional, com comunicação clara do início ao fim.",
-    "Entrega com boa percepção de valor e apresentação mais premium.",
+    "Entrega com boa percepção de valor e apresentação bem resolvida.",
     "Fluxo pensado para reduzir dúvidas e acelerar a contratação.",
   ];
 
@@ -164,7 +164,7 @@ export default async function ServiceDetailPage({
           <div className="rounded-[2rem] border border-slate-200 bg-white p-8 shadow-[0_20px_55px_rgba(15,23,42,0.06)]">
             <div className="flex flex-wrap items-center gap-3 text-sm text-muted-strong">
               <span className="rounded-full bg-primary-soft px-3 py-1 font-semibold text-primary-strong">
-                {service.category?.name ?? "Serviço premium"}
+                {service.category?.name ?? "Serviço"}
               </span>
               <span className="inline-flex items-center gap-2">
                 <BadgeCheck className="h-4 w-4 text-emerald-500" />
@@ -292,7 +292,7 @@ export default async function ServiceDetailPage({
                 </div>
                 <p className="mt-5 text-lg leading-8 text-slate-800">
                   {service.reviews?.[0]?.comment ||
-                    "Atendimento muito bem estruturado, com resposta rápida, boa comunicação e sensação clara de serviço premium do começo ao fim."}
+                    "Atendimento muito bem estruturado, com resposta rápida, boa comunicação e sensação clara de serviço bem conduzido do começo ao fim."}
                 </p>
               </article>
               <div className="rounded-[1.5rem] border border-border bg-slate-50 p-6">
@@ -379,9 +379,9 @@ export default async function ServiceDetailPage({
           <div className="overflow-hidden rounded-[2rem] border border-border bg-white shadow-[0_20px_55px_rgba(15,23,42,0.08)]">
             <div className="grid grid-cols-3 border-b border-border bg-slate-50">
               {[
-                { label: "Basic", price: service.price_cents },
-                { label: "Standard", price: standardPrice },
-                { label: "Premium", price: premiumPrice },
+                { label: "Essencial", price: service.price_cents },
+                { label: "Intermediário", price: standardPrice },
+                { label: "Completo", price: completePrice },
               ].map((pack, index) => (
                 <div
                   key={pack.label}
@@ -421,7 +421,7 @@ export default async function ServiceDetailPage({
                 </li>
                 <li className="flex items-start gap-3">
                   <Check className="mt-0.5 h-4 w-4 text-slate-950" />
-                  Execução com apresentação visual premium.
+                  Execução com apresentação visual clara.
                 </li>
                 <li className="flex items-start gap-3">
                   <Check className="mt-0.5 h-4 w-4 text-slate-950" />

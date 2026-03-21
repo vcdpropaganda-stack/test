@@ -18,7 +18,7 @@ import { Button } from "@/components/ui/button";
 export const metadata: Metadata = {
   title: "Vitrine Lojas | Marketplace de Serviços Locais",
   description:
-    "Encontre e gerencie serviços locais com uma experiência premium, segura e pronta para escalar.",
+    "Encontre e gerencie serviços locais com uma experiência clara, segura e pronta para escalar.",
 };
 
 export const revalidate = 180;
@@ -66,11 +66,11 @@ export default async function Home() {
             <div className="relative z-10">
               <div className="glass-panel mb-6 inline-flex items-center gap-2 rounded-full border border-primary/15 px-4 py-2 text-sm font-semibold text-primary-strong shadow-sm">
                 <Sparkles className="h-4 w-4" />
-                Marketplace premium para serviços locais
+                Marketplace para serviços locais
               </div>
               <h1 className="max-w-4xl font-sans text-[3.3rem] leading-[0.95] font-bold tracking-[-0.05em] text-slate-950 sm:text-[4.35rem] lg:text-[5.5rem]">
                 Serviços que parecem
-                <span className="block text-primary-strong">marca premium</span>
+                <span className="block text-primary-strong">marca forte</span>
                 <span className="block">antes mesmo do clique.</span>
               </h1>
               <p className="mt-7 max-w-2xl text-lg leading-8 text-muted-strong sm:text-xl">

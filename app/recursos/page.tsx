@@ -45,7 +45,7 @@ export default function RecursosPage() {
           Tudo o que um SaaS sério precisa para crescer com consistência.
         </h1>
         <p className="mt-6 text-lg leading-8 text-muted-strong">
-          O projeto foi estruturado para parecer premium, ser fácil de usar e
+          O projeto foi estruturado para ser fácil de usar e
           continuar robusto quando o produto evoluir para mais módulos.
         </p>
       </section>

@@ -17,11 +17,11 @@ const plans = [
   {
     name: "Pro",
     price: "R$ 119",
-    description: "Para quem precisa de mais volume e apresentação premium.",
+    description: "Para quem precisa de mais volume e apresentação mais forte.",
     features: ["Até 10 serviços", "Destaque no marketplace", "Métricas básicas"],
   },
   {
-    name: "Premium",
+    name: "Avançado",
     price: "R$ 249",
     description: "Para operações em crescimento com foco em escala e marca.",
     features: ["Serviços ilimitados", "Posicionamento prioritário", "Suporte prioritário"],

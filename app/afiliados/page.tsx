@@ -22,7 +22,7 @@ export default function AfiliadosPage() {
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-8 text-muted-strong">
             Landing pensada para creators, agências, parceiros de aquisição e
-            afiliados premium com narrativa clara e visual refinado.
+            afiliados com narrativa clara e visual refinado.
           </p>
           <div className="mt-8 flex flex-wrap gap-4">
             <Link href="/contato" className="inline-flex">
@@ -37,7 +37,7 @@ export default function AfiliadosPage() {
         <div className="grid gap-4">
           {[
             "Comissão por indicação validada",
-            "Materiais premium de campanha",
+            "Materiais de campanha",
             "Landing pronta para performance",
           ].map((item) => (
             <div
