@@ -4,6 +4,7 @@ import { Analytics } from "@vercel/analytics/next";
 import { AuthErrorHandler } from "@/components/auth/auth-error-handler";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
+import { RouteScrollReset } from "@/components/shared/route-scroll-reset";
 import "./globals.css";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
@@ -34,6 +35,7 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <AuthErrorHandler />
+        <RouteScrollReset />
         <a href="#conteudo" className="skip-link">
           Pular para o conteúdo principal
         </a>

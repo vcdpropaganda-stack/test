@@ -266,6 +266,7 @@ export default async function ProviderServicesPage({
                 name="cover_image_file"
                 type="file"
                 accept="image/*"
+                aria-label="Upload da imagem de capa do serviço"
                 className="w-full rounded-2xl border border-border bg-surface px-4 py-3 text-sm text-slate-950 outline-none hover:border-primary/30 focus:border-primary"
               />
               <p className="mt-2 text-sm text-muted">
@@ -282,6 +283,7 @@ export default async function ProviderServicesPage({
                 type="checkbox"
                 name="is_active"
                 defaultChecked={selectedService?.is_active ?? true}
+                aria-label="Serviço ativo no marketplace"
                 className="mt-1 h-4 w-4 rounded border-border"
               />
               <span>

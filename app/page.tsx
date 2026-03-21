@@ -84,9 +84,10 @@ function getUniqueSpotlightServices<T extends { slug: string; category: { slug: 
 }
 
 export default async function Home() {
-  const featuredServices = await getMarketplaceServices(9);
-  const activeServicesCount = featuredServices.length;
-  const spotlightServices = getUniqueSpotlightServices(featuredServices, 3);
+  const servicesPool = await getMarketplaceServices(18);
+  const activeServicesCount = servicesPool.length;
+  const spotlightServices = getUniqueSpotlightServices(servicesPool, 3);
+  const homepageServices = getUniqueSpotlightServices(servicesPool, 6);
 
   return (
     <div className="flex min-h-screen flex-col bg-background">
@@ -218,8 +219,8 @@ export default async function Home() {
             description="A vitrine principal agora lê os anúncios ativos do banco e já funciona como base da descoberta pública."
           />
           <div className="mt-8 grid gap-6 lg:grid-cols-3">
-            {featuredServices.length > 0 ? (
-              featuredServices.map((service) => (
+            {homepageServices.length > 0 ? (
+              homepageServices.map((service) => (
                 <ServiceCard
                   key={service.id}
                   href={`/servicos/${service.slug}`}
@@ -252,7 +253,7 @@ export default async function Home() {
             )}
           </div>
           <div className="mt-8">
-            <Link href="/servicos" className="inline-flex">
+            <Link href="/servicos" prefetch className="inline-flex">
               <Button variant="secondary">Explorar todos os serviços</Button>
             </Link>
           </div>

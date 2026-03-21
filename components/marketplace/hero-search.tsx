@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Clock3, MapPin, Search } from "lucide-react";
@@ -26,44 +26,63 @@ export function HeroSearch({
   variant = "dark",
 }: HeroSearchProps) {
   const [query, setQuery] = useState("");
-  const [results, setResults] = useState<SearchResult[]>(initialResults);
+  const [results, setResults] = useState<SearchResult[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const debounceRef = useRef<number | null>(null);
+  const requestIdRef = useRef(0);
 
   const trimmedQuery = query.trim();
   const hasQuery = trimmedQuery.length > 0;
 
-  useEffect(() => {
-    if (!hasQuery) {
-      setResults(initialResults);
+  async function runSearch(nextQuery: string, requestId: number) {
+    try {
+      const response = await fetch(
+        `/api/services/search?q=${encodeURIComponent(nextQuery)}`
+      );
+      const data = (await response.json()) as { results?: SearchResult[] };
+
+      if (requestIdRef.current !== requestId) {
+        return;
+      }
+
+      setResults(data.results ?? []);
+    } catch {
+      if (requestIdRef.current !== requestId) {
+        return;
+      }
+
+      setResults([]);
+    } finally {
+      if (requestIdRef.current === requestId) {
+        setIsLoading(false);
+      }
+    }
+  }
+
+  function handleQueryChange(value: string) {
+    setQuery(value);
+
+    const nextQuery = value.trim();
+
+    if (debounceRef.current) {
+      window.clearTimeout(debounceRef.current);
+    }
+
+    if (!nextQuery) {
+      requestIdRef.current += 1;
+      setResults([]);
       setIsLoading(false);
       return;
     }
 
-    const controller = new AbortController();
+    const requestId = requestIdRef.current + 1;
+    requestIdRef.current = requestId;
     setIsLoading(true);
 
-    const timeout = window.setTimeout(async () => {
-      try {
-        const response = await fetch(
-          `/api/services/search?q=${encodeURIComponent(trimmedQuery)}`,
-          { signal: controller.signal }
-        );
-        const data = (await response.json()) as { results?: SearchResult[] };
-        setResults(data.results ?? []);
-      } catch (error) {
-        if (!(error instanceof DOMException && error.name === "AbortError")) {
-          setResults([]);
-        }
-      } finally {
-        setIsLoading(false);
-      }
+    debounceRef.current = window.setTimeout(() => {
+      void runSearch(nextQuery, requestId);
     }, 220);
-
-    return () => {
-      controller.abort();
-      window.clearTimeout(timeout);
-    };
-  }, [trimmedQuery, hasQuery, initialResults]);
+  }
 
   const emptyMessage = useMemo(() => {
     if (!hasQuery) {
@@ -74,6 +93,7 @@ export function HeroSearch({
   }, [hasQuery, trimmedQuery]);
 
   const isLight = variant === "light";
+  const displayedResults = hasQuery ? results : initialResults;
 
   return (
     <div
@@ -94,7 +114,7 @@ export function HeroSearch({
         <input
           type="search"
           value={query}
-          onChange={(event) => setQuery(event.target.value)}
+          onChange={(event) => handleQueryChange(event.target.value)}
           placeholder="Buscar limpeza, beleza, manutenção..."
           className="w-full bg-transparent text-base text-slate-700 outline-none placeholder:text-slate-500"
           aria-label="Buscar serviços"
@@ -123,8 +143,8 @@ export function HeroSearch({
       ) : null}
 
       <div className="mt-4 grid gap-3">
-        {results.length > 0 ? (
-          results.map((service) => (
+        {displayedResults.length > 0 ? (
+          displayedResults.map((service) => (
             <Link
               key={service.id}
               href={`/servicos/${service.slug}`}
