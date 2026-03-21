@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import { format, addMonths, eachDayOfInterval, endOfMonth, endOfWeek, isSameDay, isSameMonth, parseISO, startOfMonth, startOfWeek } from "date-fns";
 import { ptBR } from "date-fns/locale";
-import { CalendarDays, Clock3 } from "lucide-react";
+import { CalendarDays, ChevronLeft, ChevronRight, Clock3 } from "lucide-react";
 import { createBookingAction } from "@/app/servicos/[slug]/actions";
 import { Button } from "@/components/ui/button";
 
@@ -77,93 +77,149 @@ export function AvailabilityCalendar({
 
   const [selectedDate, setSelectedDate] = useState<Date | null>(firstAvailableDate);
 
-  const selectedDayKey = selectedDate ? getDayKey(selectedDate) : null;
-  const selectedSlots = selectedDayKey ? slotsByDay.get(selectedDayKey) ?? [] : [];
-
   const months = useMemo(() => {
     const baseDate = firstAvailableDate ?? new Date();
     return [startOfMonth(baseDate), startOfMonth(addMonths(baseDate, 1))];
   }, [firstAvailableDate]);
 
+  const [selectedMonthIndex, setSelectedMonthIndex] = useState(0);
+
+  const selectedDayKey = selectedDate ? getDayKey(selectedDate) : null;
+  const selectedSlots = selectedDayKey ? slotsByDay.get(selectedDayKey) ?? [] : [];
+  const visibleMonth = months[selectedMonthIndex] ?? months[0];
+  const calendarStart = startOfWeek(startOfMonth(visibleMonth), {
+    locale: ptBR,
+    weekStartsOn: 0,
+  });
+  const calendarEnd = endOfWeek(endOfMonth(visibleMonth), {
+    locale: ptBR,
+    weekStartsOn: 0,
+  });
+  const days = eachDayOfInterval({
+    start: calendarStart,
+    end: calendarEnd,
+  });
+
   return (
     <div className="space-y-6">
-      <div className="grid gap-6 xl:grid-cols-2">
-        {months.map((monthDate) => {
-          const calendarStart = startOfWeek(startOfMonth(monthDate), {
-            locale: ptBR,
-            weekStartsOn: 0,
-          });
-          const calendarEnd = endOfWeek(endOfMonth(monthDate), {
-            locale: ptBR,
-            weekStartsOn: 0,
-          });
-          const days = eachDayOfInterval({
-            start: calendarStart,
-            end: calendarEnd,
-          });
-
-          return (
-            <div
-              key={monthDate.toISOString()}
-              className="rounded-[1.5rem] border border-border bg-slate-50/80 p-4 sm:p-5"
+      <div className="rounded-[1.5rem] border border-border bg-slate-50/80 p-4 sm:p-5">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex items-center gap-2 text-slate-950">
+            <CalendarDays className="h-4 w-4 text-primary-strong" />
+            <p className="font-semibold capitalize">
+              {format(visibleMonth, "MMMM 'de' yyyy", { locale: ptBR })}
+            </p>
+          </div>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() =>
+                setSelectedMonthIndex((current) => Math.max(0, current - 1))
+              }
+              disabled={selectedMonthIndex === 0}
+              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700 transition hover:border-primary/30 hover:text-primary-strong disabled:cursor-not-allowed disabled:opacity-40"
+              aria-label="Ver mês anterior"
             >
-              <div className="flex items-center gap-2 text-slate-950">
-                <CalendarDays className="h-4 w-4 text-primary-strong" />
-                <p className="font-semibold capitalize">
-                  {format(monthDate, "MMMM 'de' yyyy", { locale: ptBR })}
-                </p>
-              </div>
-
-              <div className="mt-4 grid grid-cols-7 gap-2 text-center text-[0.7rem] font-semibold uppercase tracking-[0.14em] text-muted">
-                {["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"].map((day) => (
-                  <span key={day}>{day}</span>
-                ))}
-              </div>
-
-              <div className="mt-3 grid grid-cols-7 gap-2">
-                {days.map((day) => {
-                  const dayKey = getDayKey(day);
-                  const daySlots = slotsByDay.get(dayKey) ?? [];
-                  const isAvailable = daySlots.length > 0;
-                  const isSelected = selectedDate ? isSameDay(day, selectedDate) : false;
-
-                  return (
-                    <button
-                      key={day.toISOString()}
-                      type="button"
-                      onClick={() => {
-                        if (isAvailable) {
-                          setSelectedDate(day);
-                        }
-                      }}
-                      disabled={!isAvailable}
-                      className={[
-                        "flex aspect-square items-center justify-center rounded-2xl border text-sm font-semibold transition",
-                        !isSameMonth(day, monthDate) &&
-                          "border-transparent text-slate-300",
-                        isSameMonth(day, monthDate) && !isAvailable &&
-                          "border-slate-200 bg-white text-slate-300 line-through opacity-70",
-                        isSameMonth(day, monthDate) && isAvailable &&
-                          "border-emerald-200 bg-emerald-50 text-emerald-700 hover:border-emerald-300 hover:bg-emerald-100",
-                        isSelected &&
-                          "border-slate-950 bg-slate-950 text-white hover:bg-slate-950",
-                      ]
-                        .filter(Boolean)
-                        .join(" ")}
-                      aria-label={
-                        isAvailable
-                          ? `${format(day, "dd 'de' MMMM", { locale: ptBR })} com horários disponíveis`
-                          : `${format(day, "dd 'de' MMMM", { locale: ptBR })} indisponível`
-                      }
-                    >
-                      {format(day, "d")}
-                    </button>
-                  );
-                })}
-              </div>
+              <ChevronLeft className="h-4 w-4" />
+            </button>
+            <div className="hidden items-center gap-2 sm:flex">
+              {months.map((monthDate, index) => (
+                <button
+                  key={monthDate.toISOString()}
+                  type="button"
+                  onClick={() => setSelectedMonthIndex(index)}
+                  className={[
+                    "rounded-full px-4 py-2 text-sm font-semibold capitalize transition",
+                    selectedMonthIndex === index
+                      ? "bg-slate-950 text-white"
+                      : "border border-slate-200 bg-white text-slate-700 hover:border-primary/30 hover:text-primary-strong",
+                  ].join(" ")}
+                >
+                  {format(monthDate, "MMM", { locale: ptBR })}
+                </button>
+              ))}
             </div>
-          );
-        })}
+            <button
+              type="button"
+              onClick={() =>
+                setSelectedMonthIndex((current) =>
+                  Math.min(months.length - 1, current + 1)
+                )
+              }
+              disabled={selectedMonthIndex === months.length - 1}
+              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700 transition hover:border-primary/30 hover:text-primary-strong disabled:cursor-not-allowed disabled:opacity-40"
+              aria-label="Ver próximo mês"
+            >
+              <ChevronRight className="h-4 w-4" />
+            </button>
+          </div>
+        </div>
+
+        <div className="mt-4 flex items-center gap-2 sm:hidden">
+          {months.map((monthDate, index) => (
+            <button
+              key={monthDate.toISOString()}
+              type="button"
+              onClick={() => setSelectedMonthIndex(index)}
+              className={[
+                "rounded-full px-3 py-1.5 text-xs font-semibold capitalize transition",
+                selectedMonthIndex === index
+                  ? "bg-slate-950 text-white"
+                  : "border border-slate-200 bg-white text-slate-700",
+              ].join(" ")}
+            >
+              {format(monthDate, "MMM", { locale: ptBR })}
+            </button>
+          ))}
+        </div>
+
+        <div className="mt-4 grid grid-cols-7 gap-2 text-center text-[0.7rem] font-semibold uppercase tracking-[0.14em] text-muted">
+          {["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"].map((day) => (
+            <span key={day}>{day}</span>
+          ))}
+        </div>
+
+        <div className="mt-3 grid grid-cols-7 gap-2">
+          {days.map((day) => {
+            const dayKey = getDayKey(day);
+            const daySlots = slotsByDay.get(dayKey) ?? [];
+            const isAvailable = daySlots.length > 0;
+            const isSelected = selectedDate ? isSameDay(day, selectedDate) : false;
+
+            return (
+              <button
+                key={day.toISOString()}
+                type="button"
+                onClick={() => {
+                  if (isAvailable) {
+                    setSelectedDate(day);
+                  }
+                }}
+                disabled={!isAvailable}
+                className={[
+                  "flex aspect-square items-center justify-center rounded-2xl border text-sm font-semibold transition",
+                  !isSameMonth(day, visibleMonth) &&
+                    "border-transparent text-slate-300",
+                  isSameMonth(day, visibleMonth) && !isAvailable &&
+                    "border-slate-200 bg-white text-slate-300 line-through opacity-70",
+                  isSameMonth(day, visibleMonth) && isAvailable &&
+                    "border-emerald-200 bg-emerald-50 text-emerald-700 hover:border-emerald-300 hover:bg-emerald-100",
+                  isSelected &&
+                    "border-slate-950 bg-slate-950 text-white hover:bg-slate-950",
+                ]
+                  .filter(Boolean)
+                  .join(" ")}
+                aria-label={
+                  isAvailable
+                    ? `${format(day, "dd 'de' MMMM", { locale: ptBR })} com horários disponíveis`
+                    : `${format(day, "dd 'de' MMMM", { locale: ptBR })} indisponível`
+                }
+              >
+                {format(day, "d")}
+              </button>
+            );
+          })}
+        </div>
       </div>
 
       <div className="rounded-[1.5rem] border border-border bg-surface-soft p-4 sm:p-5">

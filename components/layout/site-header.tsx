@@ -53,7 +53,7 @@ export async function SiteHeader() {
               <>
                 <Link
                   href={dashboardHref}
-                  className="inline-flex min-h-10 items-center justify-center rounded-full bg-primary px-3.5 py-2 text-sm font-semibold text-white shadow-lg shadow-primary/25 hover:bg-primary-strong sm:min-h-11 sm:px-4 sm:py-2.5"
+                  className="inline-flex min-h-10 items-center justify-center rounded-full border border-primary-strong/10 bg-primary px-3.5 py-2 text-sm font-semibold !text-white shadow-lg shadow-primary/25 hover:bg-primary-strong hover:!text-white sm:min-h-11 sm:px-4 sm:py-2.5"
                 >
                   Meu painel
                 </Link>
@@ -73,7 +73,7 @@ export async function SiteHeader() {
                 </Link>
                 <Link
                   href="/cadastro"
-                  className="inline-flex min-h-10 items-center justify-center rounded-full bg-primary px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-primary/25 hover:bg-primary-strong sm:min-h-11 sm:px-4 sm:py-2.5"
+                  className="inline-flex min-h-10 items-center justify-center rounded-full border border-primary-strong/10 bg-primary px-4 py-2 text-sm font-semibold !text-white shadow-lg shadow-primary/25 hover:bg-primary-strong hover:!text-white sm:min-h-11 sm:px-4 sm:py-2.5"
                 >
                   <span className="sm:hidden">Cadastro</span>
                   <span className="hidden sm:inline">Criar conta</span>

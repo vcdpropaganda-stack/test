@@ -46,10 +46,47 @@ const productHighlights = [
   },
 ];
 
+function getUniqueSpotlightServices<T extends { slug: string; category: { slug: string } | null }>(
+  services: T[],
+  limit: number
+) {
+  const selected: T[] = [];
+  const seenCategories = new Set<string>();
+
+  for (const service of services) {
+    const categorySlug = service.category?.slug ?? service.slug;
+
+    if (seenCategories.has(categorySlug)) {
+      continue;
+    }
+
+    selected.push(service);
+    seenCategories.add(categorySlug);
+
+    if (selected.length === limit) {
+      return selected;
+    }
+  }
+
+  for (const service of services) {
+    if (selected.some((item) => item.slug === service.slug)) {
+      continue;
+    }
+
+    selected.push(service);
+
+    if (selected.length === limit) {
+      break;
+    }
+  }
+
+  return selected;
+}
+
 export default async function Home() {
-  const featuredServices = await getMarketplaceServices(3);
+  const featuredServices = await getMarketplaceServices(9);
   const activeServicesCount = featuredServices.length;
-  const spotlightServices = featuredServices.slice(0, 3);
+  const spotlightServices = getUniqueSpotlightServices(featuredServices, 3);
 
   return (
     <div className="flex min-h-screen flex-col bg-background">

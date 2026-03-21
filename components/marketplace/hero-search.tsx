@@ -67,7 +67,7 @@ export function HeroSearch({
 
   const emptyMessage = useMemo(() => {
     if (!hasQuery) {
-      return "Os serviços em destaque aparecem aqui automaticamente.";
+      return "Os anúncios em destaque aparecem aqui automaticamente.";
     }
 
     return `Nenhum serviço encontrado para “${trimmedQuery}”.`;
@@ -100,6 +100,27 @@ export function HeroSearch({
           aria-label="Buscar serviços"
         />
       </label>
+
+      {!hasQuery ? (
+        <div className="mt-4 flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
+          <p
+            className={
+              isLight
+                ? "text-sm font-semibold tracking-[0.18em] text-slate-700 uppercase"
+                : "text-sm font-semibold tracking-[0.18em] text-slate-200 uppercase"
+            }
+          >
+            Anúncios em destaque
+          </p>
+          <p
+            className={
+              isLight ? "text-sm text-slate-500" : "text-sm text-slate-300"
+            }
+          >
+            Clique em um card para abrir a página do serviço
+          </p>
+        </div>
+      ) : null}
 
       <div className="mt-4 grid gap-3">
         {results.length > 0 ? (

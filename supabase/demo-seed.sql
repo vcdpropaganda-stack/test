@@ -325,7 +325,7 @@ join (
       'Limpeza residencial completa',
       'limpeza-residencial-completa',
       'Limpeza completa com checklist detalhado, materiais de apoio e opção de recorrência.',
-      'https://images.pexels.com/photos/7641398/pexels-photo-7641398.jpeg?cs=srgb&dl=pexels-mart-production-7641398.jpg&fm=jpg',
+      '/service-images/limpeza.jpg',
       18900,
       180,
       1
@@ -336,7 +336,7 @@ join (
       'Faxina pós-obra express',
       'faxina-pos-obra-express',
       'Serviço de limpeza pós-obra com foco em entrega rápida e acabamento visual impecável.',
-      'https://images.pexels.com/photos/7641398/pexels-photo-7641398.jpeg?cs=srgb&dl=pexels-mart-production-7641398.jpg&fm=jpg',
+      '/service-images/limpeza.jpg',
       25900,
       240,
       2
@@ -347,7 +347,7 @@ join (
       'Suporte técnico residencial',
       'suporte-tecnico-residencial',
       'Instalação, manutenção e diagnóstico para notebooks, desktops, impressoras e wi-fi.',
-      'https://images.pexels.com/photos/7639373/pexels-photo-7639373.jpeg?cs=srgb&dl=pexels-it-services-eu-9278798-7639373.jpg&fm=jpg',
+      '/service-images/tecnologia.jpg',
       14900,
       90,
       3
@@ -358,7 +358,7 @@ join (
       'Instalação de rede e wi-fi',
       'instalacao-de-rede-e-wifi',
       'Configuração de roteadores, repetidores e rede local para casas e pequenos escritórios.',
-      'https://images.pexels.com/photos/7639373/pexels-photo-7639373.jpeg?cs=srgb&dl=pexels-it-services-eu-9278798-7639373.jpg&fm=jpg',
+      '/service-images/tecnologia.jpg',
       22900,
       120,
       4
@@ -369,7 +369,7 @@ join (
       'Consultoria digital para pequenos negócios',
       'consultoria-digital-para-pequenos-negocios',
       'Diagnóstico rápido de presença digital, atendimento no WhatsApp e ajustes para melhorar a conversão local.',
-      'https://images.pexels.com/photos/4344617/pexels-photo-4344617.jpeg?cs=srgb&dl=pexels-edmond-dantes-4344617.jpg&fm=jpg',
+      '/service-images/consultoria.jpg',
       32000,
       90,
       5
@@ -380,7 +380,7 @@ join (
       'Maquiagem social em domicílio',
       'maquiagem-social-em-domicilio',
       'Atendimento em domicílio para eventos, ensaios e compromissos especiais, com acabamento sofisticado.',
-      'https://images.pexels.com/photos/33940225/pexels-photo-33940225.jpeg?cs=srgb&dl=pexels-fahadputhawala-33940225.jpg&fm=jpg',
+      '/service-images/maquiagem.jpg',
       22000,
       75,
       6
@@ -391,7 +391,7 @@ join (
       'Escova e finalização completa',
       'escova-e-finalizacao-completa',
       'Escova modelada com finalização completa para rotina, reuniões e eventos.',
-      'https://images.pexels.com/photos/28281391/pexels-photo-28281391.jpeg?cs=srgb&dl=pexels-israyosoy-28281391.jpg&fm=jpg',
+      '/service-images/cabelo.jpg',
       14000,
       60,
       7
@@ -402,7 +402,7 @@ join (
       'Produção de penteado para eventos',
       'producao-de-penteado-para-eventos',
       'Penteados e finalização para casamentos, ensaios, debutantes e eventos corporativos, com atendimento em domicílio.',
-      'https://images.pexels.com/photos/28281391/pexels-photo-28281391.jpeg?cs=srgb&dl=pexels-israyosoy-28281391.jpg&fm=jpg',
+      '/service-images/cabelo.jpg',
       26000,
       90,
       8
@@ -413,7 +413,7 @@ join (
       'Organização e limpeza de closets',
       'organizacao-e-limpeza-de-closets',
       'Serviço focado em organização funcional, limpeza fina e reaproveitamento inteligente do espaço.',
-      'https://images.pexels.com/photos/7641398/pexels-photo-7641398.jpeg?cs=srgb&dl=pexels-mart-production-7641398.jpg&fm=jpg',
+      '/service-images/limpeza.jpg',
       21000,
       150,
       9
@@ -424,7 +424,7 @@ join (
       'Configuração de home office',
       'configuracao-de-home-office',
       'Montagem de estação produtiva com organização de cabos, monitor, webcam, áudio e ergonomia básica.',
-      'https://images.pexels.com/photos/14348174/pexels-photo-14348174.jpeg?cs=srgb&dl=pexels-nammau-14348174.jpg&fm=jpg',
+      '/service-images/workspace.jpg',
       19900,
       100,
       10
@@ -435,7 +435,7 @@ join (
       'Design de sobrancelhas',
       'design-de-sobrancelhas',
       'Modelagem com acabamento preciso e consultoria de estilo para valorizar o rosto e a rotina do cliente.',
-      'https://images.pexels.com/photos/33940225/pexels-photo-33940225.jpeg?cs=srgb&dl=pexels-fahadputhawala-33940225.jpg&fm=jpg',
+      '/service-images/maquiagem.jpg',
       9500,
       45,
       11
@@ -446,7 +446,7 @@ join (
       'Cartão de visita',
       'cartao-de-visita-vcd',
       'Cartão de visita profissional com diagramação comercial, versões para impressão e refinamento visual da marca.',
-      'https://images.pexels.com/photos/14348174/pexels-photo-14348174.jpeg?cs=srgb&dl=pexels-nammau-14348174.jpg&fm=jpg',
+      '/service-images/workspace.jpg',
       12000,
       7,
       12
@@ -457,7 +457,7 @@ join (
       'Cartão de visita digital',
       'cartao-de-visita-digital-vcd',
       'Versão digital do seu cartão com layout pensado para WhatsApp, QR code e apresentação rápida da empresa.',
-      'https://images.pexels.com/photos/14348174/pexels-photo-14348174.jpeg?cs=srgb&dl=pexels-nammau-14348174.jpg&fm=jpg',
+      '/service-images/workspace.jpg',
       9000,
       5,
       13
@@ -468,7 +468,7 @@ join (
       'Marca',
       'marca-vcd',
       'Criação de marca com conceito visual, estudo de aplicação e direção de posicionamento para o negócio.',
-      'https://images.pexels.com/photos/4345104/pexels-photo-4345104.jpeg?cs=srgb&dl=pexels-edmond-dantes-4345104.jpg&fm=jpg',
+      '/service-images/branding.jpg',
       180000,
       20,
       14
@@ -479,7 +479,7 @@ join (
       'Identidade visual',
       'identidade-visual-vcd',
       'Sistema visual completo com logo, paleta, tipografia, padrões e materiais-base para comunicar a empresa com consistência.',
-      'https://images.pexels.com/photos/4345104/pexels-photo-4345104.jpeg?cs=srgb&dl=pexels-edmond-dantes-4345104.jpg&fm=jpg',
+      '/service-images/branding.jpg',
       250000,
       30,
       15
@@ -490,7 +490,7 @@ join (
       'Onepage',
       'onepage-vcd',
       'Página única objetiva para apresentar negócio, proposta, prova social e captar leads com rapidez.',
-      'https://images.pexels.com/photos/14348174/pexels-photo-14348174.jpeg?cs=srgb&dl=pexels-nammau-14348174.jpg&fm=jpg',
+      '/service-images/workspace.jpg',
       180000,
       20,
       16
@@ -501,7 +501,7 @@ join (
       'Landing page',
       'landing-page-vcd',
       'Landing page focada em conversão, com estrutura de oferta, copy, CTA e integração para campanhas.',
-      'https://images.pexels.com/photos/14348174/pexels-photo-14348174.jpeg?cs=srgb&dl=pexels-nammau-14348174.jpg&fm=jpg',
+      '/service-images/workspace.jpg',
       220000,
       25,
       17
@@ -512,7 +512,7 @@ join (
       'Site full',
       'site-full-vcd',
       'Site institucional completo com arquitetura de páginas, apresentação da empresa e experiência profissional.',
-      'https://images.pexels.com/photos/14348174/pexels-photo-14348174.jpeg?cs=srgb&dl=pexels-nammau-14348174.jpg&fm=jpg',
+      '/service-images/workspace.jpg',
       450000,
       40,
       18
@@ -523,7 +523,7 @@ join (
       'Ecommerce',
       'ecommerce-vcd',
       'Loja virtual com estrutura para catálogo, vendas online, meios de pagamento e crescimento digital.',
-      'https://images.pexels.com/photos/14348174/pexels-photo-14348174.jpeg?cs=srgb&dl=pexels-nammau-14348174.jpg&fm=jpg',
+      '/service-images/workspace.jpg',
       650000,
       50,
       19
@@ -534,7 +534,7 @@ join (
       'Gestão de tráfego',
       'gestao-de-trafego-vcd',
       'Planejamento, criação e otimização de campanhas em Meta e Google com foco em retorno e vendas.',
-      'https://images.pexels.com/photos/8761343/pexels-photo-8761343.jpeg?cs=srgb&dl=pexels-pavel-danilyuk-8761343.jpg&fm=jpg',
+      '/service-images/marketing.jpg',
       180000,
       30,
       20
@@ -545,7 +545,7 @@ join (
       'Social media',
       'social-media-vcd',
       'Planejamento editorial, criação de conteúdo e gestão de redes sociais para fortalecer a marca e gerar demanda.',
-      'https://images.pexels.com/photos/8761343/pexels-photo-8761343.jpeg?cs=srgb&dl=pexels-pavel-danilyuk-8761343.jpg&fm=jpg',
+      '/service-images/marketing.jpg',
       160000,
       30,
       21
