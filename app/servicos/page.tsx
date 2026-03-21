@@ -42,38 +42,38 @@ export default async function ServicesPage({ searchParams }: ServicesPageProps) 
   ]);
 
   return (
-    <main id="conteudo" className="page-shell py-16">
-      <section className="overflow-hidden rounded-[2rem] border border-slate-200 bg-[linear-gradient(135deg,#0f172a,#312e81_58%,#6366f1)] px-8 py-10 text-white shadow-[0_24px_70px_rgba(15,23,42,0.16)]">
+    <main id="conteudo" className="page-shell py-10 sm:py-16">
+      <section className="overflow-hidden rounded-[1.6rem] border border-slate-200 bg-[linear-gradient(135deg,#0f172a,#312e81_58%,#6366f1)] px-5 py-6 text-white shadow-[0_24px_70px_rgba(15,23,42,0.16)] sm:rounded-[2rem] sm:px-8 sm:py-10">
         <SectionHeading
           eyebrow="Marketplace"
           title="Todos os serviços publicados"
           description="Descubra serviços com imagem real, reputação visível, agenda pronta e apresentação muito mais clara para conversão."
           invert
         />
-        <div className="mt-6 flex flex-wrap gap-3 text-sm">
-          <span className="rounded-full border border-white/15 bg-white/10 px-4 py-2 backdrop-blur-sm">
+        <div className="mt-5 flex flex-wrap gap-2 text-xs sm:mt-6 sm:gap-3 sm:text-sm">
+          <span className="rounded-full border border-white/15 bg-white/10 px-3 py-1.5 backdrop-blur-sm sm:px-4 sm:py-2">
             {services.length} serviços ativos
           </span>
-          <span className="rounded-full border border-white/15 bg-white/10 px-4 py-2 backdrop-blur-sm">
+          <span className="rounded-full border border-white/15 bg-white/10 px-3 py-1.5 backdrop-blur-sm sm:px-4 sm:py-2">
             {categories.length} categorias
           </span>
-          <span className="rounded-full border border-white/15 bg-white/10 px-4 py-2 backdrop-blur-sm">
+          <span className="rounded-full border border-white/15 bg-white/10 px-3 py-1.5 backdrop-blur-sm sm:px-4 sm:py-2">
             {cities.length} cidades mapeadas
           </span>
-          <span className="rounded-full border border-white/15 bg-white/10 px-4 py-2 backdrop-blur-sm">
+          <span className="rounded-full border border-white/15 bg-white/10 px-3 py-1.5 backdrop-blur-sm sm:px-4 sm:py-2">
             Clique em qualquer card para abrir a página do serviço
           </span>
         </div>
       </section>
 
-      <section className="elevated-card mt-10 rounded-[2rem] border border-border bg-white p-6">
-        <div className="mb-6 flex items-center gap-3">
-          <div className="rounded-2xl bg-primary-soft p-3 text-primary-strong">
+      <section className="elevated-card mt-6 rounded-[1.6rem] border border-border bg-white p-4 sm:mt-10 sm:rounded-[2rem] sm:p-6">
+        <div className="mb-5 flex items-center gap-3 sm:mb-6">
+          <div className="rounded-2xl bg-primary-soft p-2.5 text-primary-strong sm:p-3">
             <SlidersHorizontal className="h-5 w-5" />
           </div>
           <div>
             <p className="text-sm font-semibold text-slate-950">Filtros do marketplace</p>
-            <p className="text-sm text-muted-strong">
+            <p className="text-xs leading-5 text-muted-strong sm:text-sm">
               Refine por busca, categoria, cidade e ordenação.
             </p>
           </div>
@@ -114,11 +114,11 @@ export default async function ServicesPage({ searchParams }: ServicesPageProps) 
             <option value="price_desc">Maior preço</option>
           </SelectField>
 
-          <button className="min-h-11 rounded-full bg-slate-950 px-5 py-3 text-sm font-semibold text-white hover:bg-primary-strong">
+          <button className="min-h-11 rounded-full bg-primary px-5 py-3 text-sm font-semibold text-white hover:bg-primary-strong">
             Aplicar filtros
           </button>
         </form>
-        <div className="mt-6 flex flex-wrap gap-3">
+        <div className="mt-5 flex flex-wrap gap-2 sm:mt-6 sm:gap-3">
           {categories.map((currentCategory) => {
             const isActive = currentCategory.slug === category;
             const params = new URLSearchParams();
@@ -131,9 +131,9 @@ export default async function ServicesPage({ searchParams }: ServicesPageProps) 
               <a
                 key={currentCategory.slug}
                 href={`/servicos${params.toString() ? `?${params.toString()}` : ""}`}
-                className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold ${
+                className={`inline-flex items-center gap-2 rounded-full px-3 py-2 text-xs font-semibold sm:px-4 sm:text-sm ${
                   isActive
-                    ? "bg-slate-950 text-white"
+                    ? "bg-primary text-white"
                     : "border border-slate-200 bg-slate-50 text-slate-700 hover:border-primary/30 hover:text-primary-strong"
                 }`}
               >
@@ -145,7 +145,7 @@ export default async function ServicesPage({ searchParams }: ServicesPageProps) 
         </div>
       </section>
 
-      <div className="mt-10 grid gap-6 lg:grid-cols-3">
+      <div className="mt-6 grid grid-cols-2 gap-3 sm:mt-10 sm:gap-4 lg:grid-cols-3 lg:gap-6">
         {services.length > 0 ? (
           services.map((service) => (
             <ServiceCard

@@ -26,6 +26,19 @@ export type MarketplaceService = {
   reviews_count?: number;
 };
 
+export type MarketplaceSearchResult = {
+  id: string;
+  slug: string;
+  title: string;
+  cover_image_url: string | null;
+  price_cents: number;
+  duration_minutes: number;
+  provider_profile: {
+    display_name: string;
+    city: string | null;
+  } | null;
+};
+
 type MarketplaceFilters = {
   limit?: number;
   query?: string;
@@ -236,12 +249,76 @@ export async function searchMarketplaceServices(query: string, limit = 5) {
     return [];
   }
 
-  const services = await getMarketplaceServices({
-    query: normalizedQuery,
-    limit,
-  });
+  return getCachedMarketplaceSearchResults(normalizedQuery, limit);
+}
 
-  return services.slice(0, limit);
+const getCachedMarketplaceSearchResults = unstable_cache(
+  async (query: string, limit: number) => {
+    if (!hasSupabaseEnv()) {
+      return [];
+    }
+
+    const supabase = createPublicSupabaseClient();
+    const { data, error } = await supabase
+      .from("services")
+      .select(
+        `
+        id,
+        slug,
+        title,
+        cover_image_url,
+        price_cents,
+        duration_minutes,
+        provider_profile:provider_profiles (
+          display_name,
+          city
+        )
+      `
+      )
+      .eq("is_active", true)
+      .or(`title.ilike.%${query}%,description.ilike.%${query}%`)
+      .order("featured_rank", { ascending: true, nullsFirst: false })
+      .order("created_at", { ascending: false })
+      .limit(limit);
+
+    if (error) {
+      return [];
+    }
+
+    return ((data ?? []).map((service) =>
+      normalizeProviderProfile(service)
+    ) ?? []) as MarketplaceSearchResult[];
+  },
+  ["marketplace-search-results"],
+  { revalidate: 120 }
+);
+
+const getCachedMarketplaceServiceMetaBySlug = unstable_cache(
+  async (slug: string) => {
+    if (!hasSupabaseEnv()) {
+      return null;
+    }
+
+    const supabase = createPublicSupabaseClient();
+    const { data, error } = await supabase
+      .from("services")
+      .select("title, description")
+      .eq("slug", slug)
+      .eq("is_active", true)
+      .single();
+
+    if (error) {
+      return null;
+    }
+
+    return data;
+  },
+  ["marketplace-service-meta-by-slug"],
+  { revalidate: 300 }
+);
+
+export async function getMarketplaceServiceMetaBySlug(slug: string) {
+  return getCachedMarketplaceServiceMetaBySlug(slug);
 }
 
 const getCachedMarketplaceCities = unstable_cache(
@@ -392,6 +469,10 @@ const getCachedMarketplaceServiceBySlug = unstable_cache(
         .from("bookings")
         .select("scheduled_start, scheduled_end, status")
         .eq("service_id", normalized.id)
+        .gte(
+          "scheduled_start",
+          new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString()
+        )
         .in("status", ["pending", "confirmed"]),
       supabase
         .from("reviews")
@@ -405,7 +486,8 @@ const getCachedMarketplaceServiceBySlug = unstable_cache(
         `
         )
         .eq("service_id", normalized.id)
-        .order("created_at", { ascending: false }),
+        .order("created_at", { ascending: false })
+        .limit(6),
     ]);
 
     const normalizedReviews = (reviewsResult.data ?? []).map((review) => ({

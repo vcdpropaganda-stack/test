@@ -17,6 +17,7 @@ import { Button } from "@/components/ui/button";
 import {
   formatPrice,
   getMarketplaceServiceBySlug,
+  getMarketplaceServiceMetaBySlug,
   getMarketplaceServiceSlugs,
 } from "@/lib/marketplace";
 
@@ -45,7 +46,7 @@ export async function generateMetadata({
   params,
 }: ServiceDetailPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const service = await getMarketplaceServiceBySlug(slug);
+  const service = await getMarketplaceServiceMetaBySlug(slug);
 
   if (!service) {
     return {
@@ -111,18 +112,14 @@ export default async function ServiceDetailPage({
   const location = service.provider_profile?.city
     ? `${service.provider_profile.city}${service.provider_profile.state ? `, ${service.provider_profile.state}` : ""}`
     : "Atendimento local";
-  const galleryItems = Array.from({ length: 5 }, (_, index) => ({
+  const galleryItems = Array.from({ length: 3 }, (_, index) => ({
     id: `${service.id}-${index}`,
     title:
       index === 0
         ? "Capa principal"
         : index === 1
           ? "Aplicação do serviço"
-          : index === 2
-            ? "Resultado entregue"
-            : index === 3
-              ? "Apresentação comercial"
-              : "Detalhe visual",
+          : "Resultado entregue",
   }));
   const availability =
     (service.availability ?? [])
@@ -157,7 +154,7 @@ export default async function ServiceDetailPage({
           Voltar para o marketplace
         </Link>
       </div>
-      <div className="grid gap-6 lg:grid-cols-[1.08fr_0.92fr] lg:gap-8">
+      <div className="grid gap-5 lg:grid-cols-[1.08fr_0.92fr] lg:gap-8">
         <section className="space-y-6">
           <div className="rounded-[1.75rem] border border-slate-200 bg-white p-5 shadow-[0_20px_55px_rgba(15,23,42,0.06)] sm:rounded-[2rem] sm:p-8">
             <div className="flex flex-wrap items-center gap-3 text-sm text-muted-strong">
@@ -185,7 +182,7 @@ export default async function ServiceDetailPage({
             </div>
           </div>
 
-          <div className="overflow-hidden rounded-[1.75rem] border border-slate-200 bg-white shadow-[0_20px_55px_rgba(15,23,42,0.06)] sm:rounded-[2rem]">
+          <div className="overflow-hidden rounded-[1.5rem] border border-slate-200 bg-white shadow-[0_20px_55px_rgba(15,23,42,0.06)] sm:rounded-[2rem]">
             <div className="relative aspect-[1.05/1] bg-slate-950 sm:aspect-[16/10]">
               {service.cover_image_url ? (
                 <Image
@@ -215,7 +212,7 @@ export default async function ServiceDetailPage({
                 {service.description}
               </p>
             </div>
-            <div className="grid grid-cols-3 gap-2 border-t border-slate-200 p-4 sm:grid-cols-5 sm:gap-3 sm:p-5">
+            <div className="grid grid-cols-3 gap-2 border-t border-slate-200 p-3 sm:gap-3 sm:p-5">
               {galleryItems.map((item, index) => (
                 <div
                   key={item.id}
@@ -347,7 +344,7 @@ export default async function ServiceDetailPage({
           </div>
         </section>
 
-        <aside className="order-first space-y-6 lg:order-none lg:sticky lg:top-28 lg:self-start">
+        <aside className="order-first space-y-4 lg:order-none lg:sticky lg:top-28 lg:self-start lg:space-y-6">
           <div className="overflow-hidden rounded-[1.75rem] border border-border bg-white shadow-[0_20px_55px_rgba(15,23,42,0.08)] sm:rounded-[2rem]">
             <div className="grid grid-cols-3 border-b border-border bg-slate-50 text-[0.72rem] sm:text-sm">
               {[

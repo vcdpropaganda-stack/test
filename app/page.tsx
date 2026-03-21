@@ -173,38 +173,38 @@ export default async function Home() {
                   Rápido. Seguro. Profissional.
                 </p>
               </div>
-              <div className="mx-auto mt-10 grid max-w-5xl gap-3 sm:grid-cols-3">
-                <div className="elevated-card rounded-[1.6rem] border border-white/70 bg-white/88 p-4 backdrop-blur">
-                  <p className="text-[0.7rem] font-semibold tracking-[0.22em] text-muted uppercase">
+              <div className="mx-auto mt-10 grid max-w-5xl grid-cols-3 gap-2 sm:gap-3">
+                <div className="elevated-card rounded-[1.25rem] border border-white/70 bg-white/88 p-3 backdrop-blur sm:rounded-[1.6rem] sm:p-4">
+                  <p className="text-[0.62rem] font-semibold tracking-[0.18em] text-muted uppercase sm:text-[0.7rem] sm:tracking-[0.22em]">
                     Serviços
                   </p>
-                  <p className="mt-3 text-3xl font-bold tracking-tight text-slate-950">
+                  <p className="mt-2 text-2xl font-bold tracking-tight text-slate-950 sm:mt-3 sm:text-3xl">
                     {activeServicesCount}
                   </p>
-                  <p className="mt-1 text-sm leading-6 text-muted-strong">
-                    anúncios em destaque com imagem, agenda e preço visível
+                  <p className="mt-1 text-xs leading-5 text-muted-strong sm:text-sm sm:leading-6">
+                    anúncios com imagem e preço visível
                   </p>
                 </div>
-                <div className="elevated-card rounded-[1.6rem] border border-white/70 bg-white/88 p-4 backdrop-blur">
-                  <p className="text-[0.7rem] font-semibold tracking-[0.22em] text-muted uppercase">
+                <div className="elevated-card rounded-[1.25rem] border border-white/70 bg-white/88 p-3 backdrop-blur sm:rounded-[1.6rem] sm:p-4">
+                  <p className="text-[0.62rem] font-semibold tracking-[0.18em] text-muted uppercase sm:text-[0.7rem] sm:tracking-[0.22em]">
                     Categorias
                   </p>
-                  <p className="mt-3 text-3xl font-bold tracking-tight text-slate-950">
+                  <p className="mt-2 text-2xl font-bold tracking-tight text-slate-950 sm:mt-3 sm:text-3xl">
                     10
                   </p>
-                  <p className="mt-1 text-sm leading-6 text-muted-strong">
-                    áreas já mapeadas entre beleza, casa, tecnologia e negócios
+                  <p className="mt-1 text-xs leading-5 text-muted-strong sm:text-sm sm:leading-6">
+                    áreas entre beleza, casa, tech e negócios
                   </p>
                 </div>
-                <div className="elevated-card rounded-[1.6rem] border border-white/70 bg-slate-950 p-4 text-white">
-                  <p className="text-[0.7rem] font-semibold tracking-[0.22em] text-slate-400 uppercase">
+                <div className="elevated-card rounded-[1.25rem] border border-white/70 bg-slate-950 p-3 text-white sm:rounded-[1.6rem] sm:p-4">
+                  <p className="text-[0.62rem] font-semibold tracking-[0.18em] text-slate-400 uppercase sm:text-[0.7rem] sm:tracking-[0.22em]">
                     Agenda viva
                   </p>
-                  <p className="mt-3 text-3xl font-bold tracking-tight">
+                  <p className="mt-2 text-2xl font-bold tracking-tight sm:mt-3 sm:text-3xl">
                     Datas
                   </p>
-                  <p className="mt-1 text-sm leading-6 text-slate-300">
-                    disponibilidade real por serviço com reserva por horário
+                  <p className="mt-1 text-xs leading-5 text-slate-300 sm:text-sm sm:leading-6">
+                    disponibilidade real por horário
                   </p>
                 </div>
               </div>
@@ -218,7 +218,7 @@ export default async function Home() {
             title="Serviços reais publicados no marketplace"
             description="A vitrine principal agora lê os anúncios ativos do banco e já funciona como base da descoberta pública."
           />
-          <div className="mt-8 grid gap-6 lg:grid-cols-3">
+          <div className="mt-8 grid grid-cols-2 gap-4 lg:grid-cols-3 lg:gap-6">
             {homepageServices.length > 0 ? (
               homepageServices.map((service) => (
                 <ServiceCard
