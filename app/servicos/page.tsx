@@ -45,15 +45,48 @@ export default async function ServicesPage({ searchParams }: ServicesPageProps) 
     <main id="conteudo" className="page-shell py-10 sm:py-16">
       <section
         data-reveal
-        className="overflow-hidden rounded-[1.6rem] border border-slate-200 bg-[linear-gradient(135deg,#0f172a,#312e81_58%,#6366f1)] px-5 py-6 text-white shadow-[0_24px_70px_rgba(15,23,42,0.16)] sm:rounded-[2rem] sm:px-8 sm:py-10"
+        className="overflow-hidden rounded-[1.35rem] border border-slate-200 bg-[linear-gradient(135deg,#0f172a,#312e81_58%,#6366f1)] px-4 py-4 text-white shadow-[0_24px_70px_rgba(15,23,42,0.16)] sm:rounded-[2rem] sm:px-8 sm:py-10"
       >
-        <SectionHeading
-          eyebrow="Marketplace"
-          title="Todos os serviços publicados"
-          description="Descubra serviços com imagem real, reputação visível, agenda pronta e apresentação muito mais clara para conversão."
-          invert
-        />
-        <div className="mt-5 flex flex-wrap gap-2 text-xs sm:mt-6 sm:gap-3 sm:text-sm">
+        <div className="sm:hidden">
+          <p className="text-[0.68rem] font-semibold tracking-[0.26em] uppercase text-white/72">
+            Marketplace
+          </p>
+          <div className="mt-2 flex items-center justify-between gap-3">
+            <div>
+              <h1 className="text-[1.45rem] leading-[1.04] font-bold tracking-tight text-white">
+                Todos os serviços
+              </h1>
+              <p className="mt-1 text-sm leading-5 text-white/78">
+                Explore e abra o anúncio ideal.
+              </p>
+            </div>
+            <span className="shrink-0 rounded-full border border-white/15 bg-white/10 px-3 py-1.5 text-[0.72rem] font-semibold text-white backdrop-blur-sm">
+              {services.length} ativos
+            </span>
+          </div>
+          <div className="mt-3 grid grid-cols-3 gap-2 text-[0.68rem]">
+            <span className="rounded-2xl border border-white/12 bg-white/10 px-2.5 py-2 text-center text-white/88 backdrop-blur-sm">
+              {categories.length} categorias
+            </span>
+            <span className="rounded-2xl border border-white/12 bg-white/10 px-2.5 py-2 text-center text-white/88 backdrop-blur-sm">
+              {cities.length} cidades
+            </span>
+            <span className="rounded-2xl border border-white/12 bg-white/10 px-2.5 py-2 text-center text-white/88 backdrop-blur-sm">
+              Abra um card
+            </span>
+          </div>
+        </div>
+
+        <div className="hidden sm:block">
+          <SectionHeading
+            eyebrow="Marketplace"
+            title="Todos os serviços publicados"
+            description="Descubra serviços com imagem real, reputação visível, agenda pronta e apresentação muito mais clara para conversão."
+            invert
+          />
+        </div>
+
+        <div className="mt-5 hidden flex-wrap gap-2 text-xs sm:mt-6 sm:flex sm:gap-3 sm:text-sm">
           <span className="rounded-full border border-white/15 bg-white/10 px-3 py-1.5 backdrop-blur-sm sm:px-4 sm:py-2">
             {services.length} serviços ativos
           </span>
