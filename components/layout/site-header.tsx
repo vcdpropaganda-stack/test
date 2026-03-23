@@ -36,16 +36,16 @@ export async function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur supports-[padding:max(0px)]:pt-[max(env(safe-area-inset-top),0px)]">
       <div className="mx-auto flex max-w-7xl flex-col gap-2 px-4 py-2.5 sm:px-6 sm:py-3 lg:gap-4 lg:px-10">
-        <div className="flex items-center justify-between gap-3">
+        <div className="flex min-h-[3.75rem] items-center justify-between gap-3">
           <Link
             href="/"
             data-reveal
             data-reveal-delay="40"
-            className="flex min-w-0 items-center gap-2 rounded-2xl sm:gap-3"
+            className="flex min-w-0 max-w-[calc(100%-4.5rem)] items-center gap-2 rounded-2xl sm:max-w-none sm:gap-3"
           >
-            <VlMonogram className="h-9 w-9 shrink-0 sm:h-12 sm:w-12" />
-            <div className="min-w-0">
-              <p className="truncate font-sans text-[0.98rem] leading-[1.2] font-bold tracking-tight text-slate-950 sm:text-lg sm:leading-[1.15]">
+            <VlMonogram className="h-8 w-8 shrink-0 rounded-[1rem] sm:h-12 sm:w-12" />
+            <div className="min-w-0 overflow-hidden">
+              <p className="truncate font-sans text-[0.84rem] leading-[1.1] font-bold tracking-tight text-slate-950 sm:text-lg sm:leading-[1.15]">
                 Vitrine Lojas
               </p>
               <p className="hidden truncate text-[0.74rem] leading-tight text-muted sm:block sm:text-xs">
