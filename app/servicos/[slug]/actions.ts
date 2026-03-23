@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { getResolvedUserRole } from "@/lib/auth";
+import { getDbPool } from "@/lib/db";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 function buildRedirect(slug: string, message: string) {
@@ -24,37 +24,18 @@ async function ensureClientContext(slug?: string) {
     redirect(`/login?${params.toString()}`);
   }
 
-  const existingProfileResult = await supabase
-    .from("profiles")
-    .select("role")
-    .eq("id", user.id)
-    .maybeSingle();
-
-  const resolvedRole =
-    existingProfileResult.data?.role ??
+  const pool = getDbPool();
+  const profileResult = await pool.query(
+    "select role from public.profiles where id = $1 limit 1",
+    [user.id]
+  );
+  const role =
+    (profileResult.rows[0] as { role?: string | null } | undefined)?.role ??
     String(user.user_metadata.role ?? "client");
-
-  await supabase.from("profiles").upsert({
-    id: user.id,
-    email: user.email ?? "",
-    full_name: String(user.user_metadata.full_name ?? user.email ?? "Cliente"),
-    phone: String(user.user_metadata.phone ?? "").trim() || null,
-    role: resolvedRole,
-  });
-
-  const role = await getResolvedUserRole(supabase, user);
 
   if (role !== "client") {
     redirect("/dashboard/provider");
   }
-
-  await supabase.from("profiles").upsert({
-    id: user.id,
-    email: user.email ?? "",
-    full_name: String(user.user_metadata.full_name ?? user.email ?? "Cliente"),
-    phone: String(user.user_metadata.phone ?? "").trim() || null,
-    role: "client",
-  });
 
   return { supabase, user };
 }
@@ -71,41 +52,92 @@ export async function createBookingAction(formData: FormData) {
     redirect(buildRedirect(slug || "servicos", "Não foi possível identificar o horário selecionado."));
   }
 
-  const { supabase, user } = await ensureClientContext(slug);
+  const { user } = await ensureClientContext(slug);
+  const pool = getDbPool();
+  const client = await pool.connect();
+  let bookingId: string | null = null;
 
-  const conflictResult = await supabase
-    .from("bookings")
-    .select("id")
-    .eq("service_id", serviceId)
-    .eq("scheduled_start", scheduledStart)
-    .eq("scheduled_end", scheduledEnd)
-    .in("status", ["pending", "confirmed"])
-    .limit(1);
+  try {
+    await client.query("begin");
 
-  if ((conflictResult.data ?? []).length > 0) {
-    redirect(buildRedirect(slug, "Este horário acabou de ser reservado. Escolha outro horário."));
+    await client.query(
+      `
+      insert into public.profiles (id, email, full_name, phone, role)
+      values ($1, $2, $3, $4, 'client')
+      on conflict (id)
+      do update set
+        email = excluded.email,
+        full_name = excluded.full_name,
+        phone = excluded.phone,
+        role = 'client'
+      `,
+      [
+        user.id,
+        user.email ?? "",
+        String(user.user_metadata.full_name ?? user.email ?? "Cliente"),
+        String(user.user_metadata.phone ?? "").trim() || null,
+      ]
+    );
+
+    const conflictResult = await client.query(
+      `
+      select id
+      from public.bookings
+      where service_id = $1
+        and scheduled_start = $2::timestamptz
+        and scheduled_end = $3::timestamptz
+        and status in ('pending', 'confirmed')
+      limit 1
+      `,
+      [serviceId, scheduledStart, scheduledEnd]
+    );
+
+    if (conflictResult.rows.length > 0) {
+      await client.query("rollback");
+      redirect(
+        buildRedirect(slug, "Este horário acabou de ser reservado. Escolha outro horário.")
+      );
+    }
+
+    const bookingInsertResult = await client.query(
+      `
+      insert into public.bookings (
+        service_id,
+        client_id,
+        provider_profile_id,
+        scheduled_start,
+        scheduled_end,
+        total_price_cents,
+        status
+      )
+      values ($1, $2, $3, $4::timestamptz, $5::timestamptz, $6, 'pending')
+      returning id
+      `,
+      [
+        serviceId,
+        user.id,
+        providerProfileId,
+        scheduledStart,
+        scheduledEnd,
+        totalPriceCents,
+      ]
+    );
+
+    bookingId =
+      (bookingInsertResult.rows[0] as { id?: string } | undefined)?.id ?? null;
+    await client.query("commit");
+  } catch (error) {
+    await client.query("rollback");
+    console.error("createBookingAction insert failed", error);
+  } finally {
+    client.release();
   }
 
-  const bookingInsertResult = await supabase
-    .from("bookings")
-    .insert({
-      service_id: serviceId,
-      client_id: user.id,
-      provider_profile_id: providerProfileId,
-      scheduled_start: scheduledStart,
-      scheduled_end: scheduledEnd,
-      total_price_cents: totalPriceCents,
-      status: "pending",
-    })
-    .select("id")
-    .single();
-
-  if (bookingInsertResult.error || !bookingInsertResult.data) {
-    console.error("createBookingAction insert failed", bookingInsertResult.error);
+  if (!bookingId) {
     redirect(buildRedirect(slug, "Não foi possível criar o agendamento."));
   }
 
   revalidatePath(`/servicos/${slug}`);
   revalidatePath("/dashboard/client/agendamentos");
-  redirect(`/checkout/${bookingInsertResult.data.id}`);
+  redirect(`/checkout/${bookingId}`);
 }

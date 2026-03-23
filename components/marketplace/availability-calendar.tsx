@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { useFormStatus } from "react-dom";
 import { format, addMonths, eachDayOfInterval, endOfMonth, endOfWeek, isSameDay, isSameMonth, parseISO, startOfMonth, startOfWeek } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { CalendarDays, ChevronLeft, ChevronRight, Clock3 } from "lucide-react";
@@ -40,6 +41,16 @@ const brazilTimeFormatter = new Intl.DateTimeFormat("pt-BR", {
 
 function formatBrazilTime(value: string) {
   return brazilTimeFormatter.format(new Date(value));
+}
+
+function ReserveButton() {
+  const { pending } = useFormStatus();
+
+  return (
+    <Button type="submit" className="sm:min-w-[11rem]" disabled={pending}>
+      {pending ? "Reservando..." : "Reservar horário"}
+    </Button>
+  );
 }
 
 export function AvailabilityCalendar({
@@ -283,9 +294,7 @@ export function AvailabilityCalendar({
                   <input type="hidden" name="scheduled_start" value={slot.start_at} />
                   <input type="hidden" name="scheduled_end" value={slot.end_at} />
                   <input type="hidden" name="total_price_cents" value={totalPriceCents} />
-                  <Button type="submit" className="sm:min-w-[11rem]">
-                    Reservar horário
-                  </Button>
+                  <ReserveButton />
                 </form>
               </div>
             ))
