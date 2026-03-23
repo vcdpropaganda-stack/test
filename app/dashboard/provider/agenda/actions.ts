@@ -46,6 +46,19 @@ async function ensureProviderContext() {
   };
 }
 
+function getLocalHourAndMinute(value: string) {
+  const match = value.match(/T(\d{2}):(\d{2})/);
+
+  if (!match) {
+    return null;
+  }
+
+  return {
+    hour: Number(match[1]),
+    minute: Number(match[2]),
+  };
+}
+
 export async function createAvailabilityAction(formData: FormData) {
   const serviceId = String(formData.get("service_id") ?? "").trim();
   const startAt = String(formData.get("start_at") ?? "").trim();
@@ -64,6 +77,27 @@ export async function createAvailabilityAction(formData: FormData) {
 
   if (endDate <= startDate) {
     redirect(buildRedirect("O horário final precisa ser maior que o inicial.", serviceId));
+  }
+
+  const startTime = getLocalHourAndMinute(startAt);
+  const endTime = getLocalHourAndMinute(endAt);
+
+  if (!startTime || !endTime) {
+    redirect(buildRedirect("Informe horários válidos no formato local.", serviceId));
+  }
+
+  const startMinutes = startTime.hour * 60 + startTime.minute;
+  const endMinutes = endTime.hour * 60 + endTime.minute;
+  const businessStart = 8 * 60;
+  const businessEnd = 18 * 60;
+
+  if (startMinutes < businessStart || endMinutes > businessEnd) {
+    redirect(
+      buildRedirect(
+        "Todos os serviços devem ser agendados em horário comercial, das 08:00 às 18:00 (GMT-3).",
+        serviceId
+      )
+    );
   }
 
   const { supabase, providerProfileId } = await ensureProviderContext();

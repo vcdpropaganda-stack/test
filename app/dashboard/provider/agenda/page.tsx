@@ -83,6 +83,9 @@ export default async function ProviderAgendaPage({
               Os horários criados aqui passam a aparecer no detalhe público do
               serviço para sustentar o fluxo de agendamento.
             </p>
+            <p className="mt-3 text-sm text-slate-400">
+              Todos os serviços seguem horário comercial no Brasil: 08:00 às 18:00 (GMT-3).
+            </p>
           </div>
 
           {message ? <Notice>{message}</Notice> : null}
@@ -192,12 +195,14 @@ export default async function ProviderAgendaPage({
                 type="datetime-local"
                 label="Início"
                 required
+                hint="Use horário comercial entre 08:00 e 18:00."
               />
               <InputField
                 name="end_at"
                 type="datetime-local"
                 label="Fim"
                 required
+                hint="O término também deve ficar dentro do horário comercial."
               />
             </div>
 
@@ -213,6 +218,9 @@ export default async function ProviderAgendaPage({
               </p>
               <p className="mt-2 text-sm text-muted-strong">
                 {selectedService.title} • {selectedService.duration_minutes} min
+              </p>
+              <p className="mt-2 text-xs leading-5 text-muted">
+                Fuso padrão do marketplace: Brasil (GMT-3).
               </p>
             </div>
           ) : null}

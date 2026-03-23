@@ -32,6 +32,16 @@ function getDayKey(date: Date) {
   return format(date, "yyyy-MM-dd");
 }
 
+const brazilTimeFormatter = new Intl.DateTimeFormat("pt-BR", {
+  timeZone: "America/Sao_Paulo",
+  hour: "2-digit",
+  minute: "2-digit",
+});
+
+function formatBrazilTime(value: string) {
+  return brazilTimeFormatter.format(new Date(value));
+}
+
 export function AvailabilityCalendar({
   slug,
   serviceId,
@@ -233,6 +243,9 @@ export function AvailabilityCalendar({
             Dias sem horários disponíveis
           </span>
         </div>
+        <p className="mt-3 text-xs leading-5 text-muted-strong">
+          Todos os horários são exibidos no fuso do Brasil: GMT-3, das 08:00 às 18:00.
+        </p>
       </div>
 
       <div>
@@ -253,8 +266,7 @@ export function AvailabilityCalendar({
                 <div>
                   <p className="inline-flex items-center gap-2 text-sm font-semibold text-slate-950">
                     <Clock3 className="h-4 w-4 text-primary-strong" />
-                    {format(parseISO(slot.start_at), "HH:mm")} -{" "}
-                    {format(parseISO(slot.end_at), "HH:mm")}
+                    {formatBrazilTime(slot.start_at)} - {formatBrazilTime(slot.end_at)}
                   </p>
                   <p className="mt-1 text-sm text-muted-strong">
                     Horário disponível para reserva imediata.

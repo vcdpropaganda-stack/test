@@ -26,6 +26,22 @@ export function ServiceDetailIntro({
 }: ServiceDetailIntroProps) {
   return (
     <>
+      <div className="overflow-hidden rounded-[1.5rem] border border-slate-200 bg-white shadow-[0_20px_55px_rgba(15,23,42,0.06)] sm:hidden">
+        <div className="relative aspect-[1.04] bg-slate-950">
+          {imageUrl ? (
+            <Image
+              src={imageUrl}
+              alt={title}
+              fill
+              priority
+              sizes="100vw"
+              className="h-full w-full object-cover"
+            />
+          ) : null}
+          <div className="absolute inset-0 bg-linear-to-t from-slate-950/76 via-slate-950/18 to-transparent" />
+        </div>
+      </div>
+
       <div className="rounded-[1.75rem] border border-slate-200 bg-white p-5 shadow-[0_20px_55px_rgba(15,23,42,0.06)] sm:rounded-[2rem] sm:p-8">
         <div className="flex flex-wrap items-center gap-3 text-sm text-muted-strong">
           <span className="rounded-full bg-primary-soft px-3 py-1 font-semibold text-primary-strong">
@@ -50,7 +66,7 @@ export function ServiceDetailIntro({
         </div>
       </div>
 
-      <div className="overflow-hidden rounded-[1.5rem] border border-slate-200 bg-white shadow-[0_20px_55px_rgba(15,23,42,0.06)] sm:rounded-[2rem]">
+      <div className="hidden overflow-hidden rounded-[1.5rem] border border-slate-200 bg-white shadow-[0_20px_55px_rgba(15,23,42,0.06)] sm:block sm:rounded-[2rem]">
         <div className="relative aspect-[1.05/1] bg-slate-950 sm:aspect-[16/10]">
           {imageUrl ? (
             <Image
