@@ -1,10 +1,6 @@
 import Link from "next/link";
-import { signOutAction } from "@/app/auth/actions";
 import { VlMonogram } from "@/components/brand/vl-monogram";
-import { MobileHeaderMenu } from "@/components/layout/mobile-header-menu";
-import { getResolvedUserRole } from "@/lib/auth";
-import { hasSupabaseEnv } from "@/lib/env";
-import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { HeaderAuthControls } from "@/components/layout/header-auth-controls";
 
 const links = [
   { href: "/", label: "Marketplace" },
@@ -16,27 +12,7 @@ const links = [
   { href: "/contato", label: "Contato" },
 ];
 
-export async function SiteHeader() {
-  let supabase = null;
-  let user = null;
-
-  if (hasSupabaseEnv()) {
-    try {
-      supabase = await createSupabaseServerClient();
-      const authResult = await supabase.auth.getUser();
-      user = authResult.data.user;
-    } catch {
-      user = null;
-      supabase = null;
-    }
-  }
-
-  const isAuthenticated = Boolean(user);
-  const role =
-    supabase && user ? (await getResolvedUserRole(supabase, user)) ?? "client" : "client";
-  const dashboardHref =
-    role === "provider" ? "/dashboard/provider" : "/dashboard/client";
-
+export function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur supports-[padding:max(0px)]:pt-[max(env(safe-area-inset-top),0px)]">
       <div className="mx-auto flex max-w-7xl flex-col gap-2 px-4 py-2 sm:px-6 sm:py-3 lg:gap-4 lg:px-10">
@@ -58,47 +34,7 @@ export async function SiteHeader() {
             </div>
           </Link>
 
-          <div className="hidden shrink-0 items-center gap-2 self-center md:flex">
-            {isAuthenticated ? (
-              <>
-                <Link
-                  href={dashboardHref}
-                  className="inline-flex min-h-10 items-center justify-center rounded-full border border-primary-strong/10 bg-primary px-3 py-2 text-sm font-semibold !text-white shadow-lg shadow-primary/25 hover:bg-primary-strong hover:!text-white sm:min-h-11 sm:px-4 sm:py-2.5"
-                >
-                  Meu painel
-                </Link>
-                <form action={signOutAction}>
-                  <button className="inline-flex min-h-10 items-center justify-center rounded-full border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-950 hover:border-primary/35 hover:bg-slate-50 hover:text-primary-strong sm:min-h-11 sm:px-4 sm:py-2.5">
-                    Sair
-                  </button>
-                </form>
-              </>
-            ) : (
-              <>
-                <Link
-                  href="/login"
-                  className="inline-flex min-h-10 items-center justify-center rounded-full border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-950 hover:border-primary/35 hover:bg-slate-50 hover:text-primary-strong sm:min-h-11 sm:px-4 sm:py-2.5"
-                >
-                  Entrar
-                </Link>
-                <Link
-                  href="/cadastro"
-                  className="inline-flex min-h-10 items-center justify-center rounded-full border border-primary-strong/10 bg-primary px-4 py-2 text-sm font-semibold !text-white shadow-lg shadow-primary/25 hover:bg-primary-strong hover:!text-white sm:min-h-11 sm:px-4 sm:py-2.5"
-                >
-                  <span className="sm:hidden">Cadastro</span>
-                  <span className="hidden sm:inline">Criar conta</span>
-                </Link>
-              </>
-            )}
-          </div>
-
-          <div className="justify-self-end md:hidden">
-            <MobileHeaderMenu
-              links={links}
-              isAuthenticated={isAuthenticated}
-              dashboardHref={dashboardHref}
-            />
-          </div>
+          <HeaderAuthControls links={links} />
         </div>
 
         <nav
