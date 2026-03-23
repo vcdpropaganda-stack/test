@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Layers3, Search, SlidersHorizontal } from "lucide-react";
+import { MobileFiltersSheet } from "@/components/marketplace/mobile-filters-sheet";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { InputField, SelectField } from "@/components/ui/input";
 import { ServiceCard } from "@/components/marketplace/service-card";
@@ -107,7 +108,7 @@ export default async function ServicesPage({ searchParams }: ServicesPageProps) 
         data-reveal-delay="70"
         className="elevated-card mt-6 rounded-[1.6rem] border border-border bg-white p-4 sm:mt-10 sm:rounded-[2rem] sm:p-6"
       >
-        <div className="mb-5 flex items-center gap-3 sm:mb-6">
+        <div className="mb-5 hidden items-center gap-3 sm:mb-6 sm:flex">
           <div className="rounded-2xl bg-primary-soft p-2.5 text-primary-strong sm:p-3">
             <SlidersHorizontal className="h-5 w-5" />
           </div>
@@ -118,7 +119,18 @@ export default async function ServicesPage({ searchParams }: ServicesPageProps) 
             </p>
           </div>
         </div>
-        <form className="grid gap-4 lg:grid-cols-[1.2fr_0.8fr_0.8fr_0.8fr_auto] lg:items-end">
+        <div className="sm:hidden">
+          <MobileFiltersSheet
+            q={q}
+            city={city}
+            category={category}
+            sort={sort}
+            cities={cities}
+            categories={categories}
+          />
+        </div>
+
+        <form className="hidden gap-4 sm:grid lg:grid-cols-[1.2fr_0.8fr_0.8fr_0.8fr_auto] lg:items-end">
           <div className="relative">
             <InputField
               name="q"
@@ -158,7 +170,7 @@ export default async function ServicesPage({ searchParams }: ServicesPageProps) 
             Aplicar filtros
           </button>
         </form>
-        <div className="mt-5 flex flex-wrap gap-2 sm:mt-6 sm:gap-3">
+        <div className="mt-4 flex flex-wrap gap-2 sm:mt-6 sm:gap-3">
           {categories.map((currentCategory) => {
             const isActive = currentCategory.slug === category;
             const params = new URLSearchParams();
