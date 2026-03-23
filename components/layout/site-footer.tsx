@@ -34,11 +34,11 @@ export function SiteFooter() {
   return (
     <footer className="relative overflow-hidden border-t border-white/10 bg-slate-950 text-white">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(99,102,241,0.14),transparent_28%),radial-gradient(circle_at_bottom_right,rgba(59,130,246,0.12),transparent_24%)]" />
-      <div className="page-shell relative py-8 sm:py-10 lg:py-12">
+      <div className="page-shell relative py-7 sm:py-10 lg:py-12">
         <div className="grid gap-4 lg:grid-cols-[1.15fr_1.85fr] lg:gap-8">
           <div
             data-reveal
-            className="rounded-[1.5rem] border border-white/10 bg-white/5 p-4 backdrop-blur-sm sm:p-5 lg:rounded-[1.75rem] lg:p-6"
+            className="rounded-[1.35rem] border border-white/10 bg-white/5 p-4 backdrop-blur-sm sm:p-5 lg:rounded-[1.75rem] lg:p-6"
           >
             <div className="flex items-center gap-3">
               <VlMonogram className="h-11 w-11 shrink-0 sm:h-12 sm:w-12" dark />
@@ -51,10 +51,10 @@ export function SiteFooter() {
                 </p>
               </div>
             </div>
-            <p className="mt-4 max-w-md text-sm leading-7 text-slate-300">
+            <p className="mt-3 max-w-md text-sm leading-6 text-slate-300">
               Encontre profissionais, compare opções e agende com clareza.
             </p>
-            <div className="mt-5 grid grid-cols-3 gap-2.5">
+            <div className="mt-4 grid grid-cols-2 gap-2.5 sm:grid-cols-3">
               <div className="rounded-[1rem] border border-white/10 bg-slate-900/60 px-3 py-3">
                 <p className="text-[0.7rem] font-semibold tracking-[0.22em] text-slate-400 uppercase">
                   Busca
@@ -76,23 +76,23 @@ export function SiteFooter() {
             </div>
           </div>
 
-          <div className="grid gap-3 sm:grid-cols-3">
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
             {footerGroups.map((group) => (
               <nav
                 key={group.title}
                 data-reveal
                 aria-label={group.title}
-                className="rounded-[1.25rem] border border-white/10 bg-white/4 p-4 backdrop-blur-sm sm:p-5"
+                className="rounded-[1.15rem] border border-white/10 bg-white/4 p-4 backdrop-blur-sm sm:p-5"
               >
                 <p className="text-sm font-semibold tracking-[0.18em] text-white uppercase">
                   {group.title}
                 </p>
-                <ul className="mt-3 space-y-1.5 text-sm text-slate-200 sm:mt-4 sm:space-y-2">
+                <ul className="mt-3 space-y-1 text-sm text-slate-200 sm:mt-4 sm:space-y-2">
                   {group.links.map((link) => (
                     <li key={link.href}>
                       <Link
                         href={link.href}
-                        className="inline-flex rounded-full px-1 py-0.5 font-medium text-slate-300 hover:text-white focus-visible:text-white"
+                        className="inline-flex rounded-full px-1 py-0.5 text-[0.94rem] font-medium text-slate-300 hover:text-white focus-visible:text-white"
                       >
                         {link.label}
                       </Link>
@@ -104,7 +104,7 @@ export function SiteFooter() {
           </div>
         </div>
 
-        <div className="mt-6 flex flex-col gap-3 border-t border-white/10 pt-4 text-sm sm:mt-7 sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:pt-5">
+        <div className="mt-5 flex flex-col gap-2 border-t border-white/10 pt-4 text-sm sm:mt-7 sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:pt-5">
           <p className="max-w-2xl leading-6 text-slate-400">
             Vitrine Lojas para quem quer encontrar e contratar serviços locais com mais clareza.
           </p>
