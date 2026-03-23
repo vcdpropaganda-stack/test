@@ -18,7 +18,7 @@ export function HomeMarketplaceSection({
         title="Serviços reais publicados no marketplace"
         description="A vitrine principal agora lê os anúncios ativos do banco e já funciona como base da descoberta pública."
       />
-      <div className="mt-8 grid grid-cols-1 gap-4 min-[430px]:grid-cols-2 lg:grid-cols-3 lg:gap-6">
+      <div className="mt-8 grid grid-cols-2 gap-3 lg:grid-cols-3 lg:gap-6">
         {services.length > 0 ? (
           services.map((service) => (
             <ServiceCard

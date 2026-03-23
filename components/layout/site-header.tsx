@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { signOutAction } from "@/app/auth/actions";
 import { VlMonogram } from "@/components/brand/vl-monogram";
+import { MobileHeaderMenu } from "@/components/layout/mobile-header-menu";
 import { hasSupabaseEnv } from "@/lib/env";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
@@ -35,7 +36,7 @@ export async function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur supports-[padding:max(0px)]:pt-[max(env(safe-area-inset-top),0px)]">
       <div className="mx-auto flex max-w-7xl flex-col gap-2 px-4 py-2.5 sm:px-6 sm:py-3 lg:gap-4 lg:px-10">
-        <div className="flex items-start justify-between gap-2 sm:items-center sm:gap-3">
+        <div className="flex items-center justify-between gap-3">
           <Link
             href="/"
             data-reveal
@@ -44,16 +45,16 @@ export async function SiteHeader() {
           >
             <VlMonogram className="h-9 w-9 shrink-0 sm:h-12 sm:w-12" />
             <div className="min-w-0">
-              <p className="truncate font-sans text-[1.05rem] leading-[1.15] font-bold tracking-tight text-slate-950 sm:text-lg sm:leading-[1.15]">
+              <p className="truncate font-sans text-[0.98rem] leading-[1.2] font-bold tracking-tight text-slate-950 sm:text-lg sm:leading-[1.15]">
                 Vitrine Lojas
               </p>
-              <p className="truncate text-[0.78rem] leading-tight text-muted sm:text-xs">
+              <p className="truncate text-[0.74rem] leading-tight text-muted sm:text-xs">
                 Serviços locais em um só lugar
               </p>
             </div>
           </Link>
 
-          <div className="flex shrink-0 items-center gap-2 self-center">
+          <div className="hidden shrink-0 items-center gap-2 self-center md:flex">
             {isAuthenticated ? (
               <>
                 <Link
@@ -86,13 +87,21 @@ export async function SiteHeader() {
               </>
             )}
           </div>
+
+          <div className="md:hidden">
+            <MobileHeaderMenu
+              links={links}
+              isAuthenticated={isAuthenticated}
+              dashboardHref={dashboardHref}
+            />
+          </div>
         </div>
 
         <nav
           data-reveal
           data-reveal-delay="100"
           aria-label="Navegação principal"
-          className="touch-scroll-x flex items-center gap-2 overflow-x-auto rounded-[1.75rem] border border-slate-200 bg-white/92 p-2 elevated-card sm:justify-center"
+          className="touch-scroll-x hidden items-center gap-2 overflow-x-auto rounded-[1.75rem] border border-slate-200 bg-white/92 p-2 elevated-card md:flex md:justify-center"
         >
           {links.map((link) => (
             <Link

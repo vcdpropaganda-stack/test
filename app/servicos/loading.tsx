@@ -29,14 +29,14 @@ export default function ServicesLoading() {
         </div>
       </section>
 
-      <section className="mt-6 grid grid-cols-1 gap-4 min-[430px]:grid-cols-2 sm:mt-10 sm:gap-4 lg:grid-cols-3 lg:gap-6">
+      <section className="mt-6 grid grid-cols-2 gap-3 sm:mt-10 sm:gap-4 lg:grid-cols-3 lg:gap-6">
         {Array.from({ length: 6 }).map((_, index) => (
           <div
             key={index}
             className="overflow-hidden rounded-[1.35rem] border border-slate-200 bg-white shadow-[0_16px_40px_rgba(15,23,42,0.08)] sm:rounded-[2rem] sm:shadow-[0_20px_55px_rgba(15,23,42,0.08)]"
           >
-            <div className="aspect-[1.08] animate-pulse bg-slate-200 sm:aspect-[4/3]" />
-            <div className="space-y-3 p-3 sm:space-y-4 sm:p-6">
+            <div className="aspect-[0.96] animate-pulse bg-slate-200 sm:aspect-[4/3]" />
+            <div className="space-y-3 p-2.5 sm:space-y-4 sm:p-6">
               <div className="flex items-center justify-between gap-4">
                 <div className="h-6 w-20 animate-pulse rounded-full bg-slate-100 sm:h-7 sm:w-24" />
                 <div className="h-4 w-18 animate-pulse rounded bg-slate-100 sm:h-5 sm:w-24" />
