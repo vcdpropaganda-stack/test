@@ -33,7 +33,7 @@ export function ServiceCard({
     <Link href={href} prefetch aria-label={`Ver serviço ${title}`} className="block h-full min-w-0">
       <article
         data-reveal
-        className="elevated-card group relative h-full overflow-hidden rounded-[1.35rem] border border-slate-200/90 bg-white shadow-[0_16px_40px_rgba(15,23,42,0.08)] transition duration-300 hover:-translate-y-1.5 hover:border-primary/20 hover:shadow-[0_26px_70px_rgba(15,23,42,0.16)] sm:rounded-[2rem]"
+        className="elevated-card group relative h-full overflow-hidden rounded-[1.35rem] border border-slate-200/90 bg-white shadow-[0_16px_40px_rgba(15,23,42,0.08)] transition duration-300 hover:-translate-y-1.5 hover:border-primary/20 hover:shadow-[0_26px_70px_rgba(15,23,42,0.16)] sm:min-h-[35rem] sm:rounded-[2rem]"
       >
         <div className="pointer-events-none absolute inset-x-0 top-0 h-28 bg-[linear-gradient(180deg,rgba(99,102,241,0.07),transparent)] opacity-0 transition duration-300 group-hover:opacity-100" />
         <div className="relative aspect-[0.96] overflow-hidden bg-slate-200 sm:aspect-[4/3]">
@@ -77,36 +77,38 @@ export function ServiceCard({
             )}
           </div>
         </div>
-        <div className="flex min-h-[12.5rem] flex-col p-2.5 sm:min-h-[14.75rem] sm:min-h-[18.5rem] sm:p-6">
+        <div className="flex min-h-[13.2rem] flex-col p-2.5 sm:min-h-[19.2rem] sm:p-6">
           <div className="flex items-center justify-between gap-2">
             <span className="rounded-full bg-primary-soft px-2 py-1 text-[9px] font-semibold text-primary-strong sm:px-3 sm:text-xs">
               {duration ?? "Atendimento agendado"}
             </span>
-            <span className="line-clamp-1 text-[9px] font-medium text-muted-strong sm:text-sm">
+            <span className="line-clamp-1 w-[5.8rem] text-right text-[9px] font-medium text-muted-strong sm:w-[7.8rem] sm:text-sm">
               {reviewsCount ? `${reviewsCount} avaliações` : "Novo perfil"}
             </span>
           </div>
-          <h3 className="mt-2.5 line-clamp-3 break-words font-sans text-[0.92rem] leading-[1.02] font-bold tracking-tight text-slate-950 sm:mt-5 sm:line-clamp-2 sm:text-[2rem] sm:leading-tight">
+          <h3 className="mt-2.5 h-[2.05rem] overflow-hidden break-words font-sans text-[0.92rem] leading-[1.02] font-bold tracking-tight text-slate-950 sm:mt-4 sm:h-[5.4rem] sm:text-[2rem] sm:leading-tight">
             {title}
           </h3>
-          <p className="mt-1.5 line-clamp-3 text-[0.7rem] leading-[1.35] text-muted-strong sm:mt-3 sm:line-clamp-3 sm:text-sm sm:leading-7">
+          <p className="mt-1.5 h-[3.1rem] overflow-hidden text-[0.7rem] leading-[1.35] text-muted-strong sm:mt-3 sm:h-[5.15rem] sm:text-sm sm:leading-7">
             {description ??
               "Atendimento com agenda publicada, apresentação clara e fluxo rápido de contratação."}
           </p>
           {duration || location ? (
-            <div className="mt-2.5 grid grid-cols-1 gap-1 text-[0.66rem] leading-[1.2] text-muted-strong sm:mt-4 sm:flex sm:flex-wrap sm:gap-3 sm:text-sm">
+            <div className="mt-2.5 h-[2.1rem] overflow-hidden text-[0.66rem] leading-[1.2] text-muted-strong sm:mt-4 sm:h-6 sm:text-sm">
+              <div className="grid grid-cols-1 gap-1 sm:flex sm:flex-wrap sm:gap-3">
               {duration ? (
-                <span className="inline-flex items-center gap-2">
+                <span className="inline-flex items-center gap-2 whitespace-nowrap">
                   <Clock3 className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                   {duration}
                 </span>
               ) : null}
               {location ? (
-                <span className="inline-flex items-center gap-2">
+                <span className="inline-flex items-center gap-2 whitespace-nowrap">
                   <MapPin className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                   {location}
                 </span>
               ) : null}
+              </div>
             </div>
           ) : null}
           <div className="mt-auto flex items-end justify-between gap-2 pt-3 sm:gap-4 sm:pt-6">
