@@ -48,7 +48,7 @@ export async function SiteHeader() {
               <p className="truncate font-sans text-[0.98rem] leading-[1.2] font-bold tracking-tight text-slate-950 sm:text-lg sm:leading-[1.15]">
                 Vitrine Lojas
               </p>
-              <p className="truncate text-[0.74rem] leading-tight text-muted sm:text-xs">
+              <p className="hidden truncate text-[0.74rem] leading-tight text-muted sm:block sm:text-xs">
                 Serviços locais em um só lugar
               </p>
             </div>
