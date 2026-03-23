@@ -2,6 +2,7 @@ import Link from "next/link";
 import { signOutAction } from "@/app/auth/actions";
 import { VlMonogram } from "@/components/brand/vl-monogram";
 import { MobileHeaderMenu } from "@/components/layout/mobile-header-menu";
+import { getResolvedUserRole } from "@/lib/auth";
 import { hasSupabaseEnv } from "@/lib/env";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
@@ -16,20 +17,23 @@ const links = [
 ];
 
 export async function SiteHeader() {
+  let supabase = null;
   let user = null;
 
   if (hasSupabaseEnv()) {
     try {
-      const supabase = await createSupabaseServerClient();
+      supabase = await createSupabaseServerClient();
       const authResult = await supabase.auth.getUser();
       user = authResult.data.user;
     } catch {
       user = null;
+      supabase = null;
     }
   }
 
   const isAuthenticated = Boolean(user);
-  const role = String(user?.user_metadata.role ?? "client");
+  const role =
+    supabase && user ? (await getResolvedUserRole(supabase, user)) ?? "client" : "client";
   const dashboardHref =
     role === "provider" ? "/dashboard/provider" : "/dashboard/client";
 

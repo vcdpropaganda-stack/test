@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { getResolvedUserRole } from "@/lib/auth";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 function buildRedirect(slug: string, message: string) {
@@ -19,20 +20,35 @@ async function ensureClientContext() {
     redirect("/login?message=Entre para reservar um horário.");
   }
 
-  const role = String(user.user_metadata.role ?? "client");
+  const existingProfileResult = await supabase
+    .from("profiles")
+    .select("role")
+    .eq("id", user.id)
+    .maybeSingle();
+
+  const resolvedRole =
+    existingProfileResult.data?.role ??
+    String(user.user_metadata.role ?? "client");
+
+  await supabase.from("profiles").upsert({
+    id: user.id,
+    email: user.email ?? "",
+    full_name: String(user.user_metadata.full_name ?? user.email ?? "Cliente"),
+    phone: String(user.user_metadata.phone ?? "").trim() || null,
+    role: resolvedRole,
+  });
+
+  const role = await getResolvedUserRole(supabase, user);
 
   if (role !== "client") {
     redirect("/dashboard/provider");
   }
 
-  const fullName = String(user.user_metadata.full_name ?? user.email ?? "Cliente");
-  const phone = String(user.user_metadata.phone ?? "").trim() || null;
-
   await supabase.from("profiles").upsert({
     id: user.id,
     email: user.email ?? "",
-    full_name: fullName,
-    phone,
+    full_name: String(user.user_metadata.full_name ?? user.email ?? "Cliente"),
+    phone: String(user.user_metadata.phone ?? "").trim() || null,
     role: "client",
   });
 
@@ -81,6 +97,7 @@ export async function createBookingAction(formData: FormData) {
     .single();
 
   if (bookingInsertResult.error || !bookingInsertResult.data) {
+    console.error("createBookingAction insert failed", bookingInsertResult.error);
     redirect(buildRedirect(slug, "Não foi possível criar o agendamento."));
   }
 

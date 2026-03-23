@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation";
+import { getResolvedUserRole } from "@/lib/auth";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 export default async function DashboardIndexPage() {
@@ -11,7 +12,7 @@ export default async function DashboardIndexPage() {
     redirect("/login");
   }
 
-  const role = String(user.user_metadata.role ?? "client");
+  const role = await getResolvedUserRole(supabase, user);
 
   if (role === "admin") {
     redirect("/dashboard/admin");
