@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { Search, SlidersHorizontal, X } from "lucide-react";
 import { InputField, SelectField } from "@/components/ui/input";
 
@@ -11,6 +11,12 @@ type MobileFiltersSheetProps = {
   sort: "recent" | "price_asc" | "price_desc";
   cities: string[];
   categories: Array<{ slug: string; name: string }>;
+  onApply?: (next: {
+    q: string;
+    city: string;
+    category: string;
+    sort: "recent" | "price_asc" | "price_desc";
+  }) => void;
 };
 
 export function MobileFiltersSheet({
@@ -20,6 +26,7 @@ export function MobileFiltersSheet({
   sort,
   cities,
   categories,
+  onApply,
 }: MobileFiltersSheetProps) {
   const [open, setOpen] = useState(false);
 
@@ -34,6 +41,25 @@ export function MobileFiltersSheet({
       document.body.style.overflow = original;
     };
   }, [open]);
+
+  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    if (!onApply) {
+      return;
+    }
+
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    onApply({
+      q: String(formData.get("q") ?? ""),
+      city: String(formData.get("city") ?? ""),
+      category: String(formData.get("category") ?? ""),
+      sort: (String(formData.get("sort") ?? "recent") as
+        | "recent"
+        | "price_asc"
+        | "price_desc"),
+    });
+    setOpen(false);
+  }
 
   return (
     <div className="sm:hidden">
@@ -84,7 +110,7 @@ export function MobileFiltersSheet({
               </button>
             </div>
 
-            <form className="mt-4 grid gap-4">
+            <form className="mt-4 grid gap-4" onSubmit={handleSubmit}>
               <div className="relative">
                 <InputField
                   name="q"
@@ -120,7 +146,10 @@ export function MobileFiltersSheet({
                 <option value="price_desc">Maior preço</option>
               </SelectField>
 
-              <button className="min-h-11 rounded-full bg-primary px-5 py-3 text-sm font-semibold text-white shadow-[0_16px_30px_rgba(99,102,241,0.28)]">
+              <button
+                type="submit"
+                className="min-h-11 rounded-full bg-primary px-5 py-3 text-sm font-semibold text-white shadow-[0_16px_30px_rgba(99,102,241,0.28)]"
+              >
                 Aplicar filtros
               </button>
             </form>

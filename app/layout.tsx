@@ -3,6 +3,7 @@ import { Inter, Plus_Jakarta_Sans } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { AuthErrorHandler } from "@/components/auth/auth-error-handler";
+import { CookieConsentBanner } from "@/components/layout/cookie-consent-banner";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { MotionOrchestrator } from "@/components/shared/motion-orchestrator";
@@ -45,6 +46,7 @@ export default function RootLayout({
         <SiteHeader />
         {children}
         <SiteFooter />
+        <CookieConsentBanner />
         <Analytics />
         <SpeedInsights />
       </body>

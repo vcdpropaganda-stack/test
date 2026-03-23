@@ -49,6 +49,7 @@ type MarketplaceFilters = {
   city?: string;
   category?: string;
   sort?: "recent" | "price_asc" | "price_desc";
+  includeRatings?: boolean;
 };
 
 type RawProviderProfile =
@@ -199,6 +200,17 @@ async function getMarketplaceServicesQuery(
   const normalizedServices = ((data ?? []).map((service) =>
     normalizeCategory(normalizeProviderProfile(service))
   ) ?? []) as MarketplaceService[];
+
+  const includeRatings = resolvedFilters.includeRatings ?? true;
+
+  if (!includeRatings) {
+    return normalizedServices.map((service) => ({
+      ...service,
+      average_rating: null,
+      reviews_count: 0,
+    }));
+  }
+
   const serviceIds = normalizedServices.map((service) => service.id);
 
   if (serviceIds.length === 0) {

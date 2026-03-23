@@ -23,6 +23,7 @@ const footerGroups = [
     title: "Legal",
     links: [
       { href: "/privacidade", label: "Privacidade" },
+      { href: "/politica-de-cookies", label: "Cookies" },
       { href: "/lgpd", label: "LGPD" },
       { href: "/termos", label: "Termos" },
       { href: "/responsabilidades", label: "Responsabilidades" },
