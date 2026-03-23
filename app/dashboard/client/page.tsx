@@ -19,14 +19,10 @@ export default async function ClientDashboardPage() {
     redirect("/login");
   }
 
-  const bookingsResult = await supabase
-    .from("bookings")
-    .select("id, status")
-    .eq("client_id", user.id);
-  const reviewsResult = await supabase
-    .from("reviews")
-    .select("booking_id")
-    .eq("client_id", user.id);
+  const [bookingsResult, reviewsResult] = await Promise.all([
+    supabase.from("bookings").select("id, status").eq("client_id", user.id),
+    supabase.from("reviews").select("booking_id").eq("client_id", user.id),
+  ]);
 
   const bookings = bookingsResult.data ?? [];
   const reviewedBookingIds = new Set((reviewsResult.data ?? []).map((review) => review.booking_id));

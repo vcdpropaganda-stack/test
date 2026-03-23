@@ -3,6 +3,7 @@
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { createClient } from "@supabase/supabase-js";
+import { getResolvedUserRole } from "@/lib/auth";
 import { getSupabaseEnv } from "@/lib/env";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
@@ -27,13 +28,24 @@ export async function signInAction(formData: FormData) {
   const password = String(formData.get("password") ?? "");
 
   const supabase = await createSupabaseServerClient();
-  const { error } = await supabase.auth.signInWithPassword({ email, password });
+  const { data, error } = await supabase.auth.signInWithPassword({ email, password });
 
   if (error) {
     redirect(buildRedirect("/login", "Não foi possível entrar. Verifique o e-mail e a senha."));
   }
 
-  redirect("/dashboard");
+  const user = data.user;
+  const role = await getResolvedUserRole(supabase, user);
+
+  if (role === "admin") {
+    redirect("/dashboard/admin");
+  }
+
+  if (role === "provider") {
+    redirect("/dashboard/provider");
+  }
+
+  redirect("/dashboard/client");
 }
 
 export async function signUpAction(formData: FormData) {

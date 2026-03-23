@@ -9,6 +9,7 @@ import {
 } from "@/app/dashboard/provider/actions";
 import { Button } from "@/components/ui/button";
 import { Notice } from "@/components/ui/notice";
+import { getResolvedUserRole } from "@/lib/auth";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 export const metadata: Metadata = {
@@ -34,7 +35,7 @@ export default async function ProviderDashboardPage({
     redirect("/login");
   }
 
-  const role = String(user.user_metadata.role ?? "client");
+  const role = await getResolvedUserRole(supabase, user);
 
   if (role !== "provider") {
     redirect("/dashboard/client");
@@ -47,29 +48,29 @@ export default async function ProviderDashboardPage({
     .single();
 
   const providerProfile = providerProfileResult.data;
-  const activeServicesResult = providerProfile
-    ? await supabase
-        .from("services")
-        .select("id", { count: "exact", head: true })
-        .eq("provider_profile_id", providerProfile.id)
-        .eq("is_active", true)
-    : { count: 0 };
-  const bookingsResult = providerProfile
-    ? await supabase
-        .from("bookings")
-        .select(
+  const [activeServicesResult, bookingsResult] = providerProfile
+    ? await Promise.all([
+        supabase
+          .from("services")
+          .select("id", { count: "exact", head: true })
+          .eq("provider_profile_id", providerProfile.id)
+          .eq("is_active", true),
+        supabase
+          .from("bookings")
+          .select(
+            `
+            id,
+            status,
+            scheduled_start,
+            service:services (title),
+            client:profiles (full_name)
           `
-          id,
-          status,
-          scheduled_start,
-          service:services (title),
-          client:profiles (full_name)
-        `
-        )
-        .eq("provider_profile_id", providerProfile.id)
-        .order("scheduled_start", { ascending: true })
-        .limit(5)
-    : { data: [] };
+          )
+          .eq("provider_profile_id", providerProfile.id)
+          .order("scheduled_start", { ascending: true })
+          .limit(5),
+      ])
+    : [{ count: 0 }, { data: [] }];
 
   const bookings = (bookingsResult.data ?? []).map((booking) => ({
     ...booking,
