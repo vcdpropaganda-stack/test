@@ -14,9 +14,9 @@ export const metadata: Metadata = {
 export default async function LoginPage({
   searchParams,
 }: {
-  searchParams: Promise<{ message?: string }>;
+  searchParams: Promise<{ message?: string; next?: string }>;
 }) {
-  const { message } = await searchParams;
+  const { message, next } = await searchParams;
 
   return (
     <main
@@ -109,6 +109,7 @@ export default async function LoginPage({
             )}
 
             <form action={signInAction} className="space-y-5">
+              <input type="hidden" name="next" value={next ?? ""} />
               <InputField
                 name="email"
                 type="email"

@@ -12,6 +12,10 @@ function buildRedirect(path: string, message: string) {
   return `${path}?${params.toString()}`;
 }
 
+function isSafeInternalPath(value: string) {
+  return value.startsWith("/") && !value.startsWith("//");
+}
+
 async function getBaseUrl() {
   const headerStore = await headers();
   const origin = headerStore.get("origin");
@@ -26,6 +30,7 @@ async function getBaseUrl() {
 export async function signInAction(formData: FormData) {
   const email = String(formData.get("email") ?? "").trim();
   const password = String(formData.get("password") ?? "");
+  const next = String(formData.get("next") ?? "").trim();
 
   const supabase = await createSupabaseServerClient();
   const { data, error } = await supabase.auth.signInWithPassword({ email, password });
@@ -37,6 +42,10 @@ export async function signInAction(formData: FormData) {
   const user = data.user;
   const role = await getResolvedUserRole(supabase, user);
 
+  if (next && isSafeInternalPath(next)) {
+    redirect(next);
+  }
+
   if (role === "admin") {
     redirect("/dashboard/admin");
   }
@@ -45,7 +54,7 @@ export async function signInAction(formData: FormData) {
     redirect("/dashboard/provider");
   }
 
-  redirect("/dashboard/client");
+  redirect("/");
 }
 
 export async function signUpAction(formData: FormData) {

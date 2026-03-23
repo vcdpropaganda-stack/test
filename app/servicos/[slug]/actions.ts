@@ -10,14 +10,18 @@ function buildRedirect(slug: string, message: string) {
   return `/servicos/${slug}?${params.toString()}`;
 }
 
-async function ensureClientContext() {
+async function ensureClientContext(slug?: string) {
   const supabase = await createSupabaseServerClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
   if (!user) {
-    redirect("/login?message=Entre para reservar um horário.");
+    const params = new URLSearchParams({
+      message: "Entre para reservar um horário.",
+      next: slug ? `/servicos/${slug}` : "/servicos",
+    });
+    redirect(`/login?${params.toString()}`);
   }
 
   const existingProfileResult = await supabase
@@ -67,7 +71,7 @@ export async function createBookingAction(formData: FormData) {
     redirect(buildRedirect(slug || "servicos", "Não foi possível identificar o horário selecionado."));
   }
 
-  const { supabase, user } = await ensureClientContext();
+  const { supabase, user } = await ensureClientContext(slug);
 
   const conflictResult = await supabase
     .from("bookings")
