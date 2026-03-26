@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { VlMonogram } from "@/components/brand/vl-monogram";
 import { HeaderAuthControls } from "@/components/layout/header-auth-controls";
+import { getResolvedUserRole } from "@/lib/auth";
+import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 const links = [
   { href: "/", label: "Marketplace" },
@@ -12,7 +14,36 @@ const links = [
   { href: "/contato", label: "Contato" },
 ];
 
-export function SiteHeader() {
+function getDashboardHref(role: string | null | undefined) {
+  if (role === "admin") return "/dashboard/admin";
+  if (role === "provider") return "/dashboard/provider";
+  return "/dashboard/client";
+}
+
+export async function SiteHeader() {
+  let initialAuth = {
+    isAuthenticated: false,
+    dashboardHref: "/dashboard/client",
+  };
+
+  try {
+    const supabase = await createSupabaseServerClient();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    const role = await getResolvedUserRole(supabase, user);
+
+    initialAuth = {
+      isAuthenticated: Boolean(user),
+      dashboardHref: getDashboardHref(role),
+    };
+  } catch {
+    initialAuth = {
+      isAuthenticated: false,
+      dashboardHref: "/dashboard/client",
+    };
+  }
+
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur supports-[padding:max(0px)]:pt-[max(env(safe-area-inset-top),0px)]">
       <div className="mx-auto flex max-w-7xl flex-col gap-2 px-4 py-2 sm:px-6 sm:py-3 lg:gap-4 lg:px-10">
@@ -26,7 +57,7 @@ export function SiteHeader() {
             <VlMonogram className="h-7 w-7 shrink-0 rounded-[0.9rem] sm:h-12 sm:w-12" />
             <div className="min-w-0 overflow-hidden">
               <p className="truncate font-sans text-[0.8rem] leading-none font-bold tracking-[-0.03em] text-slate-950 sm:text-lg sm:leading-[1.15] sm:tracking-tight">
-                Vitrine Lojas
+                VL Serviços
               </p>
               <p className="hidden truncate text-[0.74rem] leading-tight text-muted md:block md:text-xs">
                 Serviços locais em um só lugar
@@ -34,7 +65,7 @@ export function SiteHeader() {
             </div>
           </Link>
 
-          <HeaderAuthControls links={links} />
+          <HeaderAuthControls links={links} initialAuth={initialAuth} />
         </div>
 
         <nav

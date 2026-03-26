@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { postSystemConversationMessage } from "@/lib/conversations";
+import { moderateOutgoingChatMessage } from "@/lib/chat-moderation";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 async function getConversationParticipantContext(conversationId: string) {
@@ -57,12 +58,18 @@ export async function sendConversationMessageAction(formData: FormData) {
   }
 
   const { supabase, user } = await getConversationParticipantContext(conversationId);
+  const moderation = moderateOutgoingChatMessage(body);
+  const sanitizedBody = moderation.sanitizedBody.trim();
+
+  if (!sanitizedBody) {
+    redirect(`/dashboard/mensagens/${conversationId}?message=Mensagem inválida.`);
+  }
 
   const { error } = await supabase.from("conversation_messages").insert({
     conversation_id: conversationId,
     sender_id: user.id,
     kind: "text",
-    body,
+    body: sanitizedBody,
   });
 
   if (error) {
@@ -71,6 +78,12 @@ export async function sendConversationMessageAction(formData: FormData) {
 
   revalidatePath(`/dashboard/mensagens/${conversationId}`);
   revalidatePath("/dashboard/mensagens");
+  if (moderation.wasRedacted) {
+    redirect(
+      `/dashboard/mensagens/${conversationId}?message=Detectamos telefone ou contato na mensagem e mascaramos automaticamente para proteger a conversa.`
+    );
+  }
+
   redirect(`/dashboard/mensagens/${conversationId}`);
 }
 
@@ -89,12 +102,12 @@ export async function requestConversationWhatsappAction(formData: FormData) {
   await postSystemConversationMessage({
     conversationId,
     senderId: user.id,
-    kind: "whatsapp_request",
-    body: "Gostaria de receber seu WhatsApp para agilizar o alinhamento do serviço.",
+    kind: "system",
+    body: "Solicitação registrada. Por segurança, o chat bloqueia números e contatos diretos automaticamente.",
   });
 
   revalidatePath(`/dashboard/mensagens/${conversationId}`);
-  redirect(`/dashboard/mensagens/${conversationId}?message=Solicitação de WhatsApp enviada.`);
+  redirect(`/dashboard/mensagens/${conversationId}?message=Solicitação registrada no histórico.`);
 }
 
 export async function shareConversationWhatsappAction(formData: FormData) {
@@ -103,24 +116,21 @@ export async function shareConversationWhatsappAction(formData: FormData) {
     redirect("/dashboard/mensagens?message=Conversa inválida.");
   }
 
-  const { user, providerProfile, isProvider } =
-    await getConversationParticipantContext(conversationId);
+  const { user, isProvider } = await getConversationParticipantContext(conversationId);
 
   if (!isProvider) {
     redirect(`/dashboard/mensagens/${conversationId}?message=Apenas o prestador pode compartilhar o WhatsApp.`);
   }
 
-  if (!providerProfile?.whatsapp_number) {
-    redirect(`/dashboard/mensagens/${conversationId}?message=Cadastre seu WhatsApp no perfil antes de compartilhar.`);
-  }
-
   await postSystemConversationMessage({
     conversationId,
     senderId: user.id,
-    kind: "whatsapp_share",
-    body: `WhatsApp compartilhado pelo prestador: ${providerProfile.whatsapp_number}`,
+    kind: "system",
+    body: "Compartilhamento de contato direto bloqueado pela política de segurança do chat.",
   });
 
   revalidatePath(`/dashboard/mensagens/${conversationId}`);
-  redirect(`/dashboard/mensagens/${conversationId}?message=WhatsApp compartilhado com o cliente.`);
+  redirect(
+    `/dashboard/mensagens/${conversationId}?message=Este chat não permite compartilhamento de números de contato.`
+  );
 }

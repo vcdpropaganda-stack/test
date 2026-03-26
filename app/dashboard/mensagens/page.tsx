@@ -3,11 +3,12 @@ import { formatDistanceToNow } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { ensureConversation, postSystemConversationMessage } from "@/lib/conversations";
+import { ensureConversation } from "@/lib/conversations";
+import { getResolvedUserRole } from "@/lib/auth";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 export const metadata: Metadata = {
-  title: "Mensagens | Vitrine Lojas",
+  title: "Mensagens | VL Serviços",
   description: "Converse com clientes e prestadores dentro da plataforma.",
 };
 
@@ -32,7 +33,7 @@ export default async function MessagesPage({ searchParams }: MessagesPageProps) 
     redirect("/login");
   }
 
-  const role = String(user.user_metadata.role ?? "client");
+  const role = (await getResolvedUserRole(supabase, user)) ?? "client";
 
   if (params.booking) {
     const bookingResult = await supabase
@@ -63,27 +64,75 @@ export default async function MessagesPage({ searchParams }: MessagesPageProps) 
 
         redirect(`/dashboard/mensagens/${conversationId}`);
       }
+
+      redirect("/dashboard/mensagens?message=Você não tem acesso a esta conversa.");
     }
   }
 
-  if (params.service && params.provider && role === "client") {
-    const conversationId = await ensureConversation({
-      serviceId: params.service,
-      providerProfileId: params.provider,
-      clientId: user.id,
-    });
+  if (params.service && params.provider) {
+    if (role === "client") {
+      let conversationId = "";
 
-    if (params.request_wpp === "1") {
-      await postSystemConversationMessage({
-        conversationId,
-        senderId: user.id,
-        kind: "whatsapp_request",
-        body: "Gostaria de receber seu WhatsApp para agilizar o alinhamento do serviço.",
-      });
-      redirect(`/dashboard/mensagens/${conversationId}?message=Solicitação de WhatsApp enviada.`);
+      try {
+        conversationId = await ensureConversation({
+          serviceId: params.service,
+          providerProfileId: params.provider,
+          clientId: user.id,
+        });
+      } catch (error) {
+        if (
+          error instanceof Error &&
+          error.message === "provider_monthly_quote_limit_reached"
+        ) {
+          redirect(
+            "/dashboard/mensagens?message=Este prestador atingiu o limite mensal de orçamentos do plano atual."
+          );
+        }
+        redirect(
+          "/dashboard/mensagens?message=Não foi possível abrir a conversa agora. Tente novamente."
+        );
+      }
+
+      if (params.request_wpp === "1") {
+        redirect(
+          `/dashboard/mensagens/${conversationId}?message=Este chat bloqueia compartilhamento de contatos diretos por segurança.`
+        );
+      }
+
+      redirect(`/dashboard/mensagens/${conversationId}`);
     }
 
-    redirect(`/dashboard/mensagens/${conversationId}`);
+    if (role === "provider" || role === "admin") {
+      const providerResult = await supabase
+        .from("provider_profiles")
+        .select("id, profile_id")
+        .eq("id", params.provider)
+        .maybeSingle();
+
+      const canAccessProvider =
+        role === "admin" || providerResult.data?.profile_id === user.id;
+
+      if (!canAccessProvider) {
+        redirect("/dashboard/mensagens?message=Você não tem acesso a esse prestador.");
+      }
+
+      const latestConversation = await supabase
+        .from("conversations")
+        .select("id")
+        .eq("service_id", params.service)
+        .eq("provider_profile_id", params.provider)
+        .order("updated_at", { ascending: false })
+        .limit(1)
+        .maybeSingle();
+
+      if (latestConversation.data?.id) {
+        redirect(`/dashboard/mensagens/${latestConversation.data.id}`);
+      }
+
+      redirect(
+        "/dashboard/mensagens?message=Ainda não há conversa com cliente para este serviço."
+      );
+    }
   }
 
   const conversationsResult =
@@ -144,7 +193,7 @@ export default async function MessagesPage({ searchParams }: MessagesPageProps) 
           Mensagens da plataforma
         </h1>
         <p className="mt-4 text-muted-strong">
-          Converse dentro da Vitrine Lojas em um fluxo parecido com marketplaces de confiança.
+          Converse dentro da VL Serviços em um fluxo parecido com marketplaces de confiança.
         </p>
       </section>
 

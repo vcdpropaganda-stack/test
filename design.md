@@ -1,7 +1,7 @@
-# Design System: Vitrine Lojas
+# Design System: VL Serviços
 
 ## 1. Identidade da Marca
-- **Nome:** Vitrine Lojas
+- **Nome:** VL Serviços
 - **Conceito:** Moderno, confiável, focado em conversao e usabilidade. Marketplace premium de servicos locais.
 
 ## 2. Paleta de Cores

@@ -49,6 +49,41 @@ export async function ensureConversation({
     return existing.data.id;
   }
 
+  if (!bookingId) {
+    const providerPlanResult = await supabase
+      .from("provider_profiles")
+      .select("plan")
+      .eq("id", providerProfileId)
+      .maybeSingle();
+
+    const providerPlan = providerPlanResult.data?.plan ?? "basic";
+    const limitsResult = await supabase
+      .from("subscription_limits")
+      .select("max_quote_requests_per_month")
+      .eq("plan", providerPlan)
+      .maybeSingle();
+
+    const monthlyLimit = limitsResult.data?.max_quote_requests_per_month ?? null;
+
+    if (monthlyLimit !== null) {
+      const now = new Date();
+      const monthStartUtc = new Date(
+        Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1, 0, 0, 0)
+      );
+
+      const monthlyQuotesCount = await supabase
+        .from("conversations")
+        .select("id", { count: "exact", head: true })
+        .eq("provider_profile_id", providerProfileId)
+        .is("booking_id", null)
+        .gte("created_at", monthStartUtc.toISOString());
+
+      if ((monthlyQuotesCount.count ?? 0) >= monthlyLimit) {
+        throw new Error("provider_monthly_quote_limit_reached");
+      }
+    }
+  }
+
   const created = await supabase
     .from("conversations")
     .insert({
@@ -80,4 +115,27 @@ export async function postSystemConversationMessage(params: {
     kind: params.kind,
     body: params.body,
   });
+}
+
+export const WHATSAPP_REQUEST_FEE_CENTS = 200;
+
+export async function createWhatsappRequestCharge(params: {
+  conversationId: string;
+  clientId: string;
+  amountCents?: number;
+}) {
+  const supabase = await createSupabaseServerClient();
+  const amountCents = params.amountCents ?? WHATSAPP_REQUEST_FEE_CENTS;
+
+  const { error } = await supabase.from("whatsapp_request_charges").insert({
+    conversation_id: params.conversationId,
+    client_id: params.clientId,
+    amount_cents: amountCents,
+    status: "paid",
+    payment_reference: `prototype_wpp_${Date.now()}`,
+  });
+
+  if (error) {
+    throw new Error("whatsapp_charge_failed");
+  }
 }

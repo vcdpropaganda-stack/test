@@ -25,7 +25,7 @@ export function HomeMarketplaceSection({
               key={service.id}
               href={`/servicos/${service.slug}`}
               title={service.title}
-              provider={service.provider_profile?.display_name ?? "Prestador Vitrine Lojas"}
+              provider={service.provider_profile?.display_name ?? "Prestador VL Serviços"}
               price={formatPrice(service.price_cents)}
               tag={getServiceTag(service)}
               imageUrl={service.cover_image_url}

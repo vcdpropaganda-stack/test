@@ -7,11 +7,12 @@ import {
   updateProviderAction,
   updateServiceModerationAction,
 } from "@/app/dashboard/admin/actions";
+import { getProviderPlanLabel } from "@/lib/subscription";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 export const metadata: Metadata = {
-  title: "Admin | Vitrine Lojas",
-  description: "Painel administrativo e operacional da plataforma Vitrine Lojas.",
+  title: "Admin | VL Serviços",
+  description: "Painel administrativo e operacional da plataforma VL Serviços.",
 };
 
 type AdminDashboardPageProps = {
@@ -29,10 +30,7 @@ function getStatusLabel(status: string) {
 }
 
 function getPlanLabel(plan: string) {
-  if (plan === "basic") return "Essencial";
-  if (plan === "pro") return "Profissional";
-  if (plan === "premium") return "Completo";
-  return plan;
+  return getProviderPlanLabel(plan);
 }
 
 function formatDateTime(value: string | null) {
@@ -330,9 +328,9 @@ export default async function AdminDashboardPage({
                         className="min-h-10 rounded-full border border-border bg-white px-4 text-sm text-slate-950"
                         aria-label={`Atualizar plano de ${provider.display_name}`}
                       >
-                        <option value="basic">Essencial</option>
-                        <option value="pro">Profissional</option>
-                        <option value="premium">Completo</option>
+                        <option value="basic">Básico</option>
+                        <option value="pro">Pro</option>
+                        <option value="premium">Avançado</option>
                       </select>
                       <button className="min-h-10 rounded-full bg-primary px-4 py-2 text-sm font-semibold text-white hover:bg-primary-strong">
                         Salvar

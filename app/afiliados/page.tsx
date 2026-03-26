@@ -3,9 +3,9 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
 export const metadata: Metadata = {
-  title: "Afiliados | Vitrine Lojas",
+  title: "Afiliados | VL Serviços",
   description:
-    "Landing page inicial do programa de afiliados da Vitrine Lojas para captação de parceiros e canais.",
+    "Landing page inicial do programa de afiliados da VL Serviços para captação de parceiros e canais.",
 };
 
 export default function AfiliadosPage() {
@@ -17,7 +17,7 @@ export default function AfiliadosPage() {
             Programa de Afiliados
           </span>
           <h1 className="mt-6 max-w-3xl font-sans text-5xl font-bold tracking-tight text-slate-950">
-            Indique prestadores e clientes para a Vitrine Lojas e transforme alcance em
+            Indique prestadores e clientes para a VL Serviços e transforme alcance em
             receita recorrente.
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-8 text-muted-strong">

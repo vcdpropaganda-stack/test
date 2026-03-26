@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { CalendarClock, ChartNoAxesCombined, ShieldCheck, Sparkles } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Recursos | Vitrine Lojas",
+  title: "Recursos | VL Serviços",
   description:
-    "Conheça os recursos principais do SaaS Vitrine Lojas para operação, conversão e escala.",
+    "Conheça os recursos principais do SaaS VL Serviços para operação, conversão e escala.",
 };
 
 const resources = [

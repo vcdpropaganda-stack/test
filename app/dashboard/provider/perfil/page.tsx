@@ -7,9 +7,10 @@ import { InputField } from "@/components/ui/input";
 import { Notice } from "@/components/ui/notice";
 import { ShareLinkButton } from "@/components/shared/share-link-button";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { getMonthlyQuoteLimitText, getProviderPlanLabel } from "@/lib/subscription";
 
 export const metadata: Metadata = {
-  title: "Perfil do Prestador | Vitrine Lojas",
+  title: "Perfil do Prestador | VL Serviços",
   description: "Edição do perfil público do prestador.",
 };
 
@@ -58,7 +59,7 @@ export default async function ProviderProfilePage({
             vitrine e o detalhe do serviço.
           </p>
           <p className="mt-6 rounded-full bg-white/10 px-4 py-2 text-sm">
-            Plano atual: {profile.plan}
+            Plano atual: {getProviderPlanLabel(profile.plan)} • {getMonthlyQuoteLimitText(profile.plan)}
           </p>
           {publicProfileUrl ? (
             <div className="mt-6">
@@ -118,8 +119,8 @@ export default async function ProviderProfilePage({
                 <div className="mt-4">
                   <ShareLinkButton
                     url={publicProfileUrl}
-                    title={`Perfil de ${profile.display_name} na Vitrine Lojas`}
-                    text="Veja este prestador na Vitrine Lojas"
+                    title={`Perfil de ${profile.display_name} na VL Serviços`}
+                    text="Veja este prestador na VL Serviços"
                   />
                 </div>
               </div>

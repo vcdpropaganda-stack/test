@@ -45,7 +45,7 @@ export function SiteFooter() {
               <VlMonogram className="h-11 w-11 shrink-0 sm:h-12 sm:w-12" dark />
               <div className="min-w-0">
                 <p className="truncate font-sans text-xl font-bold tracking-tight text-white">
-                  Vitrine Lojas
+                  VL Serviços
                 </p>
                 <p className="text-xs font-medium text-slate-300 sm:text-sm">
                   Serviços locais em um só lugar
@@ -107,9 +107,9 @@ export function SiteFooter() {
 
         <div className="mt-5 flex flex-col gap-2 border-t border-white/10 pt-4 text-sm sm:mt-7 sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:pt-5">
           <p className="max-w-2xl leading-6 text-slate-400">
-            Vitrine Lojas para quem quer encontrar e contratar serviços locais com mais clareza.
+            VL Serviços para quem quer encontrar e contratar serviços locais com mais clareza.
           </p>
-          <p className="font-medium text-slate-400">© 2026 Vitrine Lojas</p>
+          <p className="font-medium text-slate-400">© 2026 VL Serviços</p>
         </div>
       </div>
     </footer>

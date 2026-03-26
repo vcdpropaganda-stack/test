@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { Check } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Preços | Vitrine Lojas",
+  title: "Preços | VL Serviços",
   description:
-    "Planos iniciais da Vitrine Lojas para prestadores com progressão clara de recursos.",
+    "Planos iniciais da VL Serviços para prestadores com progressão clara de recursos.",
 };
 
 const plans = [
@@ -12,19 +12,34 @@ const plans = [
     name: "Básico",
     price: "R$ 49",
     description: "Para prestadores iniciando operação digital.",
-    features: ["Até 3 serviços", "Agenda básica", "Perfil público"],
+    features: [
+      "Até 3 serviços",
+      "Até 50 orçamentos por mês",
+      "Agenda básica",
+      "Perfil público",
+    ],
   },
   {
     name: "Pro",
     price: "R$ 119",
     description: "Para quem precisa de mais volume e apresentação mais forte.",
-    features: ["Até 10 serviços", "Destaque no marketplace", "Métricas básicas"],
+    features: [
+      "Até 10 serviços",
+      "Até 150 orçamentos por mês",
+      "Destaque no marketplace",
+      "Métricas básicas",
+    ],
   },
   {
     name: "Avançado",
     price: "R$ 249",
     description: "Para operações em crescimento com foco em escala e marca.",
-    features: ["Serviços ilimitados", "Posicionamento prioritário", "Suporte prioritário"],
+    features: [
+      "Serviços ilimitados",
+      "Orçamentos ilimitados",
+      "Posicionamento prioritário",
+      "Suporte prioritário",
+    ],
   },
 ];
 

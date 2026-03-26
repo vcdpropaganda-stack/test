@@ -441,7 +441,7 @@ export function ServicesCatalog({
                   title={service.title}
                   provider={
                     service.provider_profile?.display_name ??
-                    "Prestador Vitrine Lojas"
+                    "Prestador VL Serviços"
                   }
                   price={formatPrice(service.price_cents)}
                   tag={getServiceTag(service)}

@@ -42,14 +42,14 @@ export async function generateMetadata({
 
   if (!service) {
     return {
-      title: `${humanizeSlug(slug)} | Vitrine Lojas`,
+      title: `${humanizeSlug(slug)} | VL Serviços`,
       description:
-        "Detalhes do serviço no marketplace Vitrine Lojas.",
+        "Detalhes do serviço no marketplace VL Serviços.",
     };
   }
 
   return {
-    title: `${service.title} | Vitrine Lojas`,
+    title: `${service.title} | VL Serviços`,
     description: service.description,
   };
 }
@@ -150,7 +150,7 @@ export default async function ServiceDetailPage({
             title={service.title}
             description={service.description}
             categoryName={service.category?.name ?? "Serviço"}
-            providerName={service.provider_profile?.display_name ?? "Prestador Vitrine Lojas"}
+            providerName={service.provider_profile?.display_name ?? "Prestador VL Serviços"}
             averageRating={service.average_rating}
             reviewsCount={service.reviews_count}
             location={location}
@@ -202,7 +202,7 @@ export default async function ServiceDetailPage({
           durationMinutes={service.duration_minutes}
           availabilityCount={availability.length}
           providerProfileId={service.provider_profile?.id ?? ""}
-          providerName={service.provider_profile?.display_name ?? "Prestador Vitrine Lojas"}
+          providerName={service.provider_profile?.display_name ?? "Prestador VL Serviços"}
           providerSlug={service.provider_profile?.public_slug ?? null}
           providerBio={service.provider_profile?.bio}
           providerPlan={service.provider_profile?.plan}

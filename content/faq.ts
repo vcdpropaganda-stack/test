@@ -15,9 +15,9 @@ export const faqGroups: FaqGroup[] = [
     description: "Entenda o que é a plataforma, para quem ela serve e como ela funciona.",
     items: [
       {
-        question: "O que é a Vitrine Lojas?",
+        question: "O que é a VL Serviços?",
         answer:
-          "A Vitrine Lojas é uma plataforma para encontrar, comparar e contratar serviços locais de forma visual, organizada e simples.",
+          "A VL Serviços é uma plataforma para encontrar, comparar e contratar serviços locais de forma visual, organizada e simples.",
       },
       {
         question: "A plataforma atende clientes ou prestadores?",
@@ -40,7 +40,7 @@ export const faqGroups: FaqGroup[] = [
           "Sim. A plataforma foi estruturada para navegação responsiva, leitura clara e ações principais acessíveis em telas menores.",
       },
       {
-        question: "A Vitrine Lojas já está pronta para operação real?",
+        question: "A VL Serviços já está pronta para operação real?",
         answer:
           "O ambiente atual já é um protótipo funcional com fluxos reais de cadastro, vitrine, agenda, reserva e dashboards. Alguns pontos ainda seguem em refinamento visual e operacional.",
       },
@@ -247,7 +247,7 @@ export const faqGroups: FaqGroup[] = [
       {
         question: "Posso criar mais de um serviço?",
         answer:
-          "Sim. A quantidade pode variar conforme o plano configurado para o prestador dentro da plataforma.",
+          "Sim. O limite de serviços varia por plano (Básico: 3, Pro: 10 e Avançado: ilimitado). O recebimento de orçamentos também segue limite mensal (Básico: 50/mês, Pro: 150/mês e Avançado: ilimitado).",
       },
       {
         question: "Como meu serviço aparece na vitrine?",

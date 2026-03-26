@@ -1,15 +1,15 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Termos | Vitrine Lojas",
-  description: "Termos de uso institucionais da plataforma Vitrine Lojas.",
+  title: "Termos | VL Serviços",
+  description: "Termos de uso institucionais da plataforma VL Serviços.",
 };
 
 const sections = [
   {
     title: "1. Aceitação e escopo",
     paragraphs: [
-      "Ao acessar, navegar, cadastrar-se ou utilizar a Vitrine Lojas, o usuário declara ciência e concordância com estes Termos de Uso e com as políticas complementares aplicáveis à plataforma.",
+      "Ao acessar, navegar, cadastrar-se ou utilizar a VL Serviços, o usuário declara ciência e concordância com estes Termos de Uso e com as políticas complementares aplicáveis à plataforma.",
       "Os presentes termos regulam o uso do ambiente digital, incluindo funcionalidades de cadastro, publicação de serviços, descoberta, agendamento, contratação, comunicação e gestão operacional.",
     ],
   },
@@ -37,7 +37,7 @@ const sections = [
   {
     title: "5. Suspensão, alteração e encerramento",
     paragraphs: [
-      "A Vitrine Lojas poderá alterar funcionalidades, layout, fluxos, preços, integrações, planos, políticas e termos a qualquer tempo, preservados os direitos legalmente exigíveis.",
+      "A VL Serviços poderá alterar funcionalidades, layout, fluxos, preços, integrações, planos, políticas e termos a qualquer tempo, preservados os direitos legalmente exigíveis.",
       "Contas ou conteúdos poderão ser suspensos, revisados ou removidos quando houver descumprimento destes termos, risco operacional, exigência legal ou necessidade de proteção do ecossistema da plataforma.",
     ],
   },
@@ -57,7 +57,7 @@ export default function TermosPage() {
           <p className="mt-6 text-base leading-8 text-muted-strong">
             Regras gerais de utilização da plataforma, condições de acesso,
             condutas esperadas, limites operacionais e diretrizes aplicáveis ao
-            ecossistema Vitrine Lojas.
+            ecossistema VL Serviços.
           </p>
         </div>
 

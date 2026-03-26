@@ -9,8 +9,8 @@ import { Notice } from "@/components/ui/notice";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 export const metadata: Metadata = {
-  title: "Checkout | Vitrine Lojas",
-  description: "Confirmação de pagamento e agendamento no marketplace Vitrine Lojas.",
+  title: "Checkout | VL Serviços",
+  description: "Confirmação de pagamento e agendamento no marketplace VL Serviços.",
 };
 
 type CheckoutPageProps = {
@@ -97,7 +97,7 @@ export default async function CheckoutPage({
                 4242 4242 4242 4242
               </p>
               <div className="mt-8 flex items-center justify-between text-sm text-white/80">
-                <span>VITRINE LOJAS PROTOTYPE</span>
+                <span>VL SERVIÇOS PROTOTYPE</span>
                 <span>12/34</span>
               </div>
             </div>

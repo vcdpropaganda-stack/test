@@ -172,16 +172,28 @@ create table if not exists public.provider_profiles (
 
 create table if not exists public.subscription_limits (
   plan public.subscription_plan primary key,
-  max_services integer not null check (max_services > 0)
+  max_services integer not null check (max_services > 0),
+  max_quote_requests_per_month integer check (
+    max_quote_requests_per_month is null
+    or max_quote_requests_per_month > 0
+  )
 );
 
-insert into public.subscription_limits (plan, max_services)
+alter table public.subscription_limits
+add column if not exists max_quote_requests_per_month integer check (
+  max_quote_requests_per_month is null
+  or max_quote_requests_per_month > 0
+);
+
+insert into public.subscription_limits (plan, max_services, max_quote_requests_per_month)
 values
-  ('basic', 3),
-  ('pro', 10),
-  ('premium', 999)
+  ('basic', 3, 50),
+  ('pro', 10, 150),
+  ('premium', 999, null)
 on conflict (plan) do update
-set max_services = excluded.max_services;
+set
+  max_services = excluded.max_services,
+  max_quote_requests_per_month = excluded.max_quote_requests_per_month;
 
 create table if not exists public.service_categories (
   id uuid primary key default gen_random_uuid(),
@@ -272,6 +284,22 @@ create table if not exists public.conversation_messages (
   body text,
   created_at timestamptz not null default timezone('utc', now()),
   check (kind <> 'text' or body is not null)
+);
+
+create index if not exists conversations_updated_at_idx
+on public.conversations(updated_at desc);
+
+create index if not exists conversation_messages_conversation_created_idx
+on public.conversation_messages(conversation_id, created_at);
+
+create table if not exists public.whatsapp_request_charges (
+  id uuid primary key default gen_random_uuid(),
+  conversation_id uuid not null references public.conversations(id) on delete cascade,
+  client_id uuid not null references public.profiles(id) on delete cascade,
+  amount_cents integer not null check (amount_cents > 0),
+  status text not null default 'paid',
+  payment_reference text,
+  created_at timestamptz not null default timezone('utc', now())
 );
 
 create table if not exists public.email_logs (
@@ -370,6 +398,25 @@ before update on public.conversations
 for each row
 execute function public.handle_updated_at();
 
+create or replace function public.touch_conversation_on_message()
+returns trigger
+language plpgsql
+as $$
+begin
+  update public.conversations
+  set updated_at = timezone('utc', now())
+  where id = new.conversation_id;
+
+  return new;
+end;
+$$;
+
+drop trigger if exists conversation_messages_touch_conversation on public.conversation_messages;
+create trigger conversation_messages_touch_conversation
+after insert on public.conversation_messages
+for each row
+execute function public.touch_conversation_on_message();
+
 drop trigger if exists on_auth_user_created on auth.users;
 create trigger on_auth_user_created
 after insert on auth.users
@@ -386,6 +433,7 @@ alter table public.reviews enable row level security;
 alter table public.client_reviews enable row level security;
 alter table public.conversations enable row level security;
 alter table public.conversation_messages enable row level security;
+alter table public.whatsapp_request_charges enable row level security;
 alter table public.email_logs enable row level security;
 alter table public.subscription_limits enable row level security;
 
@@ -734,6 +782,30 @@ with check (
         and (c.client_id = auth.uid() or pp.profile_id = auth.uid())
     )
   )
+);
+
+drop policy if exists "whatsapp_request_charges_client_insert" on public.whatsapp_request_charges;
+create policy "whatsapp_request_charges_client_insert"
+on public.whatsapp_request_charges
+for insert
+with check (
+  client_id = auth.uid()
+  and amount_cents > 0
+  and exists (
+    select 1
+    from public.conversations c
+    where c.id = conversation_id
+      and c.client_id = auth.uid()
+  )
+);
+
+drop policy if exists "whatsapp_request_charges_read_client_or_admin" on public.whatsapp_request_charges;
+create policy "whatsapp_request_charges_read_client_or_admin"
+on public.whatsapp_request_charges
+for select
+using (
+  client_id = auth.uid()
+  or public.get_my_role() = 'admin'
 );
 
 drop policy if exists "email_logs_admin_or_related_read" on public.email_logs;

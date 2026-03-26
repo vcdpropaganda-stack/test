@@ -63,7 +63,7 @@ export function HomeHero({
             </h1>
             <p className="mx-auto mt-7 max-w-3xl text-lg leading-8 text-muted-strong sm:text-xl">
               Quer dar um tapa no visual, consertar o PC ou bombar suas redes
-              sociais? Na Vitrine Lojas, você encontra o especialista ideal em minutos.
+              sociais? Na VL Serviços, você encontra o especialista ideal em minutos.
             </p>
           </div>
           <div data-reveal data-reveal-delay="140" className="mx-auto mt-10 max-w-4xl">

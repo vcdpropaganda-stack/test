@@ -20,16 +20,16 @@ export async function generateMetadata({
 
   if (!provider) {
     return {
-      title: "Prestador | Vitrine Lojas",
-      description: "Perfil público do prestador na Vitrine Lojas.",
+      title: "Prestador | VL Serviços",
+      description: "Perfil público do prestador na VL Serviços.",
     };
   }
 
   return {
-    title: `${provider.display_name} | Prestador na Vitrine Lojas`,
+    title: `${provider.display_name} | Prestador na VL Serviços`,
     description:
       provider.bio ||
-      `Conheça ${provider.display_name}, seus serviços e avaliações na Vitrine Lojas.`,
+      `Conheça ${provider.display_name}, seus serviços e avaliações na VL Serviços.`,
   };
 }
 
@@ -86,7 +86,7 @@ export default async function ProviderPage({ params }: ProviderPageProps) {
               <ShareLinkButton
                 url={profileUrl}
                 title={`Perfil de ${provider.display_name}`}
-                text={`Conheça ${provider.display_name} na Vitrine Lojas`}
+                text={`Conheça ${provider.display_name} na VL Serviços`}
                 className="w-full"
               />
               {provider.services[0] ? (

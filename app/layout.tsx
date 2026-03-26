@@ -21,7 +21,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Vitrine Lojas | Marketplace de Serviços Locais",
+  title: "VL Serviços | Marketplace de Serviços Locais",
   description:
     "Marketplace para conectar clientes a prestadores de serviços com agendamento, assinaturas e operação escalável.",
 };

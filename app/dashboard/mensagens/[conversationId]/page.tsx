@@ -3,18 +3,14 @@ import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import {
-  requestConversationWhatsappAction,
-  sendConversationMessageAction,
-  shareConversationWhatsappAction,
-} from "@/app/dashboard/mensagens/actions";
+import { sendConversationMessageAction } from "@/app/dashboard/mensagens/actions";
 import { Button } from "@/components/ui/button";
 import { Notice } from "@/components/ui/notice";
 import { TextareaField } from "@/components/ui/textarea";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 export const metadata: Metadata = {
-  title: "Conversa | Vitrine Lojas",
+  title: "Conversa | VL Serviços",
   description: "Conversa interna entre cliente e prestador.",
 };
 
@@ -117,25 +113,11 @@ export default async function ConversationDetailPage({
           <div className="rounded-[2rem] border border-border bg-white p-6 shadow-sm">
             <p className="text-sm font-semibold text-slate-950">Contato e alinhamento</p>
             <p className="mt-3 text-sm leading-7 text-muted-strong">
-              Use a conversa para tirar dúvidas, alinhar detalhes do serviço e solicitar o WhatsApp quando fizer sentido.
+              Todo o histórico desta conversa fica registrado com data e horário. Por segurança, números e
+              contatos diretos são mascarados automaticamente.
             </p>
-            <div className="mt-5 flex flex-col gap-3">
-              {isClient ? (
-                <form action={requestConversationWhatsappAction}>
-                  <input type="hidden" name="conversation_id" value={conversationId} />
-                  <Button type="submit" variant="secondary" fullWidth>
-                    Solicitar WhatsApp
-                  </Button>
-                </form>
-              ) : null}
-              {isProvider ? (
-                <form action={shareConversationWhatsappAction}>
-                  <input type="hidden" name="conversation_id" value={conversationId} />
-                  <Button type="submit" fullWidth>
-                    Compartilhar meu WhatsApp
-                  </Button>
-                </form>
-              ) : null}
+            <div className="mt-5 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-xs font-medium text-amber-800">
+              Política ativa: envio de telefone, WhatsApp e contato externo é bloqueado no chat.
             </div>
           </div>
         </aside>
@@ -146,7 +128,7 @@ export default async function ConversationDetailPage({
               <Notice>{message}</Notice>
             </div>
           ) : null}
-          <div className="space-y-3">
+          <div className="max-h-[56vh] space-y-3 overflow-y-auto rounded-[1.5rem] border border-slate-100 bg-slate-50/65 p-3 sm:p-4">
             {messages.length > 0 ? (
               messages.map((msg) => {
                 const isMine = msg.sender_id === user.id;
@@ -168,7 +150,7 @@ export default async function ConversationDetailPage({
                           ? "WhatsApp compartilhado"
                           : msg.sender?.full_name ?? "Mensagem"}
                     </p>
-                    <p className="mt-2 text-sm leading-7">{msg.body}</p>
+                    <p className="mt-2 text-sm leading-7 whitespace-pre-wrap">{msg.body}</p>
                     <p className="mt-2 text-[11px] opacity-70">
                       {format(new Date(msg.created_at), "dd/MM 'às' HH:mm", {
                         locale: ptBR,
@@ -192,7 +174,8 @@ export default async function ConversationDetailPage({
             <TextareaField
               name="body"
               label="Nova mensagem"
-              placeholder="Escreva aqui sua dúvida, alinhamento ou próxima etapa."
+              placeholder="Escreva sua mensagem. Contatos diretos serão ocultados automaticamente."
+              hint="Este chat é monitorado e mantém histórico completo da conversa."
               rows={4}
               required
             />

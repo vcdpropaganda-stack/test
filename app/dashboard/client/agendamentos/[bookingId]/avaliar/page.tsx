@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 export const metadata: Metadata = {
-  title: "Avaliar serviço | Vitrine Lojas",
+  title: "Avaliar serviço | VL Serviços",
   description: "Envie uma avaliação após a conclusão do serviço.",
 };
 

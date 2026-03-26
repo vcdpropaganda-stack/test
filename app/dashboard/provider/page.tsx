@@ -11,9 +11,10 @@ import { Button } from "@/components/ui/button";
 import { Notice } from "@/components/ui/notice";
 import { getResolvedUserRole } from "@/lib/auth";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { getMonthlyQuoteLimitText, getProviderPlanLabel } from "@/lib/subscription";
 
 export const metadata: Metadata = {
-  title: "Painel do Prestador | Vitrine Lojas",
+  title: "Painel do Prestador | VL Serviços",
   description:
     "Área inicial do prestador para gerenciar serviços, disponibilidade e assinaturas.",
 };
@@ -92,7 +93,11 @@ export default async function ProviderDashboardPage({
     },
     {
       label: "Plano atual",
-      value: providerProfile?.plan ?? "basic",
+      value: getProviderPlanLabel(providerProfile?.plan ?? "basic"),
+    },
+    {
+      label: "Limite de orçamentos",
+      value: getMonthlyQuoteLimitText(providerProfile?.plan ?? "basic"),
     },
   ];
 
@@ -113,7 +118,7 @@ export default async function ProviderDashboardPage({
       </div>
       {message ? <div className="mt-6"><Notice>{message}</Notice></div> : null}
 
-      <div className="mt-8 grid gap-5 md:grid-cols-3">
+      <div className="mt-8 grid gap-5 md:grid-cols-4">
         {metrics.map((metric) => (
           <section
             key={metric.label}

@@ -5,7 +5,7 @@ import { HomeHero } from "@/components/home/home-hero";
 import { HomeMarketplaceSection } from "@/components/home/home-marketplace-section";
 
 export const metadata: Metadata = {
-  title: "Vitrine Lojas | Marketplace de Serviços Locais",
+  title: "VL Serviços | Marketplace de Serviços Locais",
   description:
     "A plataforma certa para encontrar quem faz. Encontre profissionais de beleza, casa, tecnologia e negócios em minutos.",
 };
@@ -65,7 +65,7 @@ export default async function Home() {
             slug: service.slug,
             title: service.title,
             provider:
-              service.provider_profile?.display_name ?? "Prestador Vitrine Lojas",
+              service.provider_profile?.display_name ?? "Prestador VL Serviços",
             city: service.provider_profile?.city ?? null,
             price: formatPrice(service.price_cents),
             duration: `${service.duration_minutes} min`,

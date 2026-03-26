@@ -21,9 +21,9 @@ type ServiceDetailSidebarProps = {
 };
 
 function formatPlan(plan: string | null | undefined) {
-  if (plan === "pro") return "Profissional";
-  if (plan === "premium") return "Completo";
-  return "Essencial";
+  if (plan === "pro") return "Pro";
+  if (plan === "premium") return "Avançado";
+  return "Básico";
 }
 
 export function ServiceDetailSidebar({
@@ -54,9 +54,9 @@ export function ServiceDetailSidebar({
       <div className="overflow-hidden rounded-[1.75rem] border border-border bg-white shadow-[0_20px_55px_rgba(15,23,42,0.08)] sm:rounded-[2rem]">
         <div className="grid grid-cols-3 border-b border-border bg-slate-50 text-[0.72rem] sm:text-sm">
           {[
-            { label: "Essencial", price: priceCents },
-            { label: "Intermediário", price: standardPrice },
-            { label: "Completo", price: completePrice },
+            { label: "Básico", price: priceCents },
+            { label: "Pro", price: standardPrice },
+            { label: "Avançado", price: completePrice },
           ].map((pack, index) => (
             <div
               key={pack.label}
@@ -124,13 +124,11 @@ export function ServiceDetailSidebar({
                 Conversar com o prestador
               </span>
             </Link>
-            {hasWhatsappContact ? (
-              <Link href={`${messagesBase}&request_wpp=1`} className="block">
-                <span className="inline-flex min-h-11 w-full items-center justify-center rounded-full border border-border bg-white px-5 py-3 text-sm font-semibold text-slate-950 hover:bg-slate-50">
-                  Solicitar WhatsApp
-                </span>
-              </Link>
-            ) : null}
+            <p className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-xs font-medium text-amber-800">
+              {hasWhatsappContact
+                ? "O chat bloqueia números e contatos externos automaticamente por segurança."
+                : "Este chat mantém toda a conversa registrada e bloqueia números automaticamente."}
+            </p>
           </div>
         </div>
       </div>
@@ -177,7 +175,7 @@ export function ServiceDetailSidebar({
             <ShareLinkButton
               url={providerShareUrl}
               title={`Perfil de ${providerName}`}
-              text={`Conheça ${providerName} na Vitrine Lojas`}
+              text={`Conheça ${providerName} na VL Serviços`}
               className="w-full"
             />
           ) : null}

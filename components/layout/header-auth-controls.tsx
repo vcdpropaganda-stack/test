@@ -9,6 +9,7 @@ import { createSupabaseBrowserClient } from "@/lib/supabase/client";
 
 type HeaderAuthControlsProps = {
   links: Array<{ href: string; label: string }>;
+  initialAuth?: AuthSnapshot;
 };
 
 type AuthSnapshot = {
@@ -22,11 +23,13 @@ function getDashboardHref(role: string | null | undefined) {
   return "/dashboard/client";
 }
 
-export function HeaderAuthControls({ links }: HeaderAuthControlsProps) {
-  const [auth, setAuth] = useState<AuthSnapshot>({
-    isAuthenticated: false,
-    dashboardHref: "/dashboard/client",
-  });
+export function HeaderAuthControls({ links, initialAuth }: HeaderAuthControlsProps) {
+  const [auth, setAuth] = useState<AuthSnapshot>(
+    initialAuth ?? {
+      isAuthenticated: false,
+      dashboardHref: "/dashboard/client",
+    }
+  );
 
   useEffect(() => {
     const supabase = hasSupabaseEnv() ? createSupabaseBrowserClient() : null;
@@ -77,6 +80,9 @@ export function HeaderAuthControls({ links }: HeaderAuthControlsProps) {
       <div className="hidden shrink-0 items-center gap-2 self-center md:flex">
         {auth.isAuthenticated ? (
           <>
+            <span className="inline-flex min-h-10 items-center justify-center rounded-full border border-emerald-300 bg-emerald-50 px-4 py-2 text-sm font-semibold text-emerald-800 sm:min-h-11 sm:px-4 sm:py-2.5">
+              Logado
+            </span>
             <Link
               href={auth.dashboardHref}
               className="inline-flex min-h-10 items-center justify-center rounded-full border border-primary-strong/10 bg-primary px-3 py-2 text-sm font-semibold !text-white shadow-lg shadow-primary/25 hover:bg-primary-strong hover:!text-white sm:min-h-11 sm:px-4 sm:py-2.5"

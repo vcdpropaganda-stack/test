@@ -7,8 +7,8 @@ import { InputField } from "@/components/ui/input";
 import { Notice } from "@/components/ui/notice";
 
 export const metadata: Metadata = {
-  title: "Redefinir senha | Vitrine Lojas",
-  description: "Defina uma nova senha para continuar usando sua conta na Vitrine Lojas.",
+  title: "Redefinir senha | VL Serviços",
+  description: "Defina uma nova senha para continuar usando sua conta na VL Serviços.",
 };
 
 export default async function RedefinirSenhaPage({
