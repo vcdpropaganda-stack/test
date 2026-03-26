@@ -3,45 +3,22 @@ import { Check } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Preços | VL Serviços",
-  description:
-    "Planos iniciais da VL Serviços para prestadores com progressão clara de recursos.",
+  description: "Plano único da VL Serviços com cobrança mensal ou anual.",
 };
 
-const plans = [
-  {
-    name: "Básico",
-    price: "R$ 49",
-    description: "Para prestadores iniciando operação digital.",
-    features: [
-      "Até 3 serviços",
-      "Até 50 orçamentos por mês",
-      "Agenda básica",
-      "Perfil público",
-    ],
-  },
-  {
-    name: "Pro",
-    price: "R$ 119",
-    description: "Para quem precisa de mais volume e apresentação mais forte.",
-    features: [
-      "Até 10 serviços",
-      "Até 150 orçamentos por mês",
-      "Destaque no marketplace",
-      "Métricas básicas",
-    ],
-  },
-  {
-    name: "Avançado",
-    price: "R$ 249",
-    description: "Para operações em crescimento com foco em escala e marca.",
-    features: [
-      "Serviços ilimitados",
-      "Orçamentos ilimitados",
-      "Posicionamento prioritário",
-      "Suporte prioritário",
-    ],
-  },
-];
+const plan = {
+  name: "UNICO",
+  monthlyPrice: "R$ 75,00",
+  yearlyFrom: "R$ 900,00",
+  yearlyPrice: "R$ 765,00",
+  description: "Plano único para prestadores da plataforma.",
+  features: [
+    "Serviços ilimitados",
+    "Orçamentos ilimitados",
+    "Agenda integrada",
+    "Perfil público",
+  ],
+};
 
 export default function PrecosPage() {
   return (
@@ -51,42 +28,33 @@ export default function PrecosPage() {
           Preços
         </p>
         <h1 className="mt-4 font-sans text-5xl font-bold tracking-tight text-slate-950">
-          Planos claros, sem ruído e preparados para crescer com o produto.
+          Plano único, simples e direto.
         </h1>
         <p className="mt-6 text-lg leading-8 text-muted-strong">
-          A base de assinatura do prestador já conversa com o schema do
-          Supabase e com a futura integração com Stripe.
+          Escolha entre cobrança mensal ou anual com desconto.
         </p>
       </section>
 
-      <section className="mt-12 grid gap-6 lg:grid-cols-3">
-        {plans.map((plan, index) => (
-          <article
-            key={plan.name}
-            className={`elevated-card rounded-[2rem] border p-8 ${
-              index === 1
-                ? "border-primary bg-slate-950 text-white"
-                : "border-border bg-white text-slate-950"
-            }`}
-          >
-            <p className="text-sm font-semibold uppercase tracking-[0.2em]">
-              {plan.name}
-            </p>
-            <p className="mt-5 font-sans text-5xl font-bold tracking-tight">
-              {plan.price}
-              <span className="text-base font-medium opacity-70">/mes</span>
-            </p>
-            <p className="mt-4 text-sm leading-7 opacity-80">{plan.description}</p>
-            <ul className="mt-8 space-y-3 text-sm">
-              {plan.features.map((feature) => (
-                <li key={feature} className="flex items-start gap-3">
-                  <Check className="mt-0.5 h-4 w-4 shrink-0" />
-                  <span>{feature}</span>
-                </li>
-              ))}
-            </ul>
-          </article>
-        ))}
+      <section className="mx-auto mt-12 max-w-3xl">
+        <article className="elevated-card rounded-[2rem] border border-primary bg-slate-950 p-8 text-white">
+          <p className="text-sm font-semibold uppercase tracking-[0.2em]">{plan.name}</p>
+          <p className="mt-5 text-sm font-medium uppercase tracking-[0.16em] text-white/70">Mensal</p>
+          <p className="mt-2 font-sans text-5xl font-bold tracking-tight">{plan.monthlyPrice}</p>
+          <p className="mt-6 text-sm font-medium uppercase tracking-[0.16em] text-white/70">Anual</p>
+          <p className="mt-2 text-2xl font-semibold tracking-tight">
+            De <span className="line-through opacity-70">{plan.yearlyFrom}</span> por{" "}
+            <span className="text-3xl">{plan.yearlyPrice}</span>
+          </p>
+          <p className="mt-4 text-sm leading-7 opacity-80">{plan.description}</p>
+          <ul className="mt-8 space-y-3 text-sm">
+            {plan.features.map((feature) => (
+              <li key={feature} className="flex items-start gap-3">
+                <Check className="mt-0.5 h-4 w-4 shrink-0" />
+                <span>{feature}</span>
+              </li>
+            ))}
+          </ul>
+        </article>
       </section>
     </main>
   );
