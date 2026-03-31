@@ -1,4 +1,4 @@
-# VL Serviços
+# VLservice
 
 Base inicial de arquitetura para um marketplace de servicos locais usando Next.js, Tailwind CSS, TypeScript e Supabase.
 

@@ -6,7 +6,7 @@ import { TextareaField } from "@/components/ui/textarea";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 export const metadata: Metadata = {
-  title: "Avaliar cliente | VL Serviços",
+  title: "Avaliar cliente | VLservice",
   description: "Registre como foi a experiência com o cliente.",
 };
 

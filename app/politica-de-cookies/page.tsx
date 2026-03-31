@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Política de Cookies | VL Serviços",
+  title: "Política de Cookies | VLservice",
   description:
-    "Diretrizes de uso de cookies para navegação, preferências, segurança e desempenho na VL Serviços.",
+    "Diretrizes de uso de cookies para navegação, preferências, segurança e desempenho na VLservice.",
 };
 
 const sections = [
@@ -11,7 +11,7 @@ const sections = [
     title: "1. O que são cookies",
     paragraphs: [
       "Cookies são pequenos arquivos armazenados no navegador para lembrar preferências, manter sessões, apoiar recursos de segurança e melhorar a experiência de navegação.",
-      "Na VL Serviços, eles ajudam a manter consistência de uso, reduzir fricção no fluxo e medir desempenho da plataforma.",
+      "Na VLservice, eles ajudam a manter consistência de uso, reduzir fricção no fluxo e medir desempenho da plataforma.",
     ],
   },
   {
@@ -31,7 +31,7 @@ const sections = [
   {
     title: "4. Relação com privacidade e termos",
     paragraphs: [
-      "Esta política deve ser lida em conjunto com a Política de Privacidade, LGPD e Termos de Uso da VL Serviços.",
+      "Esta política deve ser lida em conjunto com a Política de Privacidade, LGPD e Termos de Uso da VLservice.",
       "Ao continuar navegando e utilizar recursos da plataforma, você reconhece as práticas descritas neste documento.",
     ],
   },
@@ -50,7 +50,7 @@ export default function PoliticaDeCookiesPage() {
           </h1>
           <p className="mt-6 text-base leading-8 text-muted-strong">
             Diretrizes de uso de cookies para navegação, segurança, preferências
-            e análise de desempenho na plataforma VL Serviços.
+            e análise de desempenho na plataforma VLservice.
           </p>
         </div>
 

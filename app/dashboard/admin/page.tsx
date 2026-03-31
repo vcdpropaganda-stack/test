@@ -11,8 +11,8 @@ import { getProviderPlanLabel } from "@/lib/subscription";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 export const metadata: Metadata = {
-  title: "Admin | VL Serviços",
-  description: "Painel administrativo e operacional da plataforma VL Serviços.",
+  title: "Admin | VLservice",
+  description: "Painel administrativo e operacional da plataforma VLservice.",
 };
 
 type AdminDashboardPageProps = {
@@ -575,7 +575,7 @@ export default async function AdminDashboardPage({
             Governança
           </p>
           <p className="mt-4 text-2xl font-bold tracking-tight text-slate-950">
-            Mais controle de vitrine
+            Mais controle de catálogo
           </p>
           <p className="mt-3 text-sm leading-7 text-muted-strong">
             É possível ativar, pausar, destacar anúncios e ajustar planos de prestadores

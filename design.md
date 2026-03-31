@@ -1,7 +1,7 @@
-# Design System: VL Serviços
+# Design System: VLservice
 
 ## 1. Identidade da Marca
-- **Nome:** VL Serviços
+- **Nome:** VLservice
 - **Conceito:** Moderno, confiável, focado em conversao e usabilidade. Marketplace premium de servicos locais.
 
 ## 2. Paleta de Cores

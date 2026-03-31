@@ -45,7 +45,7 @@ export function ServiceDetailSidebar({
   const standardPrice = Math.round(priceCents * 1.2);
   const providerProfilePath = providerSlug ? `/prestadores/${providerSlug}` : null;
   const providerShareUrl = providerSlug
-    ? `${process.env.NEXT_PUBLIC_SITE_URL ?? "https://vitrinelojas-fawn.vercel.app"}${providerProfilePath}`
+    ? `${process.env.NEXT_PUBLIC_SITE_URL ?? "https://vlservice.vercel.app"}${providerProfilePath}`
     : null;
   const messagesBase = `/dashboard/mensagens?service=${serviceId}&provider=${providerProfileId}`;
 
@@ -175,7 +175,7 @@ export function ServiceDetailSidebar({
             <ShareLinkButton
               url={providerShareUrl}
               title={`Perfil de ${providerName}`}
-              text={`Conheça ${providerName} na VL Serviços`}
+              text={`Conheça ${providerName} na VLservice`}
               className="w-full"
             />
           ) : null}

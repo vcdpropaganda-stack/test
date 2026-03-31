@@ -11,12 +11,16 @@ import { Button } from "@/components/ui/button";
 import { Notice } from "@/components/ui/notice";
 import { getResolvedUserRole } from "@/lib/auth";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
-import { getMonthlyQuoteLimitText, getProviderPlanLabel } from "@/lib/subscription";
+import {
+  getProviderBidPackPriceText,
+  getProviderJobBidAllowance,
+  getProviderPlanLabel,
+} from "@/lib/subscription";
 
 export const metadata: Metadata = {
-  title: "Painel do Prestador | VL Serviços",
+  title: "Painel do Prestador | VLservice",
   description:
-    "Área inicial do prestador para gerenciar serviços, disponibilidade e assinaturas.",
+    "Área inicial do prestador para responder pedidos, gerenciar catálogo e acompanhar contratações.",
 };
 
 type ProviderDashboardPageProps = {
@@ -49,7 +53,7 @@ export default async function ProviderDashboardPage({
     .single();
 
   const providerProfile = providerProfileResult.data;
-  const [activeServicesResult, bookingsResult] = providerProfile
+  const [activeServicesResult, bookingsResult, bidAllowance] = providerProfile
     ? await Promise.all([
         supabase
           .from("services")
@@ -70,8 +74,9 @@ export default async function ProviderDashboardPage({
           .eq("provider_profile_id", providerProfile.id)
           .order("scheduled_start", { ascending: true })
           .limit(5),
+        getProviderJobBidAllowance(supabase, providerProfile.id),
       ])
-    : [{ count: 0 }, { data: [] }];
+    : [{ count: 0 }, { data: [] }, null];
 
   const bookings = (bookingsResult.data ?? []).map((booking) => ({
     ...booking,
@@ -92,12 +97,12 @@ export default async function ProviderDashboardPage({
       value: String(todayBookingsCount).padStart(2, "0"),
     },
     {
-      label: "Plano atual",
-      value: getProviderPlanLabel(providerProfile?.plan ?? "basic"),
+      label: "Lances grátis hoje",
+      value: String(bidAllowance?.free_remaining_today ?? 0).padStart(2, "0"),
     },
     {
-      label: "Limite de orçamentos",
-      value: getMonthlyQuoteLimitText(providerProfile?.plan ?? "basic"),
+      label: "Pacote extra",
+      value: getProviderBidPackPriceText(),
     },
   ];
 
@@ -106,15 +111,25 @@ export default async function ProviderDashboardPage({
       <div className="rounded-[2rem] border border-border bg-slate-950 p-8 text-white">
         <p className="text-sm text-slate-300">Dashboard do prestador</p>
         <h1 className="mt-3 font-sans text-4xl font-bold tracking-tight">
-          Gerencie anúncios, disponibilidade e conversão em um único lugar.
+          Responda pedidos, acompanhe lances e mantenha o catálogo como apoio.
         </h1>
         <p className="mt-4 max-w-2xl text-slate-300">
-          Esta área já está reservada para o fluxo operacional do provider com
-          limites por plano e agenda integrada.
+          O fluxo principal agora começa no mural de pedidos. Seu catálogo e sua
+          agenda continuam disponíveis como suporte à conversão.
         </p>
         <p className="mt-6 text-sm text-slate-300">
           Sessão ativa: {user.email}
         </p>
+        <div className="mt-6 flex flex-wrap gap-3 text-sm text-slate-200">
+          <span className="rounded-full bg-white/10 px-3 py-2">
+            Plano: {getProviderPlanLabel(providerProfile?.plan ?? "basic")}
+          </span>
+          <span className="rounded-full bg-white/10 px-3 py-2">
+            {bidAllowance
+              ? `${bidAllowance.free_remaining_today} grátis hoje • ${bidAllowance.paid_credits_available} pagos disponíveis`
+              : "5 lances grátis por dia para responder pedidos"}
+          </span>
+        </div>
       </div>
       {message ? <div className="mt-6"><Notice>{message}</Notice></div> : null}
 
@@ -133,10 +148,16 @@ export default async function ProviderDashboardPage({
       </div>
 
       <div className="mt-8 grid gap-5 md:grid-cols-4">
-        <Link href="/dashboard/provider/servicos" className="rounded-[1.5rem] border border-border bg-surface p-6">
-          <p className="font-semibold text-slate-950">Gerenciar serviços</p>
+        <Link href="/dashboard/provider/pedidos" className="rounded-[1.5rem] border border-border bg-surface p-6">
+          <p className="font-semibold text-slate-950">Pedidos disponíveis</p>
           <p className="mt-3 text-sm text-muted-strong">
-            Cadastre, edite e controle a publicação dos seus anúncios.
+            Veja jobs abertos e envie propostas para necessidades reais.
+          </p>
+        </Link>
+        <Link href="/dashboard/provider/servicos" className="rounded-[1.5rem] border border-border bg-surface p-6">
+          <p className="font-semibold text-slate-950">Meus anúncios</p>
+          <p className="mt-3 text-sm text-muted-strong">
+            Mantenha o catálogo atualizado como canal secundário.
           </p>
         </Link>
         <Link href="/dashboard/provider/agenda" className="rounded-[1.5rem] border border-border bg-surface p-6">

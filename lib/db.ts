@@ -2,7 +2,7 @@ import { Pool } from "pg";
 import { getSupabaseEnv } from "@/lib/env";
 
 declare global {
-  var __vitrinePool: InstanceType<typeof Pool> | undefined;
+  var __vlservicePool: InstanceType<typeof Pool> | undefined;
 }
 
 export function getDbPool() {
@@ -12,8 +12,8 @@ export function getDbPool() {
     throw new Error("DATABASE_URL is not configured.");
   }
 
-  if (!global.__vitrinePool) {
-    global.__vitrinePool = new Pool({
+  if (!global.__vlservicePool) {
+    global.__vlservicePool = new Pool({
       connectionString: databaseUrl,
       ssl: {
         rejectUnauthorized: false,
@@ -22,5 +22,5 @@ export function getDbPool() {
     });
   }
 
-  return global.__vitrinePool;
+  return global.__vlservicePool;
 }

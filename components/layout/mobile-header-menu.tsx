@@ -181,7 +181,7 @@ export function MobileHeaderMenu({
                     Menu
                   </p>
                   <p className="mt-1 text-[1.1rem] font-bold tracking-[-0.03em] text-slate-950">
-                    Navegue pela Vitrine
+                    Navegue pela VLservice
                   </p>
                   <p className="mt-1 max-w-[16rem] text-sm leading-6 text-muted-strong">
                     Encontre serviços, ajuda e atalhos sem perder o contexto.

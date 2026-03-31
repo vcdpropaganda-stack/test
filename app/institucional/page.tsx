@@ -3,9 +3,9 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
 export const metadata: Metadata = {
-  title: "Institucional | VL Serviços",
+  title: "Institucional | VLservice",
   description:
-    "Apresentação institucional da plataforma VL Serviços para clientes, prestadores e parceiros.",
+    "Apresentação institucional da plataforma VLservice para clientes, prestadores e parceiros.",
 };
 
 const pillars = [
@@ -41,7 +41,7 @@ export default function InstitucionalPage() {
             Uma plataforma feita para aproximar clientes e bons prestadores com mais clareza.
           </h1>
           <p className="mt-5 max-w-2xl text-base leading-8 text-muted-strong sm:mt-6 sm:text-lg">
-            A VL Serviços nasce para organizar a contratação de serviços de forma mais
+            A VLservice nasce para organizar a contratação de serviços de forma mais
             legível, visual e confiável, tanto para quem procura quanto para quem vende.
           </p>
           <div className="mt-8 flex flex-wrap gap-4">

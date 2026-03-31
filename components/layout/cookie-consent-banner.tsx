@@ -26,7 +26,7 @@ export function CookieConsentBanner() {
     <div className="fixed inset-x-0 bottom-0 z-[65] border-t border-white/12 bg-slate-950/96 px-4 py-3 text-white shadow-[0_-12px_45px_rgba(2,6,23,0.44)] backdrop-blur-xl">
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-5">
         <p className="text-xs leading-6 text-slate-200 sm:text-sm">
-          A VL Serviços usa cookies para melhorar sua experiência e proteger a
+          A VLservice usa cookies para melhorar sua experiência e proteger a
           navegação. Saiba mais em{" "}
           <Link
             href="/politica-de-cookies"

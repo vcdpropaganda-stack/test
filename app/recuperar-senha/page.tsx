@@ -7,8 +7,8 @@ import { InputField } from "@/components/ui/input";
 import { Notice } from "@/components/ui/notice";
 
 export const metadata: Metadata = {
-  title: "Recuperar senha | VL Serviços",
-  description: "Solicite um link para redefinir a senha da sua conta na VL Serviços.",
+  title: "Recuperar senha | VLservice",
+  description: "Solicite um link para redefinir a senha da sua conta na VLservice.",
 };
 
 export default async function RecuperarSenhaPage({

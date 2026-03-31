@@ -1,15 +1,15 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Privacidade | VL Serviços",
-  description: "Política de privacidade institucional da plataforma VL Serviços.",
+  title: "Privacidade | VLservice",
+  description: "Política de privacidade institucional da plataforma VLservice.",
 };
 
 const sections = [
   {
     title: "1. Finalidade desta política",
     paragraphs: [
-      "Esta Política de Privacidade descreve como a VL Serviços coleta, utiliza, armazena, compartilha e protege dados pessoais no contexto de navegação, cadastro, contratação, agendamento, atendimento e relacionamento com a plataforma.",
+      "Esta Política de Privacidade descreve como a VLservice coleta, utiliza, armazena, compartilha e protege dados pessoais no contexto de navegação, cadastro, contratação, agendamento, atendimento e relacionamento com a plataforma.",
       "O documento serve como base institucional do produto e pode ser complementado por avisos específicos, contratos, termos adicionais, consentimentos e comunicações operacionais.",
     ],
   },
@@ -37,7 +37,7 @@ const sections = [
   {
     title: "5. Segurança e governança",
     paragraphs: [
-      "A VL Serviços adota medidas razoáveis de segurança da informação compatíveis com a natureza dos dados tratados, incluindo controle de acesso, segregação de perfis, monitoramento técnico e restrição de uso indevido.",
+      "A VLservice adota medidas razoáveis de segurança da informação compatíveis com a natureza dos dados tratados, incluindo controle de acesso, segregação de perfis, monitoramento técnico e restrição de uso indevido.",
       "Apesar dos esforços de proteção, nenhum ambiente digital é absolutamente imune a incidentes, motivo pelo qual práticas adicionais de senha forte, controle de acesso e revisão operacional também são recomendadas aos usuários.",
     ],
   },
@@ -64,7 +64,7 @@ export default function PrivacidadePage() {
           <p className="mt-6 text-base leading-8 text-muted-strong">
             Documento institucional com diretrizes gerais sobre coleta,
             tratamento, armazenamento, compartilhamento e proteção de dados no
-            contexto da plataforma VL Serviços.
+            contexto da plataforma VLservice.
           </p>
         </div>
 

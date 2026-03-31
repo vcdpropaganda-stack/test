@@ -7,8 +7,8 @@ import { InputField } from "@/components/ui/input";
 import { Notice } from "@/components/ui/notice";
 
 export const metadata: Metadata = {
-  title: "Entrar | VL Serviços",
-  description: "Acesse sua conta de cliente ou prestador na plataforma VL Serviços.",
+  title: "Entrar | VLservice",
+  description: "Acesse sua conta de cliente ou prestador na plataforma VLservice.",
 };
 
 export default async function LoginPage({
@@ -65,7 +65,7 @@ export default async function LoginPage({
 
             <div className="mt-10 rounded-[1.75rem] border border-white/10 bg-white/7 p-5 backdrop-blur-sm">
               <p className="text-[0.72rem] font-semibold tracking-[0.22em] text-slate-400 uppercase">
-                VL Serviços
+                VLservice
               </p>
               <p className="mt-3 max-w-lg text-base leading-7 text-slate-200">
                 Uma base SaaS preparada para transformar marketplace de serviços

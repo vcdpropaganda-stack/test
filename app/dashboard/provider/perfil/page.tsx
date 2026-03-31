@@ -7,10 +7,14 @@ import { InputField } from "@/components/ui/input";
 import { Notice } from "@/components/ui/notice";
 import { ShareLinkButton } from "@/components/shared/share-link-button";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
-import { getMonthlyQuoteLimitText, getProviderPlanLabel } from "@/lib/subscription";
+import {
+  getProviderBidPackPriceText,
+  getProviderBidPricingSummaryText,
+  getProviderPlanLabel,
+} from "@/lib/subscription";
 
 export const metadata: Metadata = {
-  title: "Perfil do Prestador | VL Serviços",
+  title: "Perfil do Prestador | VLservice",
   description: "Edição do perfil público do prestador.",
 };
 
@@ -43,7 +47,7 @@ export default async function ProviderProfilePage({
 
   const profile = profileResult.data;
   const publicProfileUrl = profile.public_slug
-    ? `${process.env.NEXT_PUBLIC_SITE_URL ?? "https://vitrinelojas-fawn.vercel.app"}/prestadores/${profile.public_slug}`
+    ? `${process.env.NEXT_PUBLIC_SITE_URL ?? "https://vlservice.vercel.app"}/prestadores/${profile.public_slug}`
     : null;
 
   return (
@@ -56,10 +60,13 @@ export default async function ProviderProfilePage({
           </h1>
           <p className="mt-4 text-slate-300">
             Nome público, bio e localização agora influenciam diretamente a
-            vitrine e o detalhe do serviço.
+            página pública e o detalhe do serviço.
           </p>
           <p className="mt-6 rounded-full bg-white/10 px-4 py-2 text-sm">
-            Plano atual: {getProviderPlanLabel(profile.plan)} • {getMonthlyQuoteLimitText(profile.plan)}
+            Plano atual: {getProviderPlanLabel(profile.plan)} • {getProviderBidPricingSummaryText()}
+          </p>
+          <p className="mt-4 text-sm text-slate-300">
+            Depois dos 5 lances grátis do dia, o app libera automaticamente {getProviderBidPackPriceText()}.
           </p>
           {publicProfileUrl ? (
             <div className="mt-6">
@@ -119,8 +126,8 @@ export default async function ProviderProfilePage({
                 <div className="mt-4">
                   <ShareLinkButton
                     url={publicProfileUrl}
-                    title={`Perfil de ${profile.display_name} na VL Serviços`}
-                    text="Veja este prestador na VL Serviços"
+                    title={`Perfil de ${profile.display_name} na VLservice`}
+                    text="Veja este prestador na VLservice"
                   />
                 </div>
               </div>

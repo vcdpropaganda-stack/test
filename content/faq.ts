@@ -15,14 +15,14 @@ export const faqGroups: FaqGroup[] = [
     description: "Entenda o que é a plataforma, para quem ela serve e como ela funciona.",
     items: [
       {
-        question: "O que é a VL Serviços?",
+        question: "O que é a VLservice?",
         answer:
-          "A VL Serviços é uma plataforma para encontrar, comparar e contratar serviços locais de forma visual, organizada e simples.",
+          "A VLservice é uma plataforma para encontrar, comparar e contratar serviços locais de forma visual, organizada e simples.",
       },
       {
         question: "A plataforma atende clientes ou prestadores?",
         answer:
-          "Atende os dois públicos. Clientes usam a vitrine para encontrar e reservar serviços. Prestadores usam o painel para publicar anúncios, controlar agenda e acompanhar reservas.",
+          "Atende os dois públicos. Clientes publicam pedidos, recebem propostas e contratam. Prestadores usam o mural para enviar lances e mantêm anúncios e agenda como trilha secundária.",
       },
       {
         question: "Quais tipos de serviço podem aparecer aqui?",
@@ -40,14 +40,14 @@ export const faqGroups: FaqGroup[] = [
           "Sim. A plataforma foi estruturada para navegação responsiva, leitura clara e ações principais acessíveis em telas menores.",
       },
       {
-        question: "A VL Serviços já está pronta para operação real?",
+        question: "A VLservice já está pronta para operação real?",
         answer:
-          "O ambiente atual já é um protótipo funcional com fluxos reais de cadastro, vitrine, agenda, reserva e dashboards. Alguns pontos ainda seguem em refinamento visual e operacional.",
+          "O ambiente atual já é um protótipo funcional com fluxos reais de cadastro, pedidos, propostas, agenda, reservas e dashboards. Alguns pontos ainda seguem em refinamento visual e operacional.",
       },
       {
         question: "Qual é o diferencial da plataforma?",
         answer:
-          "A proposta é unir descoberta visual, apresentação mais clara dos serviços, agenda integrada e uma operação simples para cliente e prestador.",
+          "A proposta é unir pedido publicado, propostas comparáveis, agenda integrada e uma operação simples para cliente e prestador.",
       },
     ],
   },
@@ -68,7 +68,7 @@ export const faqGroups: FaqGroup[] = [
       {
         question: "Prestador precisa informar nome público?",
         answer:
-          "Sim. O nome público é o nome que aparece na vitrine e nas páginas de serviço.",
+          "Sim. O nome público é o nome que aparece no perfil público e nas páginas de serviço.",
       },
       {
         question: "O que acontece depois do cadastro?",
@@ -103,23 +103,23 @@ export const faqGroups: FaqGroup[] = [
     ],
   },
   {
-    title: "Busca e vitrine",
-    description: "Como encontrar bons serviços com mais rapidez e contexto.",
+    title: "Pedidos e catálogo",
+    description: "Como publicar uma necessidade ou explorar anúncios secundários com mais contexto.",
     items: [
       {
         question: "Como encontro um serviço?",
         answer:
-          "Você pode usar a busca principal da home, navegar pela página de serviços, aplicar filtros e abrir a página de cada anúncio.",
+          "Você pode publicar um pedido pela home para receber propostas ou, se preferir, navegar pelo catálogo secundário em /servicos para explorar anúncios ativos.",
       },
       {
         question: "A busca mostra resultados enquanto digito?",
         answer:
-          "Sim. A busca principal pode sugerir serviços reais em tempo quase imediato, sem recarregar a página inteira.",
+          "A plataforma pode sugerir serviços e atalhos de navegação sem exigir recarga completa da página, especialmente no catálogo secundário.",
       },
       {
         question: "Posso filtrar por categoria?",
         answer:
-          "Sim. A vitrine organiza serviços por categoria para facilitar a descoberta por necessidade.",
+          "Sim. O catálogo secundário organiza serviços por categoria para facilitar a descoberta por necessidade.",
       },
       {
         question: "Posso filtrar por cidade?",
@@ -144,7 +144,7 @@ export const faqGroups: FaqGroup[] = [
       {
         question: "Os anúncios em destaque aparecem onde?",
         answer:
-          "Eles podem ser priorizados na home, na vitrine e em seções de curadoria, conforme a configuração administrativa.",
+          "Eles podem ser priorizados no catálogo, em seções de curadoria e em páginas específicas, conforme a configuração administrativa.",
       },
     ],
   },
@@ -237,7 +237,7 @@ export const faqGroups: FaqGroup[] = [
       {
         question: "Posso subir imagem do serviço?",
         answer:
-          "Sim. A plataforma já suporta imagens vinculadas aos serviços para deixar a vitrine mais visual e profissional.",
+          "Sim. A plataforma já suporta imagens vinculadas aos serviços para deixar o anúncio mais visual e profissional.",
       },
       {
         question: "Consigo editar meus dados depois?",
@@ -250,9 +250,9 @@ export const faqGroups: FaqGroup[] = [
           "Sim. O limite de serviços varia por plano (Básico: 3, Pro: 10 e Avançado: ilimitado). O recebimento de orçamentos também segue limite mensal (Básico: 50/mês, Pro: 150/mês e Avançado: ilimitado).",
       },
       {
-        question: "Como meu serviço aparece na vitrine?",
+        question: "Como meu serviço aparece no catálogo?",
         answer:
-          "Depois de salvo e ativo, o serviço pode aparecer na home, na listagem principal e na página de busca, com link próprio e calendário.",
+          "Depois de salvo e ativo, o serviço pode aparecer no catálogo secundário, em páginas de busca e no link público do prestador, com URL própria e calendário.",
       },
       {
         question: "Consigo acompanhar avaliações?",

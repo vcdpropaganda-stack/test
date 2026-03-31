@@ -19,8 +19,8 @@ export default async function DashboardIndexPage() {
   }
 
   if (role === "provider") {
-    redirect("/dashboard/provider");
+    redirect("/dashboard/provider/pedidos");
   }
 
-  redirect("/dashboard/client");
+  redirect("/dashboard/client/pedidos");
 }

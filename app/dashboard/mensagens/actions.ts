@@ -18,7 +18,7 @@ async function getConversationParticipantContext(conversationId: string) {
 
   const conversationResult = await supabase
     .from("conversations")
-    .select("id, client_id, provider_profile_id, booking_id")
+    .select("id, client_id, provider_profile_id, booking_id, status")
     .eq("id", conversationId)
     .single();
 
@@ -51,13 +51,21 @@ async function getConversationParticipantContext(conversationId: string) {
 
 export async function sendConversationMessageAction(formData: FormData) {
   const conversationId = String(formData.get("conversation_id") ?? "").trim();
-  const body = String(formData.get("body") ?? "").trim();
+  const body = String(formData.get("body") ?? "")
+    .replace(/\r\n/g, "\n")
+    .replace(/\n{4,}/g, "\n\n\n")
+    .trim();
 
   if (!conversationId || !body) {
     redirect("/dashboard/mensagens?message=Mensagem inválida.");
   }
 
-  const { supabase, user } = await getConversationParticipantContext(conversationId);
+  const { supabase, user, conversation } = await getConversationParticipantContext(conversationId);
+
+  if (conversation.status === "closed") {
+    redirect(`/dashboard/mensagens/${conversationId}?message=Esta conversa foi encerrada.`);
+  }
+
   const moderation = moderateOutgoingChatMessage(body);
   const sanitizedBody = moderation.sanitizedBody.trim();
 

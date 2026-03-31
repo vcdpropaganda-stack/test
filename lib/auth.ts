@@ -8,6 +8,12 @@ export async function getResolvedUserRole(
     return null;
   }
 
+  const metadataRole = String(user.user_metadata.role ?? "").trim();
+
+  if (metadataRole === "admin" || metadataRole === "provider" || metadataRole === "client") {
+    return metadataRole;
+  }
+
   const profileResult = await supabase
     .from("profiles")
     .select("role")

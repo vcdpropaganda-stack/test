@@ -1,14 +1,16 @@
 import type { Metadata } from "next";
-import { formatDistanceToNow } from "date-fns";
-import { ptBR } from "date-fns/locale";
-import Link from "next/link";
 import { redirect } from "next/navigation";
+import { ChatShell } from "@/components/chat/chat-shell";
 import { ensureConversation } from "@/lib/conversations";
 import { getResolvedUserRole } from "@/lib/auth";
+import {
+  type ConversationViewerRole,
+  getConversationListForViewer,
+} from "@/lib/conversations";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 export const metadata: Metadata = {
-  title: "Mensagens | VL Serviços",
+  title: "Mensagens | VLservice",
   description: "Converse com clientes e prestadores dentro da plataforma.",
 };
 
@@ -33,7 +35,9 @@ export default async function MessagesPage({ searchParams }: MessagesPageProps) 
     redirect("/login");
   }
 
-  const role = (await getResolvedUserRole(supabase, user)) ?? "client";
+  const resolvedRole = (await getResolvedUserRole(supabase, user)) ?? "client";
+  const role: ConversationViewerRole =
+    resolvedRole === "provider" || resolvedRole === "admin" ? resolvedRole : "client";
 
   if (params.booking) {
     const bookingResult = await supabase
@@ -55,12 +59,28 @@ export default async function MessagesPage({ searchParams }: MessagesPageProps) 
         role === "admin";
 
       if (canAccess) {
-        const conversationId = await ensureConversation({
-          bookingId: bookingResult.data.id,
-          serviceId: bookingResult.data.service_id,
-          providerProfileId: bookingResult.data.provider_profile_id,
-          clientId: bookingResult.data.client_id,
-        });
+        let conversationId = "";
+
+        try {
+          conversationId = await ensureConversation({
+            bookingId: bookingResult.data.id,
+            serviceId: bookingResult.data.service_id,
+            providerProfileId: bookingResult.data.provider_profile_id,
+            clientId: bookingResult.data.client_id,
+          });
+        } catch (error) {
+          console.error("MessagesPage booking conversation failed", {
+            bookingId: bookingResult.data.id,
+            serviceId: bookingResult.data.service_id,
+            providerProfileId: bookingResult.data.provider_profile_id,
+            clientId: bookingResult.data.client_id,
+            viewerId: user.id,
+            error,
+          });
+          redirect(
+            "/dashboard/mensagens?message=Não foi possível abrir a conversa deste agendamento agora. Tente novamente."
+          );
+        }
 
         redirect(`/dashboard/mensagens/${conversationId}`);
       }
@@ -135,113 +155,7 @@ export default async function MessagesPage({ searchParams }: MessagesPageProps) 
     }
   }
 
-  const conversationsResult =
-    role === "provider"
-      ? await supabase
-          .from("conversations")
-          .select(
-            `
-            id,
-            created_at,
-            updated_at,
-            status,
-            service:services(title, slug),
-            client:profiles(full_name),
-            provider_profile:provider_profiles(profile_id, display_name)
-          `
-          )
-          .order("updated_at", { ascending: false })
-      : await supabase
-          .from("conversations")
-          .select(
-            `
-            id,
-            created_at,
-            updated_at,
-            status,
-            service:services(title, slug),
-            client:profiles(full_name),
-            provider_profile:provider_profiles(profile_id, display_name)
-          `
-          )
-          .eq("client_id", user.id)
-          .order("updated_at", { ascending: false });
+  const conversations = await getConversationListForViewer(supabase, user, role);
 
-  const conversations = (conversationsResult.data ?? [])
-    .map((conversation) => ({
-      ...conversation,
-      service: Array.isArray(conversation.service)
-        ? conversation.service[0] ?? null
-        : conversation.service,
-      client: Array.isArray(conversation.client)
-        ? conversation.client[0] ?? null
-        : conversation.client,
-      provider_profile: Array.isArray(conversation.provider_profile)
-        ? conversation.provider_profile[0] ?? null
-        : conversation.provider_profile,
-    }))
-    .filter((conversation) =>
-      role === "provider"
-        ? conversation.provider_profile?.profile_id === user.id
-        : true
-    );
-
-  return (
-    <main id="conteudo" className="page-shell py-10 sm:py-16">
-      <section className="rounded-[2rem] border border-border bg-white p-8 shadow-sm">
-        <h1 className="font-sans text-4xl font-bold tracking-tight text-slate-950">
-          Mensagens da plataforma
-        </h1>
-        <p className="mt-4 text-muted-strong">
-          Converse dentro da VL Serviços em um fluxo parecido com marketplaces de confiança.
-        </p>
-      </section>
-
-      {params.message ? (
-        <div className="mt-6 rounded-[1.5rem] border border-primary/15 bg-primary-soft px-4 py-3 text-sm font-medium text-primary-strong">
-          {params.message}
-        </div>
-      ) : null}
-
-      <section className="mt-8 grid gap-4">
-        {conversations.length > 0 ? (
-          conversations.map((conversation) => (
-            <Link
-              key={conversation.id}
-              href={`/dashboard/mensagens/${conversation.id}`}
-              className="rounded-[1.75rem] border border-border bg-white p-5 shadow-sm transition hover:border-primary/20 hover:shadow-[0_18px_40px_rgba(15,23,42,0.08)]"
-            >
-              <div className="flex items-start justify-between gap-4">
-                <div>
-                  <p className="text-sm font-semibold text-slate-950">
-                    {conversation.service?.title ?? "Serviço"}
-                  </p>
-                  <p className="mt-2 text-sm text-muted-strong">
-                    {role === "provider"
-                      ? `Cliente: ${conversation.client?.full_name ?? "Cliente"}`
-                      : `Prestador: ${conversation.provider_profile?.display_name ?? "Prestador"}`}
-                  </p>
-                </div>
-                <span className="rounded-full bg-primary-soft px-3 py-1.5 text-xs font-semibold text-primary-strong">
-                  {formatDistanceToNow(new Date(conversation.updated_at), {
-                    addSuffix: true,
-                    locale: ptBR,
-                  })}
-                </span>
-              </div>
-            </Link>
-          ))
-        ) : (
-          <div className="rounded-[2rem] border border-dashed border-border bg-white p-8">
-            <p className="text-lg font-semibold text-slate-950">
-              Nenhuma conversa ainda.
-            </p>
-            <p className="mt-3 text-sm leading-7 text-muted-strong">
-              Abra um serviço ou um agendamento para iniciar uma conversa entre cliente e prestador.
-            </p>
-          </div>
-        )}
-      </section>
-    </main>
-  );
+  return <ChatShell role={role} conversations={conversations} notice={params.message ?? null} />;
 }

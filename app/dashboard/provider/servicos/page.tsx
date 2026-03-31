@@ -7,7 +7,10 @@ import { Button } from "@/components/ui/button";
 import { InputField } from "@/components/ui/input";
 import { Notice } from "@/components/ui/notice";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
-import { getMonthlyQuoteLimitText, getProviderPlanLabel } from "@/lib/subscription";
+import {
+  getProviderBidPricingSummaryText,
+  getProviderPlanLabel,
+} from "@/lib/subscription";
 
 export const metadata: Metadata = {
   title: "Serviços | Painel do Prestador",
@@ -81,7 +84,7 @@ export default async function ProviderServicesPage({
                 Plano: {getProviderPlanLabel(providerProfile?.plan ?? "basic")}
               </span>
               <span className="rounded-full bg-white/10 px-3 py-2">
-                Limite de orçamentos: {getMonthlyQuoteLimitText(providerProfile?.plan ?? "basic")}
+                Lances em pedidos: {getProviderBidPricingSummaryText()}
               </span>
               <span className="rounded-full bg-white/10 px-3 py-2">
                 Serviços cadastrados: {services.length}

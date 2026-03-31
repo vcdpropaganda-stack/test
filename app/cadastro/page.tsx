@@ -3,9 +3,9 @@ import { Notice } from "@/components/ui/notice";
 import { SignUpForm } from "@/app/cadastro/sign-up-form";
 
 export const metadata: Metadata = {
-  title: "Cadastro | VL Serviços",
+  title: "Cadastro | VLservice",
   description:
-    "Crie sua conta como cliente ou prestador na plataforma VL Serviços.",
+    "Crie sua conta como cliente ou prestador na plataforma VLservice.",
 };
 
 export default async function CadastroPage({

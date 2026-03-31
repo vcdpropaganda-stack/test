@@ -51,10 +51,10 @@ export async function signInAction(formData: FormData) {
   }
 
   if (role === "provider") {
-    redirect("/dashboard/provider");
+    redirect("/dashboard/provider/pedidos");
   }
 
-  redirect("/");
+  redirect("/dashboard/client/pedidos");
 }
 
 export async function signUpAction(formData: FormData) {
@@ -67,6 +67,7 @@ export async function signUpAction(formData: FormData) {
   const displayName = isProvider
     ? String(formData.get("display_name") ?? "").trim() || fullName
     : fullName;
+  const nextPath = isProvider ? "/dashboard/provider/pedidos" : "/pedidos/novo";
 
   const baseUrl = await getBaseUrl();
   const supabase = await createSupabaseServerClient();
@@ -74,7 +75,7 @@ export async function signUpAction(formData: FormData) {
     email,
     password,
     options: {
-      emailRedirectTo: `${baseUrl}/auth/confirm?next=/dashboard`,
+      emailRedirectTo: `${baseUrl}/auth/confirm?next=${encodeURIComponent(nextPath)}`,
       data: {
         full_name: fullName,
         role,
@@ -89,7 +90,7 @@ export async function signUpAction(formData: FormData) {
   }
 
   if (data.session?.user) {
-    redirect("/dashboard");
+    redirect(nextPath);
   }
 
   redirect(

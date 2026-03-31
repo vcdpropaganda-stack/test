@@ -1,176 +1,192 @@
 import Link from "next/link";
-import { ArrowRight, Sparkles } from "lucide-react";
-import { HeroSearch } from "@/components/marketplace/hero-search";
+import {
+  ArrowRight,
+  ClipboardList,
+  MapPin,
+  MessageSquareText,
+  ShieldCheck,
+  Sparkles,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-type SpotlightService = {
+type HomeHeroCategory = {
   id: string;
+  name: string;
   slug: string;
-  title: string;
-  provider: string;
-  city: string | null;
-  price: string;
-  duration: string;
-  imageUrl: string | null;
 };
 
 type HomeHeroProps = {
-  spotlightServices: SpotlightService[];
-  activeServicesCount: number;
+  featuredCategories: HomeHeroCategory[];
+  categoryCount: number;
 };
 
 export function HomeHero({
-  spotlightServices,
-  activeServicesCount,
+  featuredCategories,
+  categoryCount,
 }: HomeHeroProps) {
   return (
-    <section className="hero-grid relative overflow-hidden border-b border-border bg-[linear-gradient(180deg,#f8fafc_0%,#eef2ff_52%,#ffffff_100%)]">
-      <div className="absolute inset-x-0 top-0 h-48 bg-linear-to-b from-primary/8 to-transparent" />
+    <section className="hero-grid relative overflow-hidden border-b border-border bg-[linear-gradient(180deg,#f8fafc_0%,#eef2ff_48%,#ffffff_100%)]">
+      <div className="absolute inset-x-0 top-0 h-56 bg-linear-to-b from-primary/10 to-transparent" />
       <div
         data-float
         data-float-from="-14"
         data-float-to="10"
-        className="pointer-events-none absolute left-[-8rem] top-24 h-[24rem] w-[24rem] rounded-full bg-primary/12 blur-3xl"
+        className="pointer-events-none absolute left-[-10rem] top-20 h-[26rem] w-[26rem] rounded-full bg-primary/12 blur-3xl"
       />
       <div
         data-float
         data-float-from="-8"
         data-float-to="12"
-        className="pointer-events-none absolute right-[-6rem] top-16 h-[28rem] w-[28rem] rounded-full bg-cyan-300/10 blur-3xl"
+        className="pointer-events-none absolute right-[-8rem] top-14 h-[28rem] w-[28rem] rounded-full bg-cyan-300/12 blur-3xl"
       />
       <div
         data-float
         data-float-from="-10"
         data-float-to="14"
-        className="pointer-events-none absolute bottom-[-10rem] right-[18%] h-[20rem] w-[20rem] rounded-full bg-amber-300/10 blur-3xl"
+        className="pointer-events-none absolute bottom-[-11rem] right-[18%] h-[20rem] w-[20rem] rounded-full bg-amber-300/12 blur-3xl"
       />
-      <div className="page-shell py-12 lg:py-20">
-        <div className="relative z-10 mx-auto max-w-6xl">
-          <div
-            data-reveal
-            className="glass-panel mx-auto mb-6 inline-flex items-center gap-2 rounded-full border border-primary/15 px-4 py-2 text-sm font-semibold text-primary-strong shadow-sm"
-          >
-            <Sparkles className="h-4 w-4" />
-            A plataforma certa para encontrar quem faz
-          </div>
-          <div data-reveal data-reveal-delay="80" className="mx-auto max-w-4xl text-center">
-            <p className="text-sm font-semibold tracking-[0.32em] text-primary-strong uppercase">
-              Precisa de uma mãozinha? Nós resolvemos. 🤝
-            </p>
-            <h1 className="mt-5 font-sans text-[3rem] leading-[1.02] font-bold tracking-[-0.05em] text-slate-950 sm:text-[4.1rem] sm:leading-[0.98] lg:text-[5.25rem] lg:leading-[0.96]">
-              A plataforma certa
-              <span className="block">para encontrar quem faz.</span>
-            </h1>
-            <p className="mx-auto mt-7 max-w-3xl text-lg leading-8 text-muted-strong sm:text-xl">
-              Quer dar um tapa no visual, consertar o PC ou bombar suas redes
-              sociais? Na VL Serviços, você encontra o especialista ideal em minutos.
-            </p>
-          </div>
-          <div data-reveal data-reveal-delay="140" className="mx-auto mt-10 max-w-4xl">
-            <HeroSearch initialResults={spotlightServices} variant="light" />
-          </div>
-          <div className="mx-auto mt-8 grid max-w-5xl gap-3 text-left sm:grid-cols-3">
+
+      <div className="page-shell py-14 lg:py-22">
+        <div className="relative z-10 grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(340px,0.9fr)] lg:items-center">
+          <div>
             <div
               data-reveal
-              data-reveal-delay="190"
-              className="elevated-card rounded-[1.6rem] border border-white/70 bg-white/88 p-5 backdrop-blur"
+              className="glass-panel mb-6 flex w-fit items-center gap-2 rounded-full border border-primary/15 px-4 py-2 text-sm font-semibold text-primary-strong shadow-sm"
             >
-              <p className="text-[0.72rem] font-semibold tracking-[0.26em] text-primary-strong uppercase">
-                Beleza
+              <Sparkles className="h-4 w-4" />
+              Peça um serviço e receba propostas
+            </div>
+
+            <div data-reveal data-reveal-delay="80" className="max-w-3xl">
+              <p className="text-sm font-semibold tracking-[0.32em] text-primary-strong uppercase">
+                Cliente publica a necessidade. Profissional responde com lance.
               </p>
-              <p className="mt-3 text-base leading-7 text-slate-900">
-                Manicure e maquiagem.
+              <h1 className="mt-5 font-sans text-[3.15rem] leading-[1.01] font-bold tracking-[-0.05em] text-slate-950 sm:text-[4.2rem] sm:leading-[0.98] lg:text-[5rem] lg:leading-[0.94]">
+                Qual serviço
+                <span className="block">você precisa resolver hoje?</span>
+              </h1>
+              <p className="mt-7 max-w-2xl text-lg leading-8 text-muted-strong sm:text-xl">
+                A home agora começa pela necessidade do cliente, como no
+                GetNinjas: você escolhe o tipo de serviço, descreve o problema
+                e recebe propostas para comparar com calma.
               </p>
             </div>
+
             <div
               data-reveal
-              data-reveal-delay="240"
-              className="elevated-card rounded-[1.6rem] border border-white/70 bg-white/88 p-5 backdrop-blur"
+              data-reveal-delay="140"
+              className="mt-8 flex flex-col items-start gap-4 sm:flex-row"
             >
-              <p className="text-[0.72rem] font-semibold tracking-[0.26em] text-primary-strong uppercase">
-                Casa e Tech
-              </p>
-              <p className="mt-3 text-base leading-7 text-slate-900">
-                Pintores e técnicos de informática.
-              </p>
+              <Link href="/pedidos/novo" className="inline-flex">
+                <Button icon={<ArrowRight className="h-4 w-4" />}>
+                  Preciso de um serviço
+                </Button>
+              </Link>
+              <Link href="/dashboard/provider/pedidos" className="inline-flex">
+                <Button variant="secondary">Sou prestador, ver pedidos</Button>
+              </Link>
             </div>
-            <div
-              data-reveal
-              data-reveal-delay="290"
-              className="elevated-card rounded-[1.6rem] border border-white/70 bg-slate-950 p-5 text-white"
-            >
-              <p className="text-[0.72rem] font-semibold tracking-[0.26em] text-slate-400 uppercase">
-                Negócios
+
+            <div data-reveal data-reveal-delay="220" className="mt-10 max-w-2xl">
+              <p className="text-[0.72rem] font-semibold tracking-[0.24em] text-muted uppercase">
+                Escolha por tipo de serviço
               </p>
-              <p className="mt-3 text-base leading-7 text-slate-100">
-                Agência de marketing e redes sociais.
-              </p>
+              {featuredCategories.length > 0 ? (
+                <>
+                  <div className="mt-4 grid gap-x-6 gap-y-3 sm:grid-cols-2">
+                    {featuredCategories.map((category) => (
+                      <Link
+                        key={category.id}
+                        href={`/pedidos/novo?category=${encodeURIComponent(category.id)}`}
+                        className="group flex items-center justify-between border-b border-slate-300/80 py-3 text-sm font-medium text-slate-900 transition hover:border-primary/45 hover:text-primary-strong"
+                      >
+                        <span>{category.name}</span>
+                        <ArrowRight className="h-4 w-4 text-slate-400 transition group-hover:translate-x-1 group-hover:text-primary-strong" />
+                      </Link>
+                    ))}
+                  </div>
+                  <p className="mt-4 text-sm leading-7 text-muted-strong">
+                    Mais de {categoryCount} categorias já podem virar pedido com
+                    poucos toques.
+                  </p>
+                </>
+              ) : (
+                <p className="mt-4 text-sm leading-7 text-muted-strong">
+                  Mesmo sem escolher categoria agora, você já pode abrir um
+                  pedido livre e receber propostas relevantes.
+                </p>
+              )}
             </div>
           </div>
-          <div
-            data-reveal
-            data-reveal-delay="340"
-            className="mt-8 flex flex-col items-center gap-4 sm:flex-row sm:justify-center"
-          >
-            <Link href="/servicos" className="inline-flex">
-              <Button icon={<ArrowRight className="h-4 w-4" />}>
-                Explorar marketplace
-              </Button>
-            </Link>
-            <Link href="/dashboard/provider" className="inline-flex">
-              <Button variant="secondary">Quero anunciar meus serviços</Button>
-            </Link>
-          </div>
-          <div data-reveal data-reveal-delay="390" className="mt-7 text-center">
-            <p className="text-base font-semibold tracking-[0.12em] text-slate-700 uppercase">
-              Rápido. Seguro. Profissional.
-            </p>
-          </div>
-          <div className="mx-auto mt-10 grid max-w-5xl grid-cols-3 gap-2 sm:gap-3">
-            <div
-              data-reveal
-              data-reveal-delay="430"
-              className="elevated-card rounded-[1.25rem] border border-white/70 bg-white/88 p-3 backdrop-blur sm:rounded-[1.6rem] sm:p-4"
-            >
-              <p className="text-[0.62rem] font-semibold tracking-[0.18em] text-muted uppercase sm:text-[0.7rem] sm:tracking-[0.22em]">
-                Serviços
-              </p>
-              <p className="mt-2 text-2xl font-bold tracking-tight text-slate-950 sm:mt-3 sm:text-3xl">
-                {activeServicesCount}
-              </p>
-              <p className="mt-1 text-xs leading-5 text-muted-strong sm:text-sm sm:leading-6">
-                anúncios com imagem e preço visível
-              </p>
-            </div>
-            <div
-              data-reveal
-              data-reveal-delay="470"
-              className="elevated-card rounded-[1.25rem] border border-white/70 bg-white/88 p-3 backdrop-blur sm:rounded-[1.6rem] sm:p-4"
-            >
-              <p className="text-[0.62rem] font-semibold tracking-[0.18em] text-muted uppercase sm:text-[0.7rem] sm:tracking-[0.22em]">
-                Categorias
-              </p>
-              <p className="mt-2 text-2xl font-bold tracking-tight text-slate-950 sm:mt-3 sm:text-3xl">
-                10
-              </p>
-              <p className="mt-1 text-xs leading-5 text-muted-strong sm:text-sm sm:leading-6">
-                áreas entre beleza, casa, tech e negócios
-              </p>
-            </div>
-            <div
-              data-reveal
-              data-reveal-delay="510"
-              className="elevated-card rounded-[1.25rem] border border-white/70 bg-slate-950 p-3 text-white sm:rounded-[1.6rem] sm:p-4"
-            >
-              <p className="text-[0.62rem] font-semibold tracking-[0.18em] text-slate-400 uppercase sm:text-[0.7rem] sm:tracking-[0.22em]">
-                Agenda viva
-              </p>
-              <p className="mt-2 text-2xl font-bold tracking-tight sm:mt-3 sm:text-3xl">
-                Datas
-              </p>
-              <p className="mt-1 text-xs leading-5 text-slate-300 sm:text-sm sm:leading-6">
-                disponibilidade real por horário
-              </p>
+
+          <div data-reveal data-reveal-delay="180">
+            <div className="relative overflow-hidden rounded-[2.4rem] border border-white/70 bg-white/84 p-6 shadow-[0_28px_90px_rgba(15,23,42,0.12)] backdrop-blur lg:p-8">
+              <div className="absolute inset-x-0 top-0 h-28 bg-linear-to-b from-primary/10 to-transparent" />
+              <div className="relative">
+                <p className="text-[0.72rem] font-semibold tracking-[0.24em] text-primary-strong uppercase">
+                  Pedido guiado
+                </p>
+                <h2 className="mt-3 font-sans text-3xl font-bold tracking-tight text-slate-950">
+                  O cliente entra pelo problema, não pelo catálogo.
+                </h2>
+                <p className="mt-4 text-base leading-7 text-muted-strong">
+                  A home deixa de ser catálogo de prestadores e vira a porta de
+                  entrada para publicar a necessidade.
+                </p>
+
+                <div className="mt-8 space-y-4">
+                  <div className="border-b border-slate-200 pb-4">
+                    <div className="flex items-center gap-3">
+                      <ClipboardList className="h-5 w-5 text-primary-strong" />
+                      <p className="text-sm font-semibold text-slate-950">
+                        1. Escolha o tipo de serviço
+                      </p>
+                    </div>
+                    <p className="mt-2 pl-8 text-sm leading-7 text-muted-strong">
+                      Categoria, cidade e contexto do problema entram primeiro.
+                    </p>
+                  </div>
+
+                  <div className="border-b border-slate-200 pb-4">
+                    <div className="flex items-center gap-3">
+                      <MessageSquareText className="h-5 w-5 text-primary-strong" />
+                      <p className="text-sm font-semibold text-slate-950">
+                        2. Receba propostas comparáveis
+                      </p>
+                    </div>
+                    <p className="mt-2 pl-8 text-sm leading-7 text-muted-strong">
+                      Preço, prazo, mensagem e reputação aparecem no mesmo lugar.
+                    </p>
+                  </div>
+
+                  <div>
+                    <div className="flex items-center gap-3">
+                      <ShieldCheck className="h-5 w-5 text-primary-strong" />
+                      <p className="text-sm font-semibold text-slate-950">
+                        3. Converse e contrate com clareza
+                      </p>
+                    </div>
+                    <p className="mt-2 pl-8 text-sm leading-7 text-muted-strong">
+                      O chat fica dentro do pedido e a decisão nasce da comparação
+                      entre as propostas.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="mt-8 rounded-[1.8rem] bg-slate-950 p-5 text-white">
+                  <div className="flex items-center gap-3">
+                    <MapPin className="h-5 w-5 text-primary-200" />
+                    <p className="text-sm font-semibold">
+                      Fluxo pensado para demanda local e mobile-first
+                    </p>
+                  </div>
+                  <p className="mt-3 text-sm leading-7 text-slate-300">
+                    O pedido nasce simples no celular, sobe para o mural e
+                    entrega contexto suficiente para o profissional decidir se
+                    vale dar lance.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>

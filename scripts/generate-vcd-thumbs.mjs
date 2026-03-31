@@ -52,7 +52,7 @@ async function main() {
   <text x="140" y="200" fill="${accent}" font-family="Arial, Helvetica, sans-serif" font-size="44" font-weight="700" letter-spacing="8">${category}</text>
   <text x="140" y="340" fill="#0F172A" font-family="Arial, Helvetica, sans-serif" font-size="112" font-weight="800">${title}</text>
   <text x="140" y="425" fill="#475569" font-family="Arial, Helvetica, sans-serif" font-size="42" font-weight="500">Você Digital Propaganda</text>
-  <text x="140" y="980" fill="#334155" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="500">Produto cadastrado na vitrine VL Serviços</text>
+  <text x="140" y="980" fill="#334155" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="500">Produto cadastrado no catálogo VLservice</text>
   <rect x="140" y="765" width="410" height="110" rx="55" fill="${accent}"/>
   <text x="206" y="835" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif" font-size="44" font-weight="700">Saiba mais</text>
   <image href="${logoDataUri}" x="940" y="455" width="430" height="126" preserveAspectRatio="xMidYMid meet"/>

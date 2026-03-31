@@ -12,11 +12,11 @@ export function HomeMarketplaceSection({
   services,
 }: HomeMarketplaceSectionProps) {
   return (
-    <section className="page-shell py-18">
+    <section className="page-shell py-18 [contain-intrinsic-size:1px_1100px] [content-visibility:auto]">
       <SectionHeading
-        eyebrow="Marketplace"
-        title="Serviços reais publicados no marketplace"
-        description="A vitrine principal agora lê os anúncios ativos do banco e já funciona como base da descoberta pública."
+        eyebrow="Catálogo"
+        title="O catálogo continua no ar, mas agora como trilha secundária"
+        description="Os anúncios ainda ajudam na descoberta pública, só que a experiência principal do produto passa a ser pedido publicado e proposta recebida."
       />
       <div className="mt-8 grid grid-cols-2 gap-3 lg:grid-cols-3 lg:gap-6">
         {services.length > 0 ? (
@@ -25,7 +25,7 @@ export function HomeMarketplaceSection({
               key={service.id}
               href={`/servicos/${service.slug}`}
               title={service.title}
-              provider={service.provider_profile?.display_name ?? "Prestador VL Serviços"}
+              provider={service.provider_profile?.display_name ?? "Prestador VLservice"}
               price={formatPrice(service.price_cents)}
               tag={getServiceTag(service)}
               imageUrl={service.cover_image_url}
@@ -47,14 +47,14 @@ export function HomeMarketplaceSection({
             </p>
             <p className="mt-3 max-w-2xl text-sm leading-7 text-muted-strong">
               Entre como prestador e publique os primeiros serviços para a
-              vitrine ganhar vida.
+              catálogo ganhar vida.
             </p>
           </div>
         )}
       </div>
       <div className="mt-8">
         <Link href="/servicos" prefetch className="inline-flex">
-          <Button variant="secondary">Explorar todos os serviços</Button>
+          <Button variant="secondary">Explorar catálogo secundário</Button>
         </Link>
       </div>
     </section>

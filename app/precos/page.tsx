@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { Check, Sparkles } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Preços | VL Serviços",
-  description: "Plano único da VL Serviços com cobrança mensal ou anual.",
+  title: "Preços | VLservice",
+  description: "Plano único da VLservice com cobrança mensal ou anual.",
 };
 
 const plan = {

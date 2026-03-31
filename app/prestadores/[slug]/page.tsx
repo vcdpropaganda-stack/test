@@ -20,16 +20,16 @@ export async function generateMetadata({
 
   if (!provider) {
     return {
-      title: "Prestador | VL Serviços",
-      description: "Perfil público do prestador na VL Serviços.",
+      title: "Prestador | VLservice",
+      description: "Perfil público do prestador na VLservice.",
     };
   }
 
   return {
-    title: `${provider.display_name} | Prestador na VL Serviços`,
+    title: `${provider.display_name} | Prestador na VLservice`,
     description:
       provider.bio ||
-      `Conheça ${provider.display_name}, seus serviços e avaliações na VL Serviços.`,
+      `Conheça ${provider.display_name}, seus serviços e avaliações na VLservice.`,
   };
 }
 
@@ -41,7 +41,7 @@ export default async function ProviderPage({ params }: ProviderPageProps) {
     notFound();
   }
 
-  const profileUrl = `${process.env.NEXT_PUBLIC_SITE_URL ?? "https://vitrinelojas-fawn.vercel.app"}/prestadores/${provider.public_slug}`;
+  const profileUrl = `${process.env.NEXT_PUBLIC_SITE_URL ?? "https://vlservice.vercel.app"}/prestadores/${provider.public_slug}`;
   const location = provider.city
     ? `${provider.city}${provider.state ? `, ${provider.state}` : ""}`
     : "Atendimento local";
@@ -86,7 +86,7 @@ export default async function ProviderPage({ params }: ProviderPageProps) {
               <ShareLinkButton
                 url={profileUrl}
                 title={`Perfil de ${provider.display_name}`}
-                text={`Conheça ${provider.display_name} na VL Serviços`}
+                text={`Conheça ${provider.display_name} na VLservice`}
                 className="w-full"
               />
               {provider.services[0] ? (

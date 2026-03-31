@@ -3,9 +3,9 @@ import { InputField } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
 export const metadata: Metadata = {
-  title: "Contato | VL Serviços",
+  title: "Contato | VLservice",
   description:
-    "Canal de contato inicial para parceiros, clientes e prestadores da VL Serviços.",
+    "Canal de contato inicial para parceiros, clientes e prestadores da VLservice.",
 };
 
 export default function ContatoPage() {

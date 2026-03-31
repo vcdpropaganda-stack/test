@@ -46,15 +46,15 @@ async function main() {
   }
 
   console.log("\nDemo credentials:");
-  console.log("Password for all demo users: Vitrine123!");
-  console.log("vitrinelojas+admin@gmail.com");
-  console.log("vitrinelojas+ana@gmail.com");
-  console.log("vitrinelojas+bruno@gmail.com");
-  console.log("vitrinelojas+carla@gmail.com");
-  console.log("vitrinelojas+cliente1@gmail.com");
-  console.log("vitrinelojas+cliente2@gmail.com");
-  console.log("vitrinelojas+cliente3@gmail.com");
-  console.log("vitrinelojas+cliente4@gmail.com");
+  console.log("Password for all demo users: VLservice123!");
+  console.log("vlservice+admin@gmail.com");
+  console.log("vlservice+ana@gmail.com");
+  console.log("vlservice+bruno@gmail.com");
+  console.log("vlservice+carla@gmail.com");
+  console.log("vlservice+cliente1@gmail.com");
+  console.log("vlservice+cliente2@gmail.com");
+  console.log("vlservice+cliente3@gmail.com");
+  console.log("vlservice+cliente4@gmail.com");
 
   await client.end();
 }

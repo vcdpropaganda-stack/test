@@ -19,8 +19,8 @@ type AuthSnapshot = {
 
 function getDashboardHref(role: string | null | undefined) {
   if (role === "admin") return "/dashboard/admin";
-  if (role === "provider") return "/dashboard/provider";
-  return "/dashboard/client";
+  if (role === "provider") return "/dashboard/provider/pedidos";
+  return "/dashboard/client/pedidos";
 }
 
 export function HeaderAuthControls({ links, initialAuth }: HeaderAuthControlsProps) {

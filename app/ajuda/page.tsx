@@ -4,9 +4,9 @@ import { faqGroups } from "@/content/faq";
 import { helpSections } from "@/content/help";
 
 export const metadata: Metadata = {
-  title: "Central de Ajuda | VL Serviços",
+  title: "Central de Ajuda | VLservice",
   description:
-    "Guias passo a passo para cadastro, publicação de serviços, agenda, reserva, checkout e operação na VL Serviços.",
+    "Guias passo a passo para cadastro, publicação de serviços, agenda, reserva, checkout e operação na VLservice.",
 };
 
 const supportCards = [

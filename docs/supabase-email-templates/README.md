@@ -1,6 +1,6 @@
 # Templates de e-mail do Supabase
 
-Estes arquivos foram preparados para substituir os templates padrão do Supabase Auth por versões com identidade da VL Serviços.
+Estes arquivos foram preparados para substituir os templates padrão do Supabase Auth por versões com identidade da VLservice.
 
 ## Arquivos
 

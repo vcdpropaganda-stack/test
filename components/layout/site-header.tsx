@@ -5,19 +5,19 @@ import { getResolvedUserRole } from "@/lib/auth";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 const links = [
-  { href: "/", label: "Marketplace" },
+  { href: "/pedidos", label: "Pedidos" },
+  { href: "/servicos", label: "Catálogo" },
   { href: "/recursos", label: "Recursos" },
   { href: "/precos", label: "Preços" },
   { href: "/faq", label: "FAQ" },
   { href: "/ajuda", label: "Ajuda" },
-  { href: "/institucional", label: "Institucional" },
   { href: "/contato", label: "Contato" },
 ];
 
 function getDashboardHref(role: string | null | undefined) {
   if (role === "admin") return "/dashboard/admin";
-  if (role === "provider") return "/dashboard/provider";
-  return "/dashboard/client";
+  if (role === "provider") return "/dashboard/provider/pedidos";
+  return "/dashboard/client/pedidos";
 }
 
 export async function SiteHeader() {
@@ -57,7 +57,7 @@ export async function SiteHeader() {
             <VlMonogram className="h-7 w-7 shrink-0 rounded-[0.9rem] sm:h-12 sm:w-12" />
             <div className="min-w-0 overflow-hidden">
               <p className="truncate font-sans text-[0.8rem] leading-none font-bold tracking-[-0.03em] text-slate-950 sm:text-lg sm:leading-[1.15] sm:tracking-tight">
-                VL Serviços
+                VLservice
               </p>
               <p className="hidden truncate text-[0.74rem] leading-tight text-muted md:block md:text-xs">
                 Serviços locais em um só lugar

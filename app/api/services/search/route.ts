@@ -16,7 +16,7 @@ export async function GET(request: Request) {
       id: service.id,
       slug: service.slug,
       title: service.title,
-      provider: service.provider_profile?.display_name ?? "Prestador VL Serviços",
+      provider: service.provider_profile?.display_name ?? "Prestador VLservice",
       city: service.provider_profile?.city ?? null,
       price: formatPrice(service.price_cents),
       duration: `${service.duration_minutes} min`,

@@ -1,4 +1,4 @@
-# Backlog do Produto: Vitrine Lojas
+# Backlog do Produto: VLservice
 
 ## Fase 1: Fundacao e Autenticacao
 - [ ] Configuracao do repositorio com Next.js, Tailwind CSS e TypeScript.

@@ -1,16 +1,16 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "LGPD | VL Serviços",
+  title: "LGPD | VLservice",
   description:
-    "Diretrizes de tratamento de dados pessoais e direitos do titular na plataforma VL Serviços.",
+    "Diretrizes de tratamento de dados pessoais e direitos do titular na plataforma VLservice.",
 };
 
 const sections = [
   {
     title: "1. Compromisso com a proteção de dados",
     paragraphs: [
-      "A VL Serviços trata dados pessoais em conformidade com a Lei Geral de Proteção de Dados Pessoais (Lei nº 13.709/2018), adotando medidas técnicas, administrativas e organizacionais compatíveis com a natureza da operação da plataforma.",
+      "A VLservice trata dados pessoais em conformidade com a Lei Geral de Proteção de Dados Pessoais (Lei nº 13.709/2018), adotando medidas técnicas, administrativas e organizacionais compatíveis com a natureza da operação da plataforma.",
       "Esta página apresenta, de forma objetiva, os princípios que orientam o tratamento de dados pessoais de clientes, prestadores, administradores, parceiros e visitantes da plataforma.",
     ],
   },
@@ -58,7 +58,7 @@ export default function LgpdPage() {
           <p className="mt-6 text-base leading-8 text-muted-strong">
             Diretrizes gerais sobre proteção de dados pessoais, bases legais,
             direitos do titular e compromissos mínimos de governança da
-            plataforma VL Serviços.
+            plataforma VLservice.
           </p>
         </div>
 

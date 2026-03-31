@@ -9,8 +9,8 @@ import { Notice } from "@/components/ui/notice";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 export const metadata: Metadata = {
-  title: "Checkout | VL Serviços",
-  description: "Confirmação de pagamento e agendamento no marketplace VL Serviços.",
+  title: "Checkout | VLservice",
+  description: "Confirmação de pagamento e agendamento no marketplace VLservice.",
 };
 
 type CheckoutPageProps = {

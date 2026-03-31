@@ -384,7 +384,7 @@ const getCachedMarketplaceCategories = unstable_cache(
     const supabase = createPublicSupabaseClient();
     const { data, error } = await supabase
       .from("service_categories")
-      .select("name, slug")
+      .select("id, name, slug")
       .order("name", { ascending: true });
 
     if (error) {

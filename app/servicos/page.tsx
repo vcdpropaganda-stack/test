@@ -7,9 +7,9 @@ import {
 } from "@/lib/marketplace";
 
 export const metadata: Metadata = {
-  title: "Serviços | VL Serviços",
+  title: "Serviços | VLservice",
   description:
-    "Explore os serviços publicados no marketplace VL Serviços.",
+    "Explore os serviços publicados no marketplace VLservice.",
 };
 
 export const revalidate = 300;

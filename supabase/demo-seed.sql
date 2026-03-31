@@ -36,28 +36,28 @@ with demo_users as (
     values
       (
         '00000000-0000-4000-8000-000000000001'::uuid,
-        'vitrinelojas+admin@gmail.com',
-        'Admin Vitrine',
+        'vlservice+admin@gmail.com',
+        'Admin VLservice',
         'admin'::public.user_role,
-        'Admin Vitrine'
+        'Admin VLservice'
       ),
       (
         '00000000-0000-4000-8000-000000000011'::uuid,
-        'vitrinelojas+ana@gmail.com',
+        'vlservice+ana@gmail.com',
         'Ana Silva',
         'provider'::public.user_role,
         'Ana Clean'
       ),
       (
         '00000000-0000-4000-8000-000000000012'::uuid,
-        'vitrinelojas+bruno@gmail.com',
+        'vlservice+bruno@gmail.com',
         'Bruno Costa',
         'provider'::public.user_role,
         'Bruno Tech'
       ),
       (
         '00000000-0000-4000-8000-000000000013'::uuid,
-        'vitrinelojas+carla@gmail.com',
+        'vlservice+carla@gmail.com',
         'Carla Oliveira',
         'provider'::public.user_role,
         'Carla Beauty'
@@ -71,28 +71,28 @@ with demo_users as (
       ),
       (
         '00000000-0000-4000-8000-000000000021'::uuid,
-        'vitrinelojas+cliente1@gmail.com',
+        'vlservice+cliente1@gmail.com',
         'Mariana Souza',
         'client'::public.user_role,
         'Mariana Souza'
       ),
       (
         '00000000-0000-4000-8000-000000000022'::uuid,
-        'vitrinelojas+cliente2@gmail.com',
+        'vlservice+cliente2@gmail.com',
         'Lucas Pereira',
         'client'::public.user_role,
         'Lucas Pereira'
       ),
       (
         '00000000-0000-4000-8000-000000000023'::uuid,
-        'vitrinelojas+cliente3@gmail.com',
+        'vlservice+cliente3@gmail.com',
         'Fernanda Lima',
         'client'::public.user_role,
         'Fernanda Lima'
       ),
       (
         '00000000-0000-4000-8000-000000000024'::uuid,
-        'vitrinelojas+cliente4@gmail.com',
+        'vlservice+cliente4@gmail.com',
         'Rafael Gomes',
         'client'::public.user_role,
         'Rafael Gomes'
@@ -100,60 +100,152 @@ with demo_users as (
   ) as t(id, email, full_name, role, display_name)
 )
 insert into auth.users (
+  instance_id,
   id,
   aud,
   role,
   email,
   encrypted_password,
   email_confirmed_at,
+  confirmation_token,
+  confirmation_sent_at,
+  recovery_token,
+  email_change_token_new,
+  email_change,
   raw_app_meta_data,
   raw_user_meta_data,
   created_at,
   updated_at,
+  email_change_token_current,
+  email_change_confirm_status,
+  phone_change,
+  phone_change_token,
+  reauthentication_token,
   is_sso_user,
   is_anonymous
 )
 select
+  '00000000-0000-0000-0000-000000000000'::uuid,
   id,
   'authenticated',
   'authenticated',
   email,
-  crypt('Vitrine123!', gen_salt('bf')),
+  crypt('VLservice123!', gen_salt('bf')),
   timezone('utc', now()),
+  '',
+  timezone('utc', now()),
+  '',
+  '',
+  '',
   jsonb_build_object('provider', 'email', 'providers', array['email']),
   jsonb_build_object(
+    'sub', id::text,
     'role', role::text,
+    'email', email,
+    'phone', '',
     'full_name', full_name,
-    'display_name', display_name
+    'display_name', display_name,
+    'email_verified', true,
+    'phone_verified', false
   ),
   timezone('utc', now()),
   timezone('utc', now()),
+  '',
+  0,
+  '',
+  '',
+  '',
   false,
   false
 from demo_users
 on conflict (id) do update
 set
+  instance_id = excluded.instance_id,
   email = excluded.email,
   encrypted_password = excluded.encrypted_password,
   email_confirmed_at = excluded.email_confirmed_at,
+  confirmation_token = excluded.confirmation_token,
+  confirmation_sent_at = excluded.confirmation_sent_at,
+  recovery_token = excluded.recovery_token,
+  email_change_token_new = excluded.email_change_token_new,
+  email_change = excluded.email_change,
   raw_app_meta_data = excluded.raw_app_meta_data,
   raw_user_meta_data = excluded.raw_user_meta_data,
+  email_change_token_current = excluded.email_change_token_current,
+  email_change_confirm_status = excluded.email_change_confirm_status,
+  phone_change = excluded.phone_change,
+  phone_change_token = excluded.phone_change_token,
+  reauthentication_token = excluded.reauthentication_token,
   updated_at = timezone('utc', now());
 
 with demo_users as (
   select *
   from (
     values
-      ('00000000-0000-4000-8000-000000000001'::uuid, 'vitrinelojas+admin@gmail.com'),
-      ('00000000-0000-4000-8000-000000000011'::uuid, 'vitrinelojas+ana@gmail.com'),
-      ('00000000-0000-4000-8000-000000000012'::uuid, 'vitrinelojas+bruno@gmail.com'),
-      ('00000000-0000-4000-8000-000000000013'::uuid, 'vitrinelojas+carla@gmail.com'),
-      ('00000000-0000-4000-8000-000000000014'::uuid, 'vocedigitalpropaganda@gmail.com'),
-      ('00000000-0000-4000-8000-000000000021'::uuid, 'vitrinelojas+cliente1@gmail.com'),
-      ('00000000-0000-4000-8000-000000000022'::uuid, 'vitrinelojas+cliente2@gmail.com'),
-      ('00000000-0000-4000-8000-000000000023'::uuid, 'vitrinelojas+cliente3@gmail.com'),
-      ('00000000-0000-4000-8000-000000000024'::uuid, 'vitrinelojas+cliente4@gmail.com')
-  ) as t(id, email)
+      (
+        '00000000-0000-4000-8000-000000000001'::uuid,
+        'vlservice+admin@gmail.com',
+        'Admin VLservice',
+        'admin'::public.user_role,
+        'Admin VLservice'
+      ),
+      (
+        '00000000-0000-4000-8000-000000000011'::uuid,
+        'vlservice+ana@gmail.com',
+        'Ana Silva',
+        'provider'::public.user_role,
+        'Ana Clean'
+      ),
+      (
+        '00000000-0000-4000-8000-000000000012'::uuid,
+        'vlservice+bruno@gmail.com',
+        'Bruno Costa',
+        'provider'::public.user_role,
+        'Bruno Tech'
+      ),
+      (
+        '00000000-0000-4000-8000-000000000013'::uuid,
+        'vlservice+carla@gmail.com',
+        'Carla Oliveira',
+        'provider'::public.user_role,
+        'Carla Beauty'
+      ),
+      (
+        '00000000-0000-4000-8000-000000000014'::uuid,
+        'vocedigitalpropaganda@gmail.com',
+        'Você Digital Propaganda',
+        'provider'::public.user_role,
+        'Você Digital Propaganda'
+      ),
+      (
+        '00000000-0000-4000-8000-000000000021'::uuid,
+        'vlservice+cliente1@gmail.com',
+        'Mariana Souza',
+        'client'::public.user_role,
+        'Mariana Souza'
+      ),
+      (
+        '00000000-0000-4000-8000-000000000022'::uuid,
+        'vlservice+cliente2@gmail.com',
+        'Lucas Pereira',
+        'client'::public.user_role,
+        'Lucas Pereira'
+      ),
+      (
+        '00000000-0000-4000-8000-000000000023'::uuid,
+        'vlservice+cliente3@gmail.com',
+        'Fernanda Lima',
+        'client'::public.user_role,
+        'Fernanda Lima'
+      ),
+      (
+        '00000000-0000-4000-8000-000000000024'::uuid,
+        'vlservice+cliente4@gmail.com',
+        'Rafael Gomes',
+        'client'::public.user_role,
+        'Rafael Gomes'
+      )
+  ) as t(id, email, full_name, role, display_name)
 )
 insert into auth.identities (
   id,
@@ -168,7 +260,16 @@ insert into auth.identities (
 select
   gen_random_uuid(),
   id,
-  jsonb_build_object('sub', id::text, 'email', email),
+  jsonb_build_object(
+    'sub', id::text,
+    'role', role::text,
+    'email', email,
+    'phone', '',
+    'full_name', full_name,
+    'display_name', display_name,
+    'email_verified', true,
+    'phone_verified', false
+  ),
   'email',
   id::text,
   timezone('utc', now()),
@@ -183,7 +284,7 @@ set
 update public.profiles
 set
   full_name = case id
-    when '00000000-0000-4000-8000-000000000001'::uuid then 'Admin Vitrine'
+    when '00000000-0000-4000-8000-000000000001'::uuid then 'Admin VLservice'
     when '00000000-0000-4000-8000-000000000011'::uuid then 'Ana Silva'
     when '00000000-0000-4000-8000-000000000012'::uuid then 'Bruno Costa'
     when '00000000-0000-4000-8000-000000000013'::uuid then 'Carla Oliveira'

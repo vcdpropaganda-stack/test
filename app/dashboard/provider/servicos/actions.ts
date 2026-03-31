@@ -144,11 +144,22 @@ export async function upsertServiceAction(formData: FormData) {
     : await supabase.from("services").insert(payload).select("id").single();
 
   if (result.error) {
+    console.error("upsertServiceAction failed", {
+      serviceId,
+      providerProfileId: providerProfile.id,
+      userId: user.id,
+      error: result.error,
+    });
+
+    const genericFailureMessage = result.error.code
+      ? `Não foi possível salvar o serviço. Código: ${result.error.code}.`
+      : "Não foi possível salvar o serviço.";
+
     redirect(
       buildRedirect(
         result.error.message.includes("Service limit reached")
           ? "Seu plano atual atingiu o limite de serviços."
-          : "Não foi possível salvar o serviço."
+          : genericFailureMessage
       )
     );
   }

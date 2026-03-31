@@ -4,9 +4,9 @@ import { FaqBrowser } from "@/components/help/faq-browser";
 import { faqGroups } from "@/content/faq";
 
 export const metadata: Metadata = {
-  title: "FAQ | VL Serviços",
+  title: "FAQ | VLservice",
   description:
-    "Perguntas frequentes sobre cadastro, busca, reservas, agenda, checkout, operação e uso da VL Serviços.",
+    "Perguntas frequentes sobre cadastro, busca, reservas, agenda, checkout, operação e uso da VLservice.",
 };
 
 const quickHelpCards = [

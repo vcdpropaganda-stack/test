@@ -1,7 +1,7 @@
 # Estrutura Inicial Proposta
 
 ```text
-Vitrine-Lojas/
+VLservice/
 ├─ app/
 │  ├─ (marketing)/
 │  │  ├─ page.tsx

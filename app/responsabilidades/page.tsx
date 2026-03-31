@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Responsabilidades | VL Serviços",
+  title: "Responsabilidades | VLservice",
   description:
-    "Diretrizes de responsabilidades entre plataforma, prestadores, clientes e parceiros na VL Serviços.",
+    "Diretrizes de responsabilidades entre plataforma, prestadores, clientes e parceiros na VLservice.",
 };
 
 const blocks = [
@@ -55,7 +55,7 @@ export default function ResponsabilidadesPage() {
           <p className="mt-6 text-base leading-8 text-muted-strong">
             Estrutura institucional para esclarecer deveres mínimos de
             plataforma, prestadores, clientes e demais participantes do
-            ecossistema VL Serviços.
+            ecossistema VLservice.
           </p>
         </div>
 
