@@ -45,45 +45,57 @@ export async function SiteHeader() {
   }
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur supports-[padding:max(0px)]:pt-[max(env(safe-area-inset-top),0px)]">
-      <div className="mx-auto flex max-w-7xl flex-col gap-2 px-4 py-2 sm:px-6 sm:py-3 lg:gap-4 lg:px-10">
-        <div className="grid min-h-[3.75rem] grid-cols-[1fr_auto] items-center gap-3 md:flex md:min-h-[3.75rem] md:items-center md:justify-between">
+    <header className="sticky top-0 z-50 border-b border-slate-200/75 bg-[rgba(248,250,252,0.86)] backdrop-blur-xl supports-[padding:max(0px)]:pt-[max(env(safe-area-inset-top),0px)]">
+      <div className="mx-auto flex max-w-7xl items-center gap-3 px-4 py-3 sm:px-6 lg:min-h-[5.5rem] lg:gap-6 lg:px-10">
+        <div className="min-w-0 shrink-0">
           <Link
             href="/"
             data-reveal
             data-reveal-delay="40"
-            className="flex min-w-0 items-center gap-2 self-center rounded-2xl sm:gap-3"
+            className="flex min-w-0 items-center gap-3 rounded-2xl"
           >
-            <VlMonogram className="h-7 w-7 shrink-0 rounded-[0.9rem] sm:h-12 sm:w-12" />
+            <VlMonogram className="h-10 w-10 shrink-0 rounded-[1rem] sm:h-11 sm:w-11" />
             <div className="min-w-0 overflow-hidden">
-              <p className="truncate font-sans text-[0.8rem] leading-none font-bold tracking-[-0.03em] text-slate-950 sm:text-lg sm:leading-[1.15] sm:tracking-tight">
+              <p className="truncate font-sans text-base leading-none font-bold tracking-[-0.04em] text-slate-950 sm:text-[1.65rem] sm:leading-none">
                 VLservice
               </p>
-              <p className="hidden truncate text-[0.74rem] leading-tight text-muted md:block md:text-xs">
-                Serviços locais em um só lugar
+              <p className="hidden truncate text-xs leading-tight text-slate-500 lg:block">
+                Pedidos, propostas e contratação local
               </p>
             </div>
           </Link>
-
-          <HeaderAuthControls links={links} initialAuth={initialAuth} />
         </div>
 
         <nav
           data-reveal
           data-reveal-delay="100"
           aria-label="Navegação principal"
-          className="touch-scroll-x hidden items-center gap-2 overflow-x-auto rounded-[1.75rem] border border-slate-200 bg-white/92 p-2 elevated-card md:flex md:justify-center"
+          className="hidden min-w-0 flex-1 items-center justify-center lg:flex"
         >
-          {links.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="rounded-full px-3.5 py-2 text-sm font-semibold whitespace-nowrap text-slate-800 hover:bg-primary-soft hover:text-primary-strong sm:px-4 sm:py-2.5"
-            >
-              {link.label}
-            </Link>
-          ))}
+          <div className="flex items-center gap-1 rounded-full border border-slate-200/85 bg-white/88 p-1.5 shadow-[0_18px_50px_rgba(15,23,42,0.06)] backdrop-blur">
+            {links.map((link) => {
+              const isPrimary = link.href === "/pedidos";
+
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`rounded-full px-4 py-2.5 text-sm font-semibold whitespace-nowrap transition ${
+                    isPrimary
+                      ? "bg-slate-950 text-white shadow-[0_14px_28px_rgba(15,23,42,0.16)] hover:bg-slate-900"
+                      : "text-slate-700 hover:bg-slate-100 hover:text-slate-950"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
+          </div>
         </nav>
+
+        <div className="ml-auto shrink-0">
+          <HeaderAuthControls links={links} initialAuth={initialAuth} />
+        </div>
       </div>
     </header>
   );

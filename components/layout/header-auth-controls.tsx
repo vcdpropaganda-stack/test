@@ -80,17 +80,14 @@ export function HeaderAuthControls({ links, initialAuth }: HeaderAuthControlsPro
       <div className="hidden shrink-0 items-center gap-2 self-center md:flex">
         {auth.isAuthenticated ? (
           <>
-            <span className="inline-flex min-h-10 items-center justify-center rounded-full border border-emerald-300 bg-emerald-50 px-4 py-2 text-sm font-semibold text-emerald-800 sm:min-h-11 sm:px-4 sm:py-2.5">
-              Logado
-            </span>
             <Link
               href={auth.dashboardHref}
-              className="inline-flex min-h-10 items-center justify-center rounded-full border border-primary-strong/10 bg-primary px-3 py-2 text-sm font-semibold !text-white shadow-lg shadow-primary/25 hover:bg-primary-strong hover:!text-white sm:min-h-11 sm:px-4 sm:py-2.5"
+              className="inline-flex min-h-11 items-center justify-center rounded-full bg-slate-950 px-4 py-2.5 text-sm font-semibold text-white shadow-[0_16px_34px_rgba(15,23,42,0.18)] transition hover:bg-slate-900"
             >
               Meu painel
             </Link>
             <form action={signOutAction}>
-              <button className="inline-flex min-h-10 items-center justify-center rounded-full border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-950 hover:border-primary/35 hover:bg-slate-50 hover:text-primary-strong sm:min-h-11 sm:px-4 sm:py-2.5">
+              <button className="inline-flex min-h-11 items-center justify-center rounded-full border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:border-slate-300 hover:bg-slate-50 hover:text-slate-950">
                 Sair
               </button>
             </form>
@@ -99,13 +96,13 @@ export function HeaderAuthControls({ links, initialAuth }: HeaderAuthControlsPro
           <>
             <Link
               href="/login"
-              className="inline-flex min-h-10 items-center justify-center rounded-full border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-950 hover:border-primary/35 hover:bg-slate-50 hover:text-primary-strong sm:min-h-11 sm:px-4 sm:py-2.5"
+              className="inline-flex min-h-11 items-center justify-center rounded-full border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-800 transition hover:border-slate-300 hover:bg-slate-50 hover:text-slate-950"
             >
               Entrar
             </Link>
             <Link
               href="/cadastro"
-              className="inline-flex min-h-10 items-center justify-center rounded-full border border-primary-strong/10 bg-primary px-4 py-2 text-sm font-semibold !text-white shadow-lg shadow-primary/25 hover:bg-primary-strong hover:!text-white sm:min-h-11 sm:px-4 sm:py-2.5"
+              className="inline-flex min-h-11 items-center justify-center rounded-full bg-primary px-4 py-2.5 text-sm font-semibold text-white shadow-[0_16px_34px_rgba(99,102,241,0.24)] transition hover:-translate-y-0.5 hover:bg-primary-strong"
             >
               <span className="sm:hidden">Cadastro</span>
               <span className="hidden sm:inline">Criar conta</span>
