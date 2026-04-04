@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { VlMonogram } from "@/components/brand/vl-monogram";
+import { getReleaseHref, latestRelease } from "@/lib/release-notes";
 
 const footerGroups = [
   {
@@ -105,11 +106,47 @@ export function SiteFooter() {
           </div>
         </div>
 
-        <div className="mt-5 flex flex-col gap-2 border-t border-white/10 pt-4 text-sm sm:mt-7 sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:pt-5">
-          <p className="max-w-2xl leading-6 text-slate-400">
-            VLservice para quem quer encontrar e contratar serviços locais com mais clareza.
-          </p>
-          <p className="font-medium text-slate-400">© 2026 VLservice</p>
+        <div className="mt-5 flex flex-col gap-3 border-t border-white/10 pt-4 text-sm sm:mt-7 sm:gap-4 sm:pt-5">
+          <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+            <p className="max-w-2xl leading-6 text-slate-400">
+              VLservice para quem quer encontrar e contratar serviços locais com mais clareza.
+            </p>
+
+            <div className="flex flex-col items-start gap-2 sm:flex-row sm:items-center sm:gap-4">
+              <div className="group relative">
+                <Link
+                  href={getReleaseHref(latestRelease)}
+                  className="inline-flex items-center rounded-full border border-white/12 bg-white/6 px-3 py-2 text-sm font-semibold text-white transition hover:border-white/24 hover:bg-white/10 focus-visible:border-white/24 focus-visible:bg-white/10"
+                >
+                  Última atualização: {latestRelease.dateLabel}
+                </Link>
+
+                <div className="pointer-events-none absolute bottom-full left-0 z-20 mb-3 hidden w-[22rem] rounded-[1.15rem] border border-white/10 bg-slate-900/96 p-4 text-left shadow-[0_18px_50px_rgba(2,6,23,0.42)] backdrop-blur group-hover:block group-focus-within:block">
+                  <p className="text-[0.7rem] font-semibold tracking-[0.22em] text-slate-400 uppercase">
+                    {latestRelease.versionLabel}
+                  </p>
+                  <p className="mt-2 text-sm font-semibold text-white">
+                    {latestRelease.title}
+                  </p>
+                  <p className="mt-2 text-xs font-medium text-slate-400">
+                    {latestRelease.dateLabel}
+                  </p>
+                  <p className="mt-3 text-sm leading-6 text-slate-300">
+                    {latestRelease.summary}
+                  </p>
+                  <ul className="mt-3 space-y-2">
+                    {latestRelease.changes.slice(0, 3).map((change) => (
+                      <li key={change} className="text-xs leading-5 text-slate-300">
+                        {change}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+
+              <p className="font-medium text-slate-400">© 2026 VLservice</p>
+            </div>
+          </div>
         </div>
       </div>
     </footer>
