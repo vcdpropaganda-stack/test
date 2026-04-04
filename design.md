@@ -26,6 +26,13 @@
 - **Badges de Plano:** variacoes visuais para Basico, Pro e Premium.
 - **Calendario:** blocos de horario com estados disponivel, reservado e indisponivel.
 
+## 4.1 Regra Inegociavel de Contraste em CTA
+- **Nunca jamais usar botao escuro com texto escuro.**
+- Todo CTA com fundo preto, grafite, azul-marinho ou qualquer tom abaixo de media luminancia deve usar texto claro de alto contraste, preferencialmente `#FFFFFF`.
+- Se o texto do botao nao estiver legivel em 2 segundos, o estilo esta errado e deve ser corrigido antes de publicar.
+- Hover, focus, disabled e loading tambem precisam preservar contraste legivel. Nao vale "ficou bom no estado normal" se no restante ficar ilegivel.
+- Qualquer combinacao de fundo e texto que reduza leitura humana imediata reprova o componente, mesmo que esteja visualmente "bonita".
+
 ## 5. Direcao Visual
 - Interface clean com contraste alto e bastante espaco em branco.
 - Aparencia premium e confiavel, evitando visual generico de classificados.

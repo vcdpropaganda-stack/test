@@ -28,6 +28,7 @@ VLservice deve funcionar como um marketplace bid-based de servicos:
 2. Comparacoes devem ser visuais e escaneaveis.
 3. Nenhum passo critico pode depender de conhecimento tecnico do usuario.
 4. Mobile-first sempre.
+5. CTA escuro exige texto claro e imediatamente legivel. Botao preto com fonte escura e proibido.
 
 ## Guardrails Tecnicos
 

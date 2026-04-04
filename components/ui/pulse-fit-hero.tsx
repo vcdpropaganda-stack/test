@@ -111,8 +111,8 @@ export function PulseFitHero({
                     href={primaryAction.href}
                     className="inline-flex min-h-14 items-center gap-2 rounded-full bg-slate-950 px-8 py-4 text-base font-semibold text-white shadow-[0_18px_44px_rgba(15,23,42,0.18)] transition hover:-translate-y-0.5 hover:bg-slate-900"
                   >
-                    {primaryAction.label}
-                    <ArrowRight className="h-4 w-4" />
+                    <span className="text-white">{primaryAction.label}</span>
+                    <ArrowRight className="h-4 w-4 text-white" />
                   </Link>
                 ) : null}
 
@@ -121,7 +121,7 @@ export function PulseFitHero({
                     href={secondaryAction.href}
                     className="inline-flex min-h-14 items-center rounded-full border border-slate-300 bg-white/84 px-8 py-4 text-base font-semibold text-slate-950 shadow-[0_10px_30px_rgba(15,23,42,0.08)] transition hover:-translate-y-0.5 hover:border-primary/25 hover:bg-white"
                   >
-                    {secondaryAction.label}
+                    <span className="text-slate-950">{secondaryAction.label}</span>
                   </Link>
                 ) : null}
               </motion.div>
