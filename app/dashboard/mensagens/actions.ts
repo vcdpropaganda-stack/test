@@ -2,7 +2,6 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { postSystemConversationMessage } from "@/lib/conversations";
 import { moderateOutgoingChatMessage } from "@/lib/chat-moderation";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
@@ -93,52 +92,4 @@ export async function sendConversationMessageAction(formData: FormData) {
   }
 
   redirect(`/dashboard/mensagens/${conversationId}`);
-}
-
-export async function requestConversationWhatsappAction(formData: FormData) {
-  const conversationId = String(formData.get("conversation_id") ?? "").trim();
-  if (!conversationId) {
-    redirect("/dashboard/mensagens?message=Conversa inválida.");
-  }
-
-  const { user, isClient } = await getConversationParticipantContext(conversationId);
-
-  if (!isClient) {
-    redirect(`/dashboard/mensagens/${conversationId}?message=Apenas clientes podem solicitar o WhatsApp.`);
-  }
-
-  await postSystemConversationMessage({
-    conversationId,
-    senderId: user.id,
-    kind: "system",
-    body: "Solicitação registrada. Por segurança, o chat bloqueia números e contatos diretos automaticamente.",
-  });
-
-  revalidatePath(`/dashboard/mensagens/${conversationId}`);
-  redirect(`/dashboard/mensagens/${conversationId}?message=Solicitação registrada no histórico.`);
-}
-
-export async function shareConversationWhatsappAction(formData: FormData) {
-  const conversationId = String(formData.get("conversation_id") ?? "").trim();
-  if (!conversationId) {
-    redirect("/dashboard/mensagens?message=Conversa inválida.");
-  }
-
-  const { user, isProvider } = await getConversationParticipantContext(conversationId);
-
-  if (!isProvider) {
-    redirect(`/dashboard/mensagens/${conversationId}?message=Apenas o prestador pode compartilhar o WhatsApp.`);
-  }
-
-  await postSystemConversationMessage({
-    conversationId,
-    senderId: user.id,
-    kind: "system",
-    body: "Compartilhamento de contato direto bloqueado pela política de segurança do chat.",
-  });
-
-  revalidatePath(`/dashboard/mensagens/${conversationId}`);
-  redirect(
-    `/dashboard/mensagens/${conversationId}?message=Este chat não permite compartilhamento de números de contato.`
-  );
 }

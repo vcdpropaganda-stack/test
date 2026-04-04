@@ -2,49 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { createSupabaseServerClient } from "@/lib/supabase/server";
-
-async function ensureBookingOwner(bookingId: string) {
-  const supabase = await createSupabaseServerClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    redirect("/login");
-  }
-
-  const bookingResult = await supabase
-    .from("bookings")
-    .select(
-      `
-      id,
-      client_id,
-      status,
-      service:services (
-        slug
-      )
-    `
-    )
-    .eq("id", bookingId)
-    .single();
-
-  if (bookingResult.error || !bookingResult.data || bookingResult.data.client_id !== user.id) {
-    redirect("/dashboard/client/agendamentos?message=Agendamento não encontrado.");
-  }
-
-  const service = Array.isArray(bookingResult.data.service)
-    ? bookingResult.data.service[0] ?? null
-    : bookingResult.data.service;
-
-  return {
-    supabase,
-    booking: {
-      ...bookingResult.data,
-      service,
-    },
-  };
-}
+import { requireClientBookingAccess } from "@/lib/server-access";
 
 export async function cancelBookingAction(formData: FormData) {
   const bookingId = String(formData.get("booking_id") ?? "").trim();
@@ -53,7 +11,7 @@ export async function cancelBookingAction(formData: FormData) {
     redirect("/dashboard/client/agendamentos?message=Agendamento inválido.");
   }
 
-  const { supabase } = await ensureBookingOwner(bookingId);
+  const { supabase } = await requireClientBookingAccess(bookingId);
 
   const { error } = await supabase
     .from("bookings")
@@ -76,7 +34,7 @@ export async function goToCheckoutAction(formData: FormData) {
     redirect("/dashboard/client/agendamentos?message=Checkout inválido.");
   }
 
-  await ensureBookingOwner(bookingId);
+  await requireClientBookingAccess(bookingId);
   redirect(`/checkout/${bookingId}`);
 }
 
@@ -87,7 +45,7 @@ export async function rebookBookingAction(formData: FormData) {
     redirect("/dashboard/client/agendamentos?message=Reagendamento inválido.");
   }
 
-  const { booking } = await ensureBookingOwner(bookingId);
+  const { booking } = await requireClientBookingAccess(bookingId);
 
   if (!booking.service?.slug) {
     redirect("/dashboard/client/agendamentos?message=Serviço de origem não encontrado.");

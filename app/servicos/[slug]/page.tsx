@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Suspense } from "react";
+import { Suspense, cache } from "react";
 import Link from "next/link";
 import { AvailabilityCalendar } from "@/components/marketplace/availability-calendar";
 import { ServiceDetailHighlights } from "@/components/marketplace/service-detail-highlights";
@@ -9,7 +9,6 @@ import { ServiceDetailSidebar } from "@/components/marketplace/service-detail-si
 import { QueryNotice } from "@/components/shared/query-notice";
 import {
   getMarketplaceServiceBySlug,
-  getMarketplaceServiceMetaBySlug,
   getMarketplacePreviewSlugs,
 } from "@/lib/marketplace";
 
@@ -19,6 +18,10 @@ type ServiceDetailPageProps = {
 
 export const revalidate = 120;
 export const dynamicParams = true;
+
+const getCachedMarketplaceServiceBySlug = cache((slug: string) =>
+  getMarketplaceServiceBySlug(slug)
+);
 
 function humanizeSlug(slug: string) {
   return slug
@@ -38,7 +41,7 @@ export async function generateMetadata({
   params,
 }: ServiceDetailPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const service = await getMarketplaceServiceMetaBySlug(slug);
+  const service = await getCachedMarketplaceServiceBySlug(slug);
 
   if (!service) {
     return {
@@ -58,7 +61,7 @@ export default async function ServiceDetailPage({
   params,
 }: ServiceDetailPageProps) {
   const { slug } = await params;
-  const service = await getMarketplaceServiceBySlug(slug);
+  const service = await getCachedMarketplaceServiceBySlug(slug);
 
   if (!service) {
     return (

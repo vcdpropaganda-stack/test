@@ -314,34 +314,6 @@ const getCachedMarketplaceSearchResults = unstable_cache(
   { revalidate: 120 }
 );
 
-const getCachedMarketplaceServiceMetaBySlug = unstable_cache(
-  async (slug: string) => {
-    if (!hasSupabaseEnv()) {
-      return null;
-    }
-
-    const supabase = createPublicSupabaseClient();
-    const { data, error } = await supabase
-      .from("services")
-      .select("title, description")
-      .eq("slug", slug)
-      .eq("is_active", true)
-      .single();
-
-    if (error) {
-      return null;
-    }
-
-    return data;
-  },
-  ["marketplace-service-meta-by-slug"],
-  { revalidate: 300 }
-);
-
-export async function getMarketplaceServiceMetaBySlug(slug: string) {
-  return getCachedMarketplaceServiceMetaBySlug(slug);
-}
-
 const getCachedMarketplaceCities = unstable_cache(
   async () => {
     if (!hasSupabaseEnv()) {
@@ -399,40 +371,6 @@ const getCachedMarketplaceCategories = unstable_cache(
 
 export async function getMarketplaceCategories() {
   return getCachedMarketplaceCategories();
-}
-
-const getCachedMarketplaceSlugs = unstable_cache(
-  async () => {
-    if (!hasSupabaseEnv()) {
-      return [];
-    }
-
-    const { url, anonKey } = getSupabaseEnv();
-
-    if (!url || !anonKey) {
-      return [];
-    }
-
-    const supabase = createPublicSupabaseClient();
-
-    const { data, error } = await supabase
-      .from("services")
-      .select("slug")
-      .eq("is_active", true)
-      .order("created_at", { ascending: false });
-
-    if (error) {
-      return [];
-    }
-
-    return (data ?? []).map((service) => service.slug).filter(Boolean);
-  },
-  ["marketplace-service-slugs"],
-  { revalidate: 600 }
-);
-
-export async function getMarketplaceServiceSlugs() {
-  return getCachedMarketplaceSlugs();
 }
 
 const getCachedMarketplacePreviewSlugs = unstable_cache(

@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { requireProviderContext } from "@/lib/server-access";
 
 function buildRedirect(message: string, serviceId?: string) {
   const params = new URLSearchParams({ message });
@@ -12,38 +12,6 @@ function buildRedirect(message: string, serviceId?: string) {
   }
 
   return `/dashboard/provider/agenda?${params.toString()}`;
-}
-
-async function ensureProviderContext() {
-  const supabase = await createSupabaseServerClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    redirect("/login");
-  }
-
-  const role = String(user.user_metadata.role ?? "client");
-
-  if (role !== "provider") {
-    redirect("/dashboard/client");
-  }
-
-  const providerProfileResult = await supabase
-    .from("provider_profiles")
-    .select("id")
-    .eq("profile_id", user.id)
-    .single();
-
-  if (providerProfileResult.error || !providerProfileResult.data) {
-    redirect(buildRedirect("Não foi possível localizar o perfil do prestador."));
-  }
-
-  return {
-    supabase,
-    providerProfileId: providerProfileResult.data.id,
-  };
 }
 
 function getLocalHourAndMinute(value: string) {
@@ -100,12 +68,14 @@ export async function createAvailabilityAction(formData: FormData) {
     );
   }
 
-  const { supabase, providerProfileId } = await ensureProviderContext();
+  const { supabase, providerProfile } = await requireProviderContext({
+    missingProfileRedirect: buildRedirect("Não foi possível localizar o perfil do prestador."),
+  });
   const serviceCheck = await supabase
     .from("services")
     .select("id")
     .eq("id", serviceId)
-    .eq("provider_profile_id", providerProfileId)
+    .eq("provider_profile_id", providerProfile.id)
     .single();
 
   if (serviceCheck.error || !serviceCheck.data) {
@@ -136,7 +106,9 @@ export async function deleteAvailabilityAction(formData: FormData) {
     redirect(buildRedirect("Horário inválido para exclusão.", serviceId || undefined));
   }
 
-  const { supabase, providerProfileId } = await ensureProviderContext();
+  const { supabase, providerProfile } = await requireProviderContext({
+    missingProfileRedirect: buildRedirect("Não foi possível localizar o perfil do prestador."),
+  });
   const { error } = await supabase
     .from("service_availability")
     .delete()
@@ -147,7 +119,7 @@ export async function deleteAvailabilityAction(formData: FormData) {
         await supabase
           .from("services")
           .select("id")
-          .eq("provider_profile_id", providerProfileId)
+          .eq("provider_profile_id", providerProfile.id)
       ).data?.map((service) => service.id) ?? []
     );
 

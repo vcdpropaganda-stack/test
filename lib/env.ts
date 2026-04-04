@@ -19,6 +19,5 @@ export function getSupabaseEnv() {
   return {
     url: getOptionalEnv("NEXT_PUBLIC_SUPABASE_URL"),
     anonKey,
-    databaseUrl: getOptionalEnv("DATABASE_URL"),
   };
 }

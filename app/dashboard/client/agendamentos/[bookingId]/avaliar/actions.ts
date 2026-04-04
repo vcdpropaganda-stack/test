@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { requireClientBookingAccess } from "@/lib/server-access";
 
 export async function createReviewAction(formData: FormData) {
   const bookingId = String(formData.get("booking_id") ?? "").trim();
@@ -13,36 +13,18 @@ export async function createReviewAction(formData: FormData) {
     redirect("/dashboard/client/agendamentos?message=Avaliação inválida.");
   }
 
-  const supabase = await createSupabaseServerClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const { supabase, user, booking } = await requireClientBookingAccess(bookingId);
 
-  if (!user) {
-    redirect("/login");
-  }
-
-  const bookingResult = await supabase
-    .from("bookings")
-    .select("id, client_id, service_id, provider_profile_id, status")
-    .eq("id", bookingId)
-    .single();
-
-  if (
-    bookingResult.error ||
-    !bookingResult.data ||
-    bookingResult.data.client_id !== user.id ||
-    bookingResult.data.status !== "completed"
-  ) {
+  if (booking.status !== "completed") {
     redirect("/dashboard/client/agendamentos?message=Este agendamento não pode ser avaliado.");
   }
 
   const { error } = await supabase.from("reviews").upsert(
     {
-      booking_id: bookingResult.data.id,
-      service_id: bookingResult.data.service_id,
+      booking_id: booking.id,
+      service_id: booking.service_id,
       client_id: user.id,
-      provider_profile_id: bookingResult.data.provider_profile_id,
+      provider_profile_id: booking.provider_profile_id,
       rating,
       comment,
     },

@@ -2,44 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { createSupabaseServerClient } from "@/lib/supabase/server";
-
-async function ensureProviderBookingAccess(bookingId: string) {
-  const supabase = await createSupabaseServerClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    redirect("/login");
-  }
-
-  const providerResult = await supabase
-    .from("provider_profiles")
-    .select("id")
-    .eq("profile_id", user.id)
-    .single();
-
-  if (providerResult.error || !providerResult.data) {
-    redirect("/dashboard/client");
-  }
-
-  const bookingResult = await supabase
-    .from("bookings")
-    .select("id, provider_profile_id")
-    .eq("id", bookingId)
-    .single();
-
-  if (
-    bookingResult.error ||
-    !bookingResult.data ||
-    bookingResult.data.provider_profile_id !== providerResult.data.id
-  ) {
-    redirect("/dashboard/provider?message=Agendamento não encontrado.");
-  }
-
-  return { supabase };
-}
+import { requireProviderBookingAccess } from "@/lib/server-access";
 
 export async function markBookingCompletedAction(formData: FormData) {
   const bookingId = String(formData.get("booking_id") ?? "").trim();
@@ -47,7 +10,7 @@ export async function markBookingCompletedAction(formData: FormData) {
     redirect("/dashboard/provider?message=Agendamento inválido.");
   }
 
-  const { supabase } = await ensureProviderBookingAccess(bookingId);
+  const { supabase } = await requireProviderBookingAccess(bookingId);
   const { error } = await supabase
     .from("bookings")
     .update({ status: "completed" })
@@ -68,7 +31,7 @@ export async function markBookingConfirmedAction(formData: FormData) {
     redirect("/dashboard/provider?message=Agendamento inválido.");
   }
 
-  const { supabase } = await ensureProviderBookingAccess(bookingId);
+  const { supabase } = await requireProviderBookingAccess(bookingId);
   const { error } = await supabase
     .from("bookings")
     .update({ status: "confirmed" })

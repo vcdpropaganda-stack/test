@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { requireProviderContext } from "@/lib/server-access";
 import { slugify } from "@/lib/text";
 
 function buildRedirect(message: string) {
@@ -23,14 +23,9 @@ export async function updateProviderProfileAction(formData: FormData) {
     redirect(buildRedirect("Informe o nome público do prestador."));
   }
 
-  const supabase = await createSupabaseServerClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    redirect("/login");
-  }
+  const { supabase, user } = await requireProviderContext({
+    missingProfileRedirect: buildRedirect("Não foi possível atualizar o perfil."),
+  });
 
   const { error } = await supabase
     .from("provider_profiles")

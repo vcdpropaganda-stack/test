@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { requireProviderBookingAccess } from "@/lib/server-access";
 
 export async function createClientReviewAction(formData: FormData) {
   const bookingId = String(formData.get("booking_id") ?? "").trim();
@@ -13,45 +13,17 @@ export async function createClientReviewAction(formData: FormData) {
     redirect("/dashboard/provider?message=Avaliação do cliente inválida.");
   }
 
-  const supabase = await createSupabaseServerClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const { supabase, providerProfile, booking } = await requireProviderBookingAccess(bookingId);
 
-  if (!user) {
-    redirect("/login");
-  }
-
-  const providerResult = await supabase
-    .from("provider_profiles")
-    .select("id")
-    .eq("profile_id", user.id)
-    .single();
-
-  if (providerResult.error || !providerResult.data) {
-    redirect("/dashboard/client");
-  }
-
-  const bookingResult = await supabase
-    .from("bookings")
-    .select("id, client_id, provider_profile_id, status")
-    .eq("id", bookingId)
-    .single();
-
-  if (
-    bookingResult.error ||
-    !bookingResult.data ||
-    bookingResult.data.provider_profile_id !== providerResult.data.id ||
-    bookingResult.data.status !== "completed"
-  ) {
+  if (booking.status !== "completed") {
     redirect("/dashboard/provider?message=Esse cliente não pode ser avaliado ainda.");
   }
 
   const { error } = await supabase.from("client_reviews").upsert(
     {
-      booking_id: bookingResult.data.id,
-      client_id: bookingResult.data.client_id,
-      provider_profile_id: providerResult.data.id,
+      booking_id: booking.id,
+      client_id: booking.client_id,
+      provider_profile_id: providerProfile.id,
       rating,
       comment,
     },

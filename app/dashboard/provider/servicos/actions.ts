@@ -3,71 +3,12 @@
 import { randomUUID } from "node:crypto";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { requireProviderContext } from "@/lib/server-access";
+import { slugify } from "@/lib/text";
 
 function buildRedirect(message: string) {
   const params = new URLSearchParams({ message });
   return `/dashboard/provider/servicos?${params.toString()}`;
-}
-
-function slugify(value: string) {
-  return value
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/(^-|-$)/g, "")
-    .slice(0, 70);
-}
-
-async function ensureProviderContext() {
-  const supabase = await createSupabaseServerClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    redirect("/login");
-  }
-
-  const role = String(user.user_metadata.role ?? "client");
-  if (role !== "provider") {
-    redirect("/dashboard/client");
-  }
-
-  const fullName = String(user.user_metadata.full_name ?? user.email ?? "Prestador");
-  const displayName = String(user.user_metadata.display_name ?? fullName);
-  const phone = String(user.user_metadata.phone ?? "").trim() || null;
-
-  await supabase.from("profiles").upsert({
-    id: user.id,
-    email: user.email ?? "",
-    full_name: fullName,
-    phone,
-    role: "provider",
-  });
-
-  const providerProfileResult = await supabase
-    .from("provider_profiles")
-    .upsert(
-      {
-        profile_id: user.id,
-        display_name: displayName,
-      },
-      { onConflict: "profile_id" }
-    )
-    .select("id, display_name, plan")
-    .single();
-
-  if (providerProfileResult.error || !providerProfileResult.data) {
-    redirect(buildRedirect("Não foi possível preparar o perfil do prestador."));
-  }
-
-  return {
-    supabase,
-    user,
-    providerProfile: providerProfileResult.data,
-  };
 }
 
 export async function upsertServiceAction(formData: FormData) {
@@ -95,7 +36,10 @@ export async function upsertServiceAction(formData: FormData) {
     redirect(buildRedirect("Informe uma duração válida em minutos."));
   }
 
-  const { supabase, providerProfile, user } = await ensureProviderContext();
+  const { supabase, providerProfile, user } = await requireProviderContext({
+    ensureProfile: true,
+    missingProfileRedirect: buildRedirect("Não foi possível preparar o perfil do prestador."),
+  });
 
   const baseSlug = slugify(title);
   const slug = serviceId ? baseSlug : `${baseSlug}-${Date.now().toString().slice(-6)}`;
@@ -175,7 +119,10 @@ export async function deleteServiceAction(formData: FormData) {
     redirect(buildRedirect("Serviço inválido para exclusão."));
   }
 
-  const { supabase } = await ensureProviderContext();
+  const { supabase } = await requireProviderContext({
+    ensureProfile: true,
+    missingProfileRedirect: buildRedirect("Não foi possível preparar o perfil do prestador."),
+  });
   const { error } = await supabase.from("services").delete().eq("id", serviceId);
 
   if (error) {

@@ -2,33 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { createSupabaseServerClient } from "@/lib/supabase/server";
-
-async function ensureClientBookingAccess(bookingId: string) {
-  const supabase = await createSupabaseServerClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    redirect("/login?message=Entre para concluir o checkout.");
-  }
-
-  const bookingResult = await supabase
-    .from("bookings")
-    .select("id, client_id, service_id, status")
-    .eq("id", bookingId)
-    .single();
-
-  if (bookingResult.error || !bookingResult.data || bookingResult.data.client_id !== user.id) {
-    redirect("/dashboard/client/agendamentos?message=Agendamento não encontrado.");
-  }
-
-  return {
-    supabase,
-    booking: bookingResult.data,
-  };
-}
+import { requireClientBookingAccess } from "@/lib/server-access";
 
 export async function confirmBookingAction(formData: FormData) {
   const bookingId = String(formData.get("booking_id") ?? "").trim();
@@ -38,7 +12,9 @@ export async function confirmBookingAction(formData: FormData) {
     redirect("/dashboard/client/agendamentos?message=Checkout inválido.");
   }
 
-  const { supabase, booking } = await ensureClientBookingAccess(bookingId);
+  const { supabase, booking } = await requireClientBookingAccess(bookingId, {
+    loginRedirect: "/login?message=Entre para concluir o checkout.",
+  });
 
   if (booking.status === "cancelled") {
     redirect("/dashboard/client/agendamentos?message=Este agendamento foi cancelado.");

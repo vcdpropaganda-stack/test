@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { cache } from "react";
 import Link from "next/link";
 import { MapPin, ShieldCheck, Star } from "lucide-react";
 import { notFound } from "next/navigation";
@@ -12,11 +13,15 @@ type ProviderPageProps = {
   params: Promise<{ slug: string }>;
 };
 
+const getCachedProviderProfileBySlug = cache((slug: string) =>
+  getProviderProfileBySlug(slug)
+);
+
 export async function generateMetadata({
   params,
 }: ProviderPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const provider = await getProviderProfileBySlug(slug);
+  const provider = await getCachedProviderProfileBySlug(slug);
 
   if (!provider) {
     return {
@@ -35,7 +40,7 @@ export async function generateMetadata({
 
 export default async function ProviderPage({ params }: ProviderPageProps) {
   const { slug } = await params;
-  const provider = await getProviderProfileBySlug(slug);
+  const provider = await getCachedProviderProfileBySlug(slug);
 
   if (!provider) {
     notFound();

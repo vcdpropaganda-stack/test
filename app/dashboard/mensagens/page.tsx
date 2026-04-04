@@ -19,7 +19,6 @@ type MessagesPageProps = {
     booking?: string;
     service?: string;
     provider?: string;
-    request_wpp?: string;
     message?: string;
   }>;
 };
@@ -110,12 +109,6 @@ export default async function MessagesPage({ searchParams }: MessagesPageProps) 
         }
         redirect(
           "/dashboard/mensagens?message=Não foi possível abrir a conversa agora. Tente novamente."
-        );
-      }
-
-      if (params.request_wpp === "1") {
-        redirect(
-          `/dashboard/mensagens/${conversationId}?message=Este chat bloqueia compartilhamento de contatos diretos por segurança.`
         );
       }
 
