@@ -2,81 +2,78 @@
 
 import Link from "next/link";
 import NumberFlow from "@number-flow/react";
-import { motion } from "motion/react";
-import { useMemo, useRef, useState } from "react";
-import { Check, Shield, Sparkles } from "lucide-react";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Sparkles as SparklesComp } from "@/components/ui/sparkles";
-import { TimelineContent } from "@/components/ui/timeline-animation";
-import { VerticalCutReveal } from "@/components/ui/vertical-cut-reveal";
+import { AnimatePresence, motion } from "framer-motion";
+import { Check, Sparkles, Star } from "lucide-react";
+import { useMemo, useState } from "react";
 import { cn } from "@/lib/utils";
 
 type PricingPlan = {
   id: "mensal" | "trimestral" | "anual";
   name: string;
-  description: string;
+  label: string;
   price: number;
   period: string;
+  description: string;
+  eyebrow: string;
+  highlight?: string;
   cta: string;
-  tone: "soft" | "featured";
-  popular?: boolean;
-  includesTitle: string;
-  includes: string[];
+  features: string[];
 };
 
 const plans: PricingPlan[] = [
   {
     id: "mensal",
     name: "Mensal",
-    description: "Entrada mais leve para começar a usar a operação de pedidos.",
+    label: "Mensal",
     price: 75,
     period: "/mês",
+    eyebrow: "Entrada leve",
+    description:
+      "Para começar com investimento menor e entrar rápido no fluxo de pedidos.",
     cta: "Começar no mensal",
-    tone: "soft" as const,
-    includesTitle: "Inclui no plano:",
-    includes: [
-      "Perfil profissional público na VLservice",
-      "Recebimento e gestão de pedidos de serviço",
-      "Painel para acompanhar propostas e clientes",
-      "Agenda integrada para organizar a operação",
+    features: [
+      "Plano único da VLservice",
+      "Receba pedidos e propostas no mesmo painel",
+      "Perfil profissional público",
+      "Agenda e operação em um só lugar",
     ],
   },
   {
     id: "trimestral",
     name: "Trimestral",
-    description: "Melhor para quem quer organizar trimestre fechado de caixa.",
+    label: "Trimestral",
     price: 360,
     period: "/trimestre",
+    eyebrow: "Ritmo operacional",
+    description:
+      "Boa opção para organizar trimestre fechado e reduzir atrito de cobrança mensal.",
     cta: "Escolher trimestral",
-    tone: "featured" as const,
-    popular: true,
-    includesTitle: "Mesmo acesso, com ciclo trimestral:",
-    includes: [
-      "Mesmos recursos do plano VLservice",
-      "Menos preocupação com cobrança todo mês",
-      "Estrutura ideal para operação recorrente",
-      "Fluxo focado em pedidos, propostas e contratação",
+    features: [
+      "Mesmo acesso completo do plano VLservice",
+      "Mais previsibilidade no trimestre",
+      "Operação mais estável para captar pedidos",
+      "Menos interrupção na rotina do prestador",
     ],
   },
   {
     id: "anual",
     name: "Anual",
-    description: "Ciclo de longo prazo para prestadores com operação estável.",
+    label: "Anual",
     price: 720,
     period: "/ano",
+    eyebrow: "Mais vantajoso",
+    description:
+      "Melhor escolha para quem quer margem melhor, previsibilidade e compromisso de longo prazo.",
+    highlight: "Melhor opção",
     cta: "Escolher anual",
-    tone: "soft" as const,
-    includesTitle: "Mesmo acesso, com visão anual:",
-    includes: [
-      "Plano único da VLservice sem mudar recursos",
-      "Mais previsibilidade financeira ao longo do ano",
-      "Base sólida para crescer com menos atrito operacional",
-      "Acompanhamento completo de pedidos e clientes",
+    features: [
+      "Mesmo acesso completo do plano VLservice",
+      "Melhor custo por permanência na plataforma",
+      "Menos atrito operacional ao longo do ano",
+      "Formato ideal para prestador que quer crescer com consistência",
     ],
   },
 ];
-
-const periodLabels = ["Mensal", "Trimestral", "Anual"] as const;
 
 function formatPriceLabel(value: number) {
   return new Intl.NumberFormat("pt-BR", {
@@ -85,314 +82,284 @@ function formatPriceLabel(value: number) {
   }).format(value);
 }
 
-function PricingSwitch({
-  selected,
-  onSwitch,
+function PricingSelector({
+  selectedId,
+  onChange,
 }: {
-  selected: number;
-  onSwitch: (value: number) => void;
+  selectedId: PricingPlan["id"];
+  onChange: (value: PricingPlan["id"]) => void;
 }) {
   return (
     <div className="flex justify-center">
-      <div className="relative z-10 mx-auto flex w-fit rounded-full border border-white/12 bg-neutral-900/85 p-1">
-        {periodLabels.map((label, index) => (
-          <button
-            key={label}
-            onClick={() => onSwitch(index)}
-            className={cn(
-              "relative z-10 h-10 rounded-full px-4 py-1 text-sm font-medium transition-colors sm:px-6",
-              selected === index ? "text-white" : "text-gray-300"
-            )}
-          >
-            {selected === index ? (
-              <motion.span
-                layoutId="pricing-switch"
-                className="absolute inset-0 rounded-full border-4 border-blue-600 bg-gradient-to-t from-blue-500 to-blue-600 shadow-sm shadow-blue-600"
-                transition={{ type: "spring", stiffness: 500, damping: 30 }}
-              />
-            ) : null}
-            <span className="relative">{label}</span>
-          </button>
-        ))}
+      <div className="inline-flex rounded-full border border-white/10 bg-white/6 p-1 shadow-[0_14px_34px_rgba(2,6,23,0.18)] backdrop-blur-xl">
+        {plans.map((plan) => {
+          const selected = plan.id === selectedId;
+
+          return (
+            <button
+              key={plan.id}
+              type="button"
+              onClick={() => onChange(plan.id)}
+              className={cn(
+                "relative min-w-28 rounded-full px-5 py-3 text-sm font-semibold transition sm:min-w-32",
+                selected ? "text-white" : "text-white/72 hover:text-white"
+              )}
+            >
+              {selected ? (
+                <motion.span
+                  layoutId="pricing-selector-pill"
+                  className={cn(
+                    "absolute inset-0 rounded-full",
+                    plan.id === "anual"
+                      ? "bg-gradient-to-r from-amber-400 via-amber-300 to-yellow-200 shadow-[0_10px_28px_rgba(251,191,36,0.32)]"
+                      : "bg-gradient-to-r from-blue-600 to-indigo-500 shadow-[0_10px_28px_rgba(59,130,246,0.28)]"
+                  )}
+                  transition={{ type: "spring", stiffness: 380, damping: 32 }}
+                />
+              ) : null}
+              <span
+                className={cn(
+                  "relative z-10",
+                  selected && plan.id === "anual" ? "text-slate-950" : ""
+                )}
+              >
+                {plan.label}
+              </span>
+            </button>
+          );
+        })}
       </div>
     </div>
   );
 }
 
 export default function PricingSection4() {
-  const [selectedPlanIndex, setSelectedPlanIndex] = useState(1);
-  const pricingRef = useRef<HTMLDivElement>(null);
-  const selectedPlan = useMemo(() => plans[selectedPlanIndex], [selectedPlanIndex]);
+  const [selectedPlanId, setSelectedPlanId] =
+    useState<PricingPlan["id"]>("anual");
 
-  const revealVariants = {
-    visible: (index: number) => ({
-      y: 0,
-      opacity: 1,
-      filter: "blur(0px)",
-      transition: {
-        delay: index * 0.12,
-        duration: 0.5,
-      },
-    }),
-    hidden: {
-      filter: "blur(10px)",
-      y: -20,
-      opacity: 0,
-    },
-  };
+  const selectedPlan = useMemo(
+    () => plans.find((plan) => plan.id === selectedPlanId) ?? plans[2],
+    [selectedPlanId]
+  );
 
   return (
-    <section
-      className="relative mx-auto min-h-screen overflow-x-hidden bg-[#030712]"
-      ref={pricingRef}
-    >
-      <TimelineContent
-        animationNum={0}
-        timelineRef={pricingRef}
-        customVariants={revealVariants}
-        className="absolute top-0 h-96 w-screen overflow-hidden [mask-image:radial-gradient(50%_50%,white,transparent)]"
-      >
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff1a_1px,transparent_1px),linear-gradient(to_bottom,#ffffff10_1px,transparent_1px)] bg-[size:70px_80px]" />
-        <SparklesComp
-          density={1800}
-          direction="bottom"
-          speed={1}
-          color="#FFFFFF"
-          className="absolute inset-x-0 bottom-0 h-full w-full [mask-image:radial-gradient(50%_50%,white,transparent_85%)]"
-        />
-      </TimelineContent>
+    <section className="relative min-h-screen overflow-hidden bg-[linear-gradient(180deg,#050816_0%,#09132c_24%,#0d1730_58%,#050816_100%)] text-white">
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(79,70,229,0.42),transparent_34%),radial-gradient(circle_at_bottom_right,rgba(59,130,246,0.18),transparent_24%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.06)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.06)_1px,transparent_1px)] bg-[size:72px_72px] [mask-image:linear-gradient(180deg,rgba(255,255,255,0.6),rgba(255,255,255,0.12))]" />
 
-      <TimelineContent
-        animationNum={1}
-        timelineRef={pricingRef}
-        customVariants={revealVariants}
-        className="absolute left-0 top-[-114px] h-[113.625vh] w-full overflow-hidden"
-      >
-        <div
-          className="absolute left-[-568px] right-[-568px] top-0 h-[2053px] rounded-full"
-          style={{
-            border: "200px solid rgba(49,49,245,0.78)",
-            filter: "blur(92px)",
-            WebkitFilter: "blur(92px)",
-          }}
-        />
-      </TimelineContent>
+      <div className="relative z-10 mx-auto flex w-full max-w-[1400px] flex-col px-4 pb-20 pt-24 sm:px-6 lg:px-10 lg:pt-30">
+        <div className="mx-auto max-w-4xl text-center">
+          <span className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/7 px-4 py-2 text-xs font-semibold tracking-[0.24em] text-white/72 uppercase backdrop-blur">
+            <Sparkles className="h-4 w-4" />
+            Preços VLservice
+          </span>
 
-      <div className="absolute left-[10%] right-[10%] top-0 z-0 h-full w-[80%] opacity-60 mix-blend-multiply">
-        <div
-          className="h-full w-full"
-          style={{
-            backgroundImage:
-              "radial-gradient(circle at center, rgba(32,108,232,0.72) 0%, transparent 70%)",
-          }}
-        />
-      </div>
-
-      <div className="relative z-10 mx-auto max-w-6xl px-4 pb-20 pt-28 sm:px-6 lg:px-8">
-        <article className="mx-auto mb-10 max-w-3xl space-y-4 text-center">
-          <TimelineContent
-            as="div"
-            animationNum={2}
-            timelineRef={pricingRef}
-            customVariants={revealVariants}
-          >
-            <span className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/6 px-4 py-2 text-xs font-semibold tracking-[0.22em] text-white/72 uppercase">
-              <Sparkles className="h-4 w-4" />
-              Preços VLservice
-            </span>
-          </TimelineContent>
-
-          <h1 className="text-4xl font-medium tracking-[-0.05em] text-white sm:text-5xl">
-            <VerticalCutReveal
-              splitBy="words"
-              staggerDuration={0.12}
-              staggerFrom="first"
-              reverse
-              containerClassName="justify-center"
-              transition={{
-                type: "spring",
-                stiffness: 250,
-                damping: 40,
-                delay: 0,
-              }}
-            >
-              Um plano unico. Tres ciclos de cobranca.
-            </VerticalCutReveal>
+          <h1 className="mx-auto mt-7 max-w-4xl text-balance text-4xl font-semibold leading-[0.94] tracking-[-0.06em] text-white sm:text-6xl lg:text-[5.3rem]">
+            Um plano único.
+            <span className="block text-white/72">Três ciclos de cobrança.</span>
           </h1>
 
-          <TimelineContent
-            as="p"
-            animationNum={3}
-            timelineRef={pricingRef}
-            customVariants={revealVariants}
-            className="mx-auto max-w-2xl text-base leading-8 text-gray-300 sm:text-lg"
-          >
-            A VLservice nao vende recurso diferente por plano. O acesso ao
-            sistema e o mesmo. O que muda e so a forma de cobranca:
-            mensal, trimestral ou anual.
-          </TimelineContent>
+          <p className="mx-auto mt-6 max-w-3xl text-lg leading-8 text-white/68 sm:text-xl">
+            Nada de recurso duplicado ou tabela confusa. Você escolhe só como
+            quer pagar. O acesso é o mesmo. O anual já entra em destaque por
+            ser a opção mais vantajosa.
+          </p>
+        </div>
 
-          <TimelineContent
-            as="div"
-            animationNum={4}
-            timelineRef={pricingRef}
-            customVariants={revealVariants}
-          >
-            <PricingSwitch
-              selected={selectedPlanIndex}
-              onSwitch={setSelectedPlanIndex}
-            />
-          </TimelineContent>
-        </article>
+        <div className="mt-10">
+          <PricingSelector
+            selectedId={selectedPlanId}
+            onChange={setSelectedPlanId}
+          />
+        </div>
 
-        <div className="grid gap-5 lg:grid-cols-[1.15fr_0.85fr]">
-          <div className="grid gap-4 md:grid-cols-3">
-            {plans.map((plan, index) => {
-              const selected = index === selectedPlanIndex;
+        <div className="mx-auto mt-12 grid w-full max-w-6xl gap-8 lg:grid-cols-[minmax(0,1.1fr)_320px] lg:items-center">
+          <div className="perspective-[2000px]">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={selectedPlan.id}
+                initial={{ opacity: 0, rotateX: -10, rotateY: 90, scale: 0.96 }}
+                animate={{ opacity: 1, rotateX: 0, rotateY: 0, scale: 1 }}
+                exit={{ opacity: 0, rotateX: 8, rotateY: -90, scale: 0.96 }}
+                transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                className={cn(
+                  "relative overflow-hidden rounded-[2.5rem] border p-7 shadow-[0_30px_100px_rgba(2,6,23,0.45)] backdrop-blur-2xl sm:p-10",
+                  selectedPlan.id === "anual"
+                    ? "border-amber-300/35 bg-[linear-gradient(135deg,rgba(255,248,220,0.18),rgba(20,16,8,0.88)_26%,rgba(10,12,20,0.96)_100%)]"
+                    : selectedPlan.id === "trimestral"
+                      ? "border-blue-400/28 bg-[linear-gradient(135deg,rgba(96,165,250,0.16),rgba(15,23,42,0.92)_24%,rgba(9,15,32,0.96)_100%)]"
+                      : "border-white/10 bg-[linear-gradient(135deg,rgba(255,255,255,0.08),rgba(15,23,42,0.92)_24%,rgba(6,10,18,0.96)_100%)]"
+                )}
+                style={{ transformStyle: "preserve-3d" }}
+              >
+                <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.14),transparent_24%)]" />
 
-              return (
-                <TimelineContent
-                  key={plan.id}
-                  as="div"
-                  animationNum={5 + index}
-                  timelineRef={pricingRef}
-                  customVariants={revealVariants}
-                >
-                  <Card
-                    className={cn(
-                      "relative h-full rounded-[1.9rem] border text-white transition duration-300",
-                      selected
-                        ? "border-blue-500/50 bg-gradient-to-b from-[#161b35] via-[#0f1327] to-[#090b15] shadow-[0_-13px_120px_0_rgba(9,0,255,0.35)]"
-                        : "border-neutral-800 bg-gradient-to-b from-neutral-900 via-neutral-900 to-[#10121d]"
-                    )}
-                  >
-                    {plan.popular ? (
-                      <div className="absolute right-4 top-4 rounded-full border border-blue-400/40 bg-blue-500/18 px-3 py-1 text-[11px] font-semibold tracking-[0.18em] text-blue-100 uppercase">
-                        Destaque
-                      </div>
-                    ) : null}
-
-                    <CardHeader className="text-left">
-                      <h3 className="text-3xl font-semibold">{plan.name}</h3>
-                      <div className="mt-2 flex items-end gap-1">
-                        <span className="text-2xl font-semibold text-white/90">
-                          R$
-                        </span>
-                        <NumberFlow
-                          value={plan.price}
-                          format={{
-                            minimumFractionDigits: 2,
-                            maximumFractionDigits: 2,
-                          }}
-                          className="text-4xl font-semibold"
-                        />
-                        <span className="mb-1 ml-1 text-sm text-gray-300">
-                          {plan.period}
-                        </span>
-                      </div>
-                      <p className="text-sm leading-7 text-gray-300">
-                        {plan.description}
-                      </p>
-                    </CardHeader>
-
-                    <CardContent className="pt-0">
-                      <button
-                        type="button"
-                        onClick={() => setSelectedPlanIndex(index)}
+                <div className="relative flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
+                  <div className="max-w-xl">
+                    <div className="flex flex-wrap items-center gap-3">
+                      <span
                         className={cn(
-                          "mb-6 w-full rounded-xl border p-4 text-base font-semibold",
-                          selected
-                            ? "border-blue-500 bg-gradient-to-t from-blue-500 to-blue-600 text-white shadow-lg shadow-blue-800/50"
-                            : "border-neutral-800 bg-gradient-to-t from-neutral-950 to-neutral-700 text-white shadow-lg shadow-neutral-950/50"
+                          "rounded-full border px-3 py-1 text-[11px] font-semibold tracking-[0.2em] uppercase",
+                          selectedPlan.id === "anual"
+                            ? "border-amber-300/40 bg-amber-300/16 text-amber-100"
+                            : "border-white/12 bg-white/8 text-white/72"
                         )}
                       >
-                        {plan.cta}
-                      </button>
+                        {selectedPlan.eyebrow}
+                      </span>
+                      {selectedPlan.highlight ? (
+                        <span className="inline-flex items-center gap-1 rounded-full border border-amber-300/45 bg-amber-300/16 px-3 py-1 text-[11px] font-semibold tracking-[0.2em] text-amber-100 uppercase">
+                          <Star className="h-3.5 w-3.5" />
+                          {selectedPlan.highlight}
+                        </span>
+                      ) : null}
+                    </div>
 
-                      <div className="space-y-3 border-t border-neutral-700 pt-4">
-                        <h4 className="mb-3 text-base font-medium">
-                          {plan.includesTitle}
-                        </h4>
-                        <ul className="space-y-3">
-                          {plan.includes.map((feature) => (
-                            <li key={feature} className="flex gap-2">
-                              <span className="mt-0.5 inline-flex h-5 w-5 items-center justify-center rounded-full bg-white/10">
-                                <Check className="h-3.5 w-3.5 text-white/90" />
-                              </span>
-                              <span className="text-sm leading-6 text-gray-300">
-                                {feature}
-                              </span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </TimelineContent>
+                    <h2 className="mt-5 text-4xl font-semibold tracking-[-0.05em] text-white sm:text-5xl">
+                      {selectedPlan.name}
+                    </h2>
+                    <p className="mt-4 max-w-lg text-base leading-8 text-white/70 sm:text-lg">
+                      {selectedPlan.description}
+                    </p>
+                  </div>
+
+                  <div className="rounded-[2rem] border border-white/10 bg-black/24 px-6 py-5">
+                    <p className="text-sm font-semibold tracking-[0.14em] text-white/52 uppercase">
+                      Valor do ciclo
+                    </p>
+                    <div className="mt-3 flex items-end gap-2">
+                      <span className="text-2xl font-semibold text-white/82">R$</span>
+                      <NumberFlow
+                        value={selectedPlan.price}
+                        format={{
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2,
+                        }}
+                        className="text-5xl font-semibold tracking-[-0.05em] text-white sm:text-6xl"
+                      />
+                    </div>
+                    <p className="mt-2 text-base text-white/54">
+                      {selectedPlan.period}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="relative mt-10 grid gap-5 lg:grid-cols-[0.88fr_1.12fr]">
+                  <div className="rounded-[2rem] border border-white/10 bg-black/22 p-6">
+                    <p className="text-sm font-semibold tracking-[0.18em] text-white/52 uppercase">
+                      O que você leva
+                    </p>
+                    <ul className="mt-5 space-y-4">
+                      {selectedPlan.features.map((feature) => (
+                        <li key={feature} className="flex gap-3">
+                          <span
+                            className={cn(
+                              "mt-0.5 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full",
+                              selectedPlan.id === "anual"
+                                ? "bg-amber-300/16 text-amber-100"
+                                : "bg-white/10 text-white/90"
+                            )}
+                          >
+                            <Check className="h-4 w-4" />
+                          </span>
+                          <span className="text-sm leading-7 text-white/74 sm:text-base">
+                            {feature}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div className="grid gap-4">
+                    <div className="rounded-[2rem] border border-white/10 bg-white/6 p-6">
+                      <p className="text-sm font-semibold text-white">Plano único</p>
+                      <p className="mt-2 text-sm leading-7 text-white/64">
+                        A VLservice não troca recurso por ciclo. Muda só a forma
+                        de cobrança.
+                      </p>
+                    </div>
+
+                    <div
+                      className={cn(
+                        "rounded-[2rem] border p-6",
+                        selectedPlan.id === "anual"
+                          ? "border-amber-300/28 bg-amber-300/10"
+                          : "border-white/10 bg-white/6"
+                      )}
+                    >
+                      <p className="text-sm font-semibold text-white">
+                        {selectedPlan.id === "anual"
+                          ? "Melhor opção para margem"
+                          : "Comparação simples"}
+                      </p>
+                      <p className="mt-2 text-sm leading-7 text-white/64">
+                        {selectedPlan.id === "anual"
+                          ? "Deixamos o anual como padrão porque ele é o ciclo mais interessante para retenção e margem do negócio."
+                          : "Se preferir mais flexibilidade de entrada, você ainda pode começar no mensal ou no trimestral sem perder acesso."}
+                      </p>
+                    </div>
+
+                    <div className="flex flex-col gap-3 sm:flex-row">
+                      <Link
+                        href="/cadastro?role=provider"
+                        className={cn(
+                          "inline-flex min-h-13 flex-1 items-center justify-center rounded-full px-6 py-3 text-sm font-semibold transition",
+                          selectedPlan.id === "anual"
+                            ? "bg-amber-300 text-slate-950 shadow-[0_16px_36px_rgba(251,191,36,0.22)] hover:bg-amber-200"
+                            : "bg-white text-slate-950 hover:bg-slate-100"
+                        )}
+                      >
+                        {selectedPlan.cta}
+                      </Link>
+                      <Link
+                        href="/contato"
+                        className="inline-flex min-h-13 flex-1 items-center justify-center rounded-full border border-white/14 bg-white/6 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/10"
+                      >
+                        Falar com o time
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            </AnimatePresence>
+          </div>
+
+          <div className="grid gap-3">
+            {plans.map((plan) => {
+              const active = plan.id === selectedPlanId;
+
+              return (
+                <button
+                  key={plan.id}
+                  type="button"
+                  onClick={() => setSelectedPlanId(plan.id)}
+                  className={cn(
+                    "rounded-[1.8rem] border px-5 py-5 text-left transition",
+                    active
+                      ? plan.id === "anual"
+                        ? "border-amber-300/34 bg-amber-300/10 shadow-[0_18px_40px_rgba(251,191,36,0.12)]"
+                        : "border-blue-400/26 bg-blue-400/10 shadow-[0_18px_40px_rgba(59,130,246,0.1)]"
+                      : "border-white/10 bg-white/5 hover:bg-white/8"
+                  )}
+                >
+                  <div className="flex items-start justify-between gap-3">
+                    <div>
+                      <p className="text-lg font-semibold text-white">{plan.name}</p>
+                      <p className="mt-1 text-sm text-white/56">{plan.period}</p>
+                    </div>
+                    {plan.id === "anual" ? (
+                      <span className="rounded-full border border-amber-300/34 bg-amber-300/14 px-2.5 py-1 text-[10px] font-semibold tracking-[0.18em] text-amber-100 uppercase">
+                        Prioridade
+                      </span>
+                    ) : null}
+                  </div>
+                  <p className="mt-4 text-3xl font-semibold tracking-[-0.04em] text-white">
+                    R$ {formatPriceLabel(plan.price)}
+                  </p>
+                </button>
               );
             })}
           </div>
-
-          <TimelineContent
-            as="aside"
-            animationNum={9}
-            timelineRef={pricingRef}
-            customVariants={revealVariants}
-            className="rounded-[2rem] border border-white/10 bg-white/[0.04] p-6 text-white shadow-[0_24px_70px_rgba(0,0,0,0.32)] backdrop-blur-xl sm:p-8"
-          >
-            <div className="flex items-center gap-2 text-white/70">
-              <Shield className="h-4 w-4" />
-              <span className="text-xs font-semibold tracking-[0.22em] uppercase">
-                Plano selecionado
-              </span>
-            </div>
-
-            <h2 className="mt-4 text-3xl font-semibold tracking-[-0.04em]">
-              {selectedPlan.name}
-            </h2>
-            <p className="mt-4 text-base leading-8 text-white/72">
-              {selectedPlan.description}
-            </p>
-
-            <div className="mt-8 rounded-[1.6rem] border border-white/10 bg-black/28 p-5">
-              <p className="text-sm font-semibold text-white/70">Valor do ciclo</p>
-              <p className="mt-3 text-4xl font-semibold tracking-[-0.05em]">
-                R$ {formatPriceLabel(selectedPlan.price)}
-              </p>
-              <p className="mt-2 text-sm text-white/60">{selectedPlan.period}</p>
-            </div>
-
-            <div className="mt-6 space-y-3">
-              <div className="rounded-2xl border border-white/10 bg-white/6 px-4 py-4">
-                <p className="text-sm font-semibold text-white">Mesmo acesso</p>
-                <p className="mt-1 text-sm leading-6 text-white/68">
-                  Todos os ciclos usam a mesma estrutura do produto.
-                </p>
-              </div>
-              <div className="rounded-2xl border border-white/10 bg-white/6 px-4 py-4">
-                <p className="text-sm font-semibold text-white">Foco em pedidos</p>
-                <p className="mt-1 text-sm leading-6 text-white/68">
-                  Cliente publica a dor, prestadores enviam propostas e o
-                  contratante escolhe a melhor.
-                </p>
-              </div>
-            </div>
-
-            <div className="mt-8 flex flex-col gap-3">
-              <Link
-                href="/cadastro?role=provider"
-                className="inline-flex min-h-12 items-center justify-center rounded-full bg-white px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-slate-100"
-              >
-                Criar conta como prestador
-              </Link>
-              <Link
-                href="/contato"
-                className="inline-flex min-h-12 items-center justify-center rounded-full border border-white/16 bg-white/6 px-5 py-3 text-sm font-semibold text-white transition hover:bg-white/10"
-              >
-                Falar com o time
-              </Link>
-            </div>
-          </TimelineContent>
         </div>
       </div>
     </section>
