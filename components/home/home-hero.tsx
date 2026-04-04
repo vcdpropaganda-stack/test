@@ -12,12 +12,12 @@ type HomeHeroProps = {
 };
 
 const fallbackImages = [
-  "https://images.unsplash.com/photo-1621905252507-b35492cc74b4?auto=format&fit=crop&w=900&q=80",
-  "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=900&q=80",
-  "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=900&q=80",
-  "https://images.unsplash.com/photo-1558211583-d26f610c1eb1?auto=format&fit=crop&w=900&q=80",
-  "https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?auto=format&fit=crop&w=900&q=80",
-  "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=900&q=80",
+  "/service-images/limpeza.jpg",
+  "/service-images/tecnologia.jpg",
+  "/service-images/maquiagem.jpg",
+  "/service-images/consultoria.jpg",
+  "/service-images/marketing.jpg",
+  "/service-images/workspace.jpg",
 ] as const;
 
 function getCategoryImage(index: number) {
@@ -50,11 +50,11 @@ export function HomeHero({
       }}
       disclaimer="Sem catálogo como porta de entrada. A home já leva direto para o pedido."
       socialProof={{
-        avatars: [
-          "https://i.pravatar.cc/160?img=12",
-          "https://i.pravatar.cc/160?img=23",
-          "https://i.pravatar.cc/160?img=32",
-          "https://i.pravatar.cc/160?img=41",
+        people: [
+          { name: "Mariana Souza" },
+          { name: "Lucas Pereira" },
+          { name: "Fernanda Lima" },
+          { name: "Rafael Gomes" },
         ],
         text: "Clientes publicam a dor. Prestadores respondem com proposta.",
       }}

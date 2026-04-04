@@ -157,7 +157,7 @@ export function Header({ isAuthenticated, dashboardHref }: HeaderProps) {
               <p className="truncate text-[1.05rem] font-extrabold tracking-[-0.05em] text-slate-950 sm:text-[1.65rem]">
                 VLservice
               </p>
-              <p className="hidden truncate text-sm text-slate-500 lg:block">
+              <p className="hidden truncate text-sm text-slate-600 lg:block">
                 Pedidos, propostas e contratação local
               </p>
             </div>
@@ -167,7 +167,7 @@ export function Header({ isAuthenticated, dashboardHref }: HeaderProps) {
             <NavigationMenu>
               <NavigationMenuList className="rounded-full border border-slate-200/90 bg-white/92 p-1.5 shadow-[0_18px_50px_rgba(15,23,42,0.07)]">
                 <NavigationMenuItem>
-                  <NavigationMenuTrigger className="bg-slate-950 text-white hover:bg-slate-900 hover:text-white focus:bg-slate-900 focus:text-white data-[state=open]:bg-slate-900 data-[state=open]:text-white">
+                  <NavigationMenuTrigger className="border border-slate-200 bg-slate-100 text-slate-950 hover:border-slate-300 hover:bg-slate-200 hover:text-slate-950 focus:border-slate-300 focus:bg-slate-200 focus:text-slate-950 data-[state=open]:border-slate-300 data-[state=open]:bg-slate-200 data-[state=open]:text-slate-950">
                     Pedidos
                   </NavigationMenuTrigger>
                   <NavigationMenuContent className="p-2">
@@ -179,14 +179,14 @@ export function Header({ isAuthenticated, dashboardHref }: HeaderProps) {
                           </li>
                         ))}
                       </ul>
-                      <div className="rounded-[1.5rem] bg-slate-950 p-5 text-white">
-                        <p className="text-xs font-semibold tracking-[0.24em] uppercase text-white/55">
+                      <div className="rounded-[1.5rem] bg-slate-950 p-5 text-white shadow-[0_24px_50px_rgba(15,23,42,0.22)]">
+                        <p className="text-xs font-semibold tracking-[0.24em] uppercase text-slate-300">
                           Fluxo master
                         </p>
                         <h3 className="mt-3 text-xl font-semibold tracking-[-0.04em]">
                           Cliente publica a dor. Prestadores enviam propostas.
                         </h3>
-                        <p className="mt-3 text-sm leading-7 text-white/72">
+                        <p className="mt-3 text-sm leading-7 text-slate-200">
                           A home e o produto inteiro giram em torno de pedidos,
                           não de catálogo.
                         </p>
@@ -232,7 +232,7 @@ export function Header({ isAuthenticated, dashboardHref }: HeaderProps) {
                     <NavigationMenuLink className="px-1" asChild>
                       <Link
                         href={link.href}
-                        className="inline-flex h-10 items-center rounded-full px-4 text-sm font-semibold text-slate-700 transition hover:bg-slate-100 hover:text-slate-950"
+                        className="inline-flex h-10 items-center rounded-full px-4 text-sm font-semibold text-slate-800 transition hover:bg-slate-100 hover:text-slate-950"
                       >
                         {link.label}
                       </Link>
@@ -264,7 +264,7 @@ export function Header({ isAuthenticated, dashboardHref }: HeaderProps) {
               <Button asChild variant="outline" size="sm">
                 <Link href="/login">Entrar</Link>
               </Button>
-              <Button asChild size="sm">
+              <Button asChild size="sm" className="shadow-[0_18px_36px_rgba(79,70,229,0.28)]">
                 <Link href="/cadastro">Criar conta</Link>
               </Button>
             </>
@@ -290,12 +290,12 @@ export function Header({ isAuthenticated, dashboardHref }: HeaderProps) {
             <VlMonogram className="h-10 w-10 rounded-[0.95rem]" />
             <div>
               <p className="text-sm font-bold text-slate-950">VLservice</p>
-              <p className="text-sm text-slate-500">
+              <p className="text-sm text-slate-600">
                 Pedidos, propostas e contratação local
               </p>
             </div>
           </div>
-          <p className="mt-4 text-sm leading-6 text-slate-600">
+          <p className="mt-4 text-sm leading-6 text-slate-700">
             Navegação focada em pedido, contratação e operação do prestador.
           </p>
         </div>

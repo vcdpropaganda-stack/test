@@ -4,7 +4,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center whitespace-nowrap rounded-full text-sm font-semibold ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+  "inline-flex items-center justify-center whitespace-nowrap rounded-full text-sm font-semibold ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:text-current [&_svg]:shrink-0 [&_span]:text-current",
   {
     variants: {
       variant: {
@@ -54,6 +54,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       fullWidth = false,
       icon,
       children,
+      style,
       ...props
     },
     ref
@@ -67,10 +68,13 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         className={cn(
           buttonVariants({ variant, size }),
           fullWidth && "w-full",
-          isPrimary &&
-            "group relative overflow-hidden",
+          isPrimary && "group relative overflow-hidden !text-white",
           className
         )}
+        style={{
+          ...(isPrimary ? { color: "#ffffff" } : {}),
+          ...style,
+        }}
         ref={ref}
         {...props}
       >

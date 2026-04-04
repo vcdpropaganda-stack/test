@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -18,6 +19,11 @@ interface MetricItem {
   label: string;
 }
 
+interface SocialProofPerson {
+  name: string;
+  image?: string;
+}
+
 interface PulseFitHeroProps {
   eyebrow?: string;
   title: string;
@@ -32,12 +38,52 @@ interface PulseFitHeroProps {
   };
   disclaimer?: string;
   socialProof?: {
-    avatars: string[];
+    people: SocialProofPerson[];
     text: string;
   };
   metrics?: MetricItem[];
   programs?: ProgramCard[];
   className?: string;
+}
+
+function getInitials(name: string) {
+  const parts = name
+    .split(/\s+/)
+    .map((part) => part.trim())
+    .filter(Boolean);
+
+  if (parts.length === 0) {
+    return "VL";
+  }
+
+  if (parts.length === 1) {
+    return parts[0]!.slice(0, 2).toUpperCase();
+  }
+
+  return `${parts[0]![0] ?? ""}${parts[1]![0] ?? ""}`.toUpperCase();
+}
+
+function SocialProofAvatar({ person }: { person: SocialProofPerson }) {
+  const [imageFailed, setImageFailed] = useState(false);
+
+  if (!person.image || imageFailed) {
+    return (
+      <div className="flex h-11 w-11 items-center justify-center rounded-full border-2 border-white bg-[linear-gradient(135deg,#4f46e5,#0f172a)] text-xs font-bold tracking-[0.08em] text-white shadow-sm">
+        {getInitials(person.name)}
+      </div>
+    );
+  }
+
+  return (
+    <Image
+      src={person.image}
+      alt={person.name}
+      width={44}
+      height={44}
+      onError={() => setImageFailed(true)}
+      className="h-11 w-11 rounded-full border-2 border-white object-cover shadow-sm"
+    />
+  );
 }
 
 export function PulseFitHero({
@@ -109,10 +155,13 @@ export function PulseFitHero({
                 {primaryAction ? (
                   <Link
                     href={primaryAction.href}
-                    className="inline-flex min-h-14 items-center gap-2 rounded-full bg-slate-950 px-8 py-4 text-base font-semibold text-white shadow-[0_18px_44px_rgba(15,23,42,0.18)] transition hover:-translate-y-0.5 hover:bg-slate-900"
+                    className="inline-flex min-h-14 items-center gap-2 rounded-full border border-indigo-700 bg-[linear-gradient(135deg,#312e81,#0f172a)] px-8 py-4 text-base font-semibold !text-white shadow-[0_18px_44px_rgba(15,23,42,0.22)] transition hover:-translate-y-0.5 hover:border-indigo-600 hover:bg-[linear-gradient(135deg,#3730a3,#111827)] focus-visible:!text-white"
+                    style={{ color: "#ffffff" }}
                   >
-                    <span className="text-white">{primaryAction.label}</span>
-                    <ArrowRight className="h-4 w-4 text-white" />
+                    <span className="!text-white" style={{ color: "#ffffff" }}>
+                      {primaryAction.label}
+                    </span>
+                    <ArrowRight className="h-4 w-4 !text-white" style={{ color: "#ffffff" }} />
                   </Link>
                 ) : null}
 
@@ -146,15 +195,10 @@ export function PulseFitHero({
                 className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row"
               >
                 <div className="flex -space-x-3">
-                  {socialProof.avatars.map((avatar, index) => (
-                    <Image
-                      key={`${avatar}-${index}`}
-                      src={avatar}
-                      alt={`Perfil ${index + 1}`}
-                      width={44}
-                      height={44}
-                      className="h-11 w-11 rounded-full border-2 border-white object-cover shadow-sm"
-                    />
+                  {socialProof.people.map((person, index) => (
+                    <div key={`${person.name}-${index}`}>
+                      <SocialProofAvatar person={person} />
+                    </div>
                   ))}
                 </div>
                 <span className="text-sm font-semibold text-slate-600">

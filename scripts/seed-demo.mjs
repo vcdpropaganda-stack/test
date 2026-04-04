@@ -36,6 +36,18 @@ async function main() {
     union all
     select 'reviews', count(*)::int from public.reviews
     union all
+    select 'client_reviews', count(*)::int from public.client_reviews
+    union all
+    select 'jobs', count(*)::int from public.jobs
+    union all
+    select 'job_bids', count(*)::int from public.job_bids
+    union all
+    select 'job_bid_credit_purchases', count(*)::int from public.job_bid_credit_purchases
+    union all
+    select 'conversations', count(*)::int from public.conversations
+    union all
+    select 'conversation_messages', count(*)::int from public.conversation_messages
+    union all
     select 'service_categories', count(*)::int from public.service_categories
     order by label
   `);
@@ -55,6 +67,10 @@ async function main() {
   console.log("vlservice+cliente2@gmail.com");
   console.log("vlservice+cliente3@gmail.com");
   console.log("vlservice+cliente4@gmail.com");
+  console.log("\nDemo docs:");
+  console.log("docs/demo-accounts-and-access.md");
+  console.log("docs/demo-presentation-script.md");
+  console.log("docs/demo-qa-checklist.md");
 
   await client.end();
 }

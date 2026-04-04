@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "demo:seed": "node scripts/seed-demo.mjs",
+    "demo:verify": "node scripts/verify-demo.mjs",
+    "demo:reset": "node scripts/reset-demo.mjs"
   },
   "dependencies": {
     "@number-flow/react": "^0.6.0",
