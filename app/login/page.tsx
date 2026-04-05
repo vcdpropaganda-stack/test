@@ -5,6 +5,7 @@ import { resendConfirmationAction, signInAction } from "@/app/auth/actions";
 import { Button } from "@/components/ui/button";
 import { InputField } from "@/components/ui/input";
 import { Notice } from "@/components/ui/notice";
+import { SUPABASE_ENV_MISSING_MESSAGE, hasSupabaseEnv } from "@/lib/env";
 
 export const metadata: Metadata = {
   title: "Entrar | VLservice",
@@ -17,6 +18,7 @@ export default async function LoginPage({
   searchParams: Promise<{ message?: string; next?: string }>;
 }) {
   const { message, next } = await searchParams;
+  const authReady = hasSupabaseEnv();
 
   return (
     <main
@@ -100,6 +102,10 @@ export default async function LoginPage({
             {message ? (
               <div className="mb-6">
                 <Notice>{message}</Notice>
+              </div>
+            ) : !authReady ? (
+              <div className="mb-6">
+                <Notice>{SUPABASE_ENV_MISSING_MESSAGE}</Notice>
               </div>
             ) : (
               <div className="mb-6 rounded-[1.5rem] border border-slate-200 bg-slate-50/80 px-4 py-3 text-sm leading-6 text-muted-strong">
