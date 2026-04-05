@@ -1,6 +1,8 @@
 import { type NextRequest } from "next/server";
 import { redirect } from "next/navigation";
+import { SUPABASE_ENV_MISSING_MESSAGE, hasSupabaseEnv } from "@/lib/env";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { buildMessagePath } from "@/lib/utils";
 
 export async function GET(request: NextRequest) {
   const { searchParams, origin } = new URL(request.url);
@@ -8,6 +10,10 @@ export async function GET(request: NextRequest) {
   const code = searchParams.get("code");
   const type = searchParams.get("type");
   const next = searchParams.get("next") ?? "/dashboard";
+
+  if (!hasSupabaseEnv()) {
+    redirect(`${origin}${buildMessagePath("/login", SUPABASE_ENV_MISSING_MESSAGE)}`);
+  }
 
   const supabase = await createSupabaseServerClient();
 

@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { createJobAction } from "@/app/pedidos/actions";
+import { ConfigurationNotice } from "@/components/shared/configuration-notice";
 import { getResolvedUserRole } from "@/lib/auth";
+import { hasSupabaseEnv } from "@/lib/env";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { InputField, SelectField } from "@/components/ui/input";
 import { Notice } from "@/components/ui/notice";
@@ -23,6 +25,21 @@ type NewJobPageProps = {
 
 export default async function NewJobPage({ searchParams }: NewJobPageProps) {
   const { message, category } = await searchParams;
+
+  if (!hasSupabaseEnv()) {
+    return (
+      <ConfigurationNotice
+        eyebrow="Novo pedido"
+        title="Publicação temporariamente indisponível"
+        description="Esta tela depende da autenticação e das categorias do marketplace para publicar pedidos com segurança."
+        primaryHref="/login"
+        primaryLabel="Ir para o login"
+        secondaryHref="/pedidos"
+        secondaryLabel="Voltar ao mural"
+      />
+    );
+  }
+
   const supabase = await createSupabaseServerClient();
   const {
     data: { user },

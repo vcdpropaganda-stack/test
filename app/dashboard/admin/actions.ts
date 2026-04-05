@@ -2,9 +2,14 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { SUPABASE_ENV_MISSING_MESSAGE, hasSupabaseEnv } from "@/lib/env";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 async function ensureAdmin() {
+  if (!hasSupabaseEnv()) {
+    redirect(`/login?message=${encodeURIComponent(SUPABASE_ENV_MISSING_MESSAGE)}`);
+  }
+
   const supabase = await createSupabaseServerClient();
   const {
     data: { user },

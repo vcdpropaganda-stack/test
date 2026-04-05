@@ -4,7 +4,7 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { createClient } from "@supabase/supabase-js";
 import { getResolvedUserRole } from "@/lib/auth";
-import { getSupabaseEnv } from "@/lib/env";
+import { SUPABASE_ENV_MISSING_MESSAGE, getSupabaseEnv, hasSupabaseEnv } from "@/lib/env";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 function buildRedirect(path: string, message: string) {
@@ -31,6 +31,10 @@ export async function signInAction(formData: FormData) {
   const email = String(formData.get("email") ?? "").trim();
   const password = String(formData.get("password") ?? "");
   const next = String(formData.get("next") ?? "").trim();
+
+  if (!hasSupabaseEnv()) {
+    redirect(buildRedirect("/login", SUPABASE_ENV_MISSING_MESSAGE));
+  }
 
   const supabase = await createSupabaseServerClient();
   const { data, error } = await supabase.auth.signInWithPassword({ email, password });
@@ -68,6 +72,10 @@ export async function signUpAction(formData: FormData) {
     ? String(formData.get("display_name") ?? "").trim() || fullName
     : fullName;
   const nextPath = isProvider ? "/dashboard/provider/pedidos" : "/pedidos/novo";
+
+  if (!hasSupabaseEnv()) {
+    redirect(buildRedirect("/cadastro", SUPABASE_ENV_MISSING_MESSAGE));
+  }
 
   const baseUrl = await getBaseUrl();
   const supabase = await createSupabaseServerClient();
@@ -206,6 +214,10 @@ export async function updatePasswordAction(formData: FormData) {
     redirect(buildRedirect("/redefinir-senha", "As senhas não coincidem."));
   }
 
+  if (!hasSupabaseEnv()) {
+    redirect(buildRedirect("/login", SUPABASE_ENV_MISSING_MESSAGE));
+  }
+
   const supabase = await createSupabaseServerClient();
   const {
     data: { user },
@@ -232,6 +244,10 @@ export async function updatePasswordAction(formData: FormData) {
 }
 
 export async function signOutAction() {
+  if (!hasSupabaseEnv()) {
+    redirect(buildRedirect("/login", SUPABASE_ENV_MISSING_MESSAGE));
+  }
+
   const supabase = await createSupabaseServerClient();
   await supabase.auth.signOut();
   redirect("/");

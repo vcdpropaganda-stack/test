@@ -6,10 +6,12 @@ import { acceptJobBidAction, submitJobBidAction } from "@/app/pedidos/actions";
 import { JobBidCard } from "@/components/jobs/job-bid-card";
 import { JobStatusBadge } from "@/components/jobs/job-status-badge";
 import { Button } from "@/components/ui/button";
+import { ConfigurationNotice } from "@/components/shared/configuration-notice";
 import { InputField } from "@/components/ui/input";
 import { Notice } from "@/components/ui/notice";
 import { TextareaField } from "@/components/ui/textarea";
 import { getResolvedUserRole } from "@/lib/auth";
+import { hasSupabaseEnv } from "@/lib/env";
 import {
   formatJobBudget,
   formatJobLocation,
@@ -49,6 +51,21 @@ export default async function JobDetailPage({
   searchParams,
 }: JobDetailPageProps) {
   const [{ slug }, { message }] = await Promise.all([params, searchParams]);
+
+  if (!hasSupabaseEnv()) {
+    return (
+      <ConfigurationNotice
+        eyebrow="Pedido"
+        title="Detalhes temporariamente indisponíveis"
+        description="Os dados deste pedido e das propostas dependem da configuração pública do Supabase para carregar corretamente."
+        primaryHref="/pedidos"
+        primaryLabel="Voltar ao mural"
+        secondaryHref="/login"
+        secondaryLabel="Ir para o login"
+      />
+    );
+  }
+
   const supabase = await createSupabaseServerClient();
   const {
     data: { user },

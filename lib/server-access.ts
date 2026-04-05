@@ -1,7 +1,9 @@
 import { redirect } from "next/navigation";
 import type { User } from "@supabase/supabase-js";
 import { getResolvedUserRole } from "@/lib/auth";
+import { hasSupabaseEnv, SUPABASE_ENV_MISSING_MESSAGE } from "@/lib/env";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { buildMessagePath } from "@/lib/utils";
 
 type AuthenticatedContext = {
   supabase: Awaited<ReturnType<typeof createSupabaseServerClient>>;
@@ -34,6 +36,10 @@ type ProviderBookingAccessOptions = {
 export async function requireAuthenticatedUser(
   options: RequireAuthenticatedUserOptions = {}
 ): Promise<AuthenticatedContext> {
+  if (!hasSupabaseEnv()) {
+    redirect(buildMessagePath(options.loginRedirect ?? "/login", SUPABASE_ENV_MISSING_MESSAGE));
+  }
+
   const supabase = await createSupabaseServerClient();
   const {
     data: { user },

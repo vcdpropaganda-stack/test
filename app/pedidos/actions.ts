@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 import { getResolvedUserRole } from "@/lib/auth";
+import { SUPABASE_ENV_MISSING_MESSAGE, hasSupabaseEnv } from "@/lib/env";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 function buildRedirect(path: string, message: string) {
@@ -173,6 +174,11 @@ const acceptBidSchema = z.object({
 export async function createJobAction(formData: FormData) {
   const categoryId = String(formData.get("category_id") ?? "").trim();
   const newJobPath = buildNewJobPath(categoryId || undefined);
+
+  if (!hasSupabaseEnv()) {
+    redirect(buildRedirect(newJobPath, SUPABASE_ENV_MISSING_MESSAGE));
+  }
+
   const parsed = createJobSchema.safeParse({
     category_id: categoryId,
     title: String(formData.get("title") ?? ""),
@@ -255,6 +261,10 @@ export async function createJobAction(formData: FormData) {
 }
 
 export async function submitJobBidAction(formData: FormData) {
+  if (!hasSupabaseEnv()) {
+    redirect(buildRedirect("/pedidos", SUPABASE_ENV_MISSING_MESSAGE));
+  }
+
   const parsed = submitBidSchema.safeParse({
     job_id: String(formData.get("job_id") ?? ""),
     amount_brl: String(formData.get("amount_brl") ?? ""),
@@ -369,6 +379,10 @@ export async function submitJobBidAction(formData: FormData) {
 }
 
 export async function acceptJobBidAction(formData: FormData) {
+  if (!hasSupabaseEnv()) {
+    redirect(buildRedirect("/pedidos", SUPABASE_ENV_MISSING_MESSAGE));
+  }
+
   const parsed = acceptBidSchema.safeParse({
     job_id: String(formData.get("job_id") ?? ""),
     bid_id: String(formData.get("bid_id") ?? ""),

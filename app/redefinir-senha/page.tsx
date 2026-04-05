@@ -5,6 +5,7 @@ import { updatePasswordAction } from "@/app/auth/actions";
 import { Button } from "@/components/ui/button";
 import { InputField } from "@/components/ui/input";
 import { Notice } from "@/components/ui/notice";
+import { SUPABASE_ENV_MISSING_MESSAGE, hasSupabaseEnv } from "@/lib/env";
 
 export const metadata: Metadata = {
   title: "Redefinir senha | VLservice",
@@ -17,6 +18,7 @@ export default async function RedefinirSenhaPage({
   searchParams: Promise<{ message?: string }>;
 }) {
   const { message } = await searchParams;
+  const authReady = hasSupabaseEnv();
 
   return (
     <main
@@ -39,6 +41,10 @@ export default async function RedefinirSenhaPage({
           {message ? (
             <div className="mt-6">
               <Notice>{message}</Notice>
+            </div>
+          ) : !authReady ? (
+            <div className="mt-6">
+              <Notice>{SUPABASE_ENV_MISSING_MESSAGE}</Notice>
             </div>
           ) : null}
 

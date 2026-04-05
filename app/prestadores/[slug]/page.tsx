@@ -4,8 +4,10 @@ import Link from "next/link";
 import { MapPin, ShieldCheck, Star } from "lucide-react";
 import { notFound } from "next/navigation";
 import { ServiceCard } from "@/components/marketplace/service-card";
+import { ConfigurationNotice } from "@/components/shared/configuration-notice";
 import { ShareLinkButton } from "@/components/shared/share-link-button";
 import { Button } from "@/components/ui/button";
+import { hasSupabaseEnv } from "@/lib/env";
 import { formatPrice } from "@/lib/marketplace";
 import { getProviderProfileBySlug } from "@/lib/providers";
 
@@ -20,6 +22,13 @@ const getCachedProviderProfileBySlug = cache((slug: string) =>
 export async function generateMetadata({
   params,
 }: ProviderPageProps): Promise<Metadata> {
+  if (!hasSupabaseEnv()) {
+    return {
+      title: "Prestador | VLservice",
+      description: "Perfil público do prestador na VLservice.",
+    };
+  }
+
   const { slug } = await params;
   const provider = await getCachedProviderProfileBySlug(slug);
 
@@ -39,6 +48,20 @@ export async function generateMetadata({
 }
 
 export default async function ProviderPage({ params }: ProviderPageProps) {
+  if (!hasSupabaseEnv()) {
+    return (
+      <ConfigurationNotice
+        eyebrow="Perfil público"
+        title="Perfil temporariamente indisponível"
+        description="Os dados públicos do prestador dependem da configuração do marketplace para carregar serviços, avaliações e informações do perfil."
+        primaryHref="/servicos"
+        primaryLabel="Ver serviços"
+        secondaryHref="/"
+        secondaryLabel="Voltar para a home"
+      />
+    );
+  }
+
   const { slug } = await params;
   const provider = await getCachedProviderProfileBySlug(slug);
 

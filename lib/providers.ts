@@ -1,6 +1,11 @@
 import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { hasSupabaseEnv } from "@/lib/env";
 
 export async function getProviderProfileBySlug(slug: string) {
+  if (!hasSupabaseEnv()) {
+    return null;
+  }
+
   const supabase = await createSupabaseServerClient();
   const providerResult = await supabase
     .from("provider_profiles")

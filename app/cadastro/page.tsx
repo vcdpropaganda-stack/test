@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Notice } from "@/components/ui/notice";
 import { SignUpForm } from "@/app/cadastro/sign-up-form";
+import { SUPABASE_ENV_MISSING_MESSAGE, hasSupabaseEnv } from "@/lib/env";
 
 export const metadata: Metadata = {
   title: "Cadastro | VLservice",
@@ -14,6 +15,7 @@ export default async function CadastroPage({
   searchParams: Promise<{ message?: string }>;
 }) {
   const { message } = await searchParams;
+  const authReady = hasSupabaseEnv();
 
   return (
     <main
@@ -32,6 +34,11 @@ export default async function CadastroPage({
           </div>
 
           {message ? <div className="mb-6"><Notice>{message}</Notice></div> : null}
+          {!message && !authReady ? (
+            <div className="mb-6">
+              <Notice>{SUPABASE_ENV_MISSING_MESSAGE}</Notice>
+            </div>
+          ) : null}
 
           <SignUpForm />
         </section>
