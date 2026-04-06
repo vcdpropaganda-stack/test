@@ -144,7 +144,7 @@ export function Header({ isAuthenticated, dashboardHref }: HeaderProps) {
   return (
     <header
       className={cn(
-        "sticky top-0 z-50 w-full border-b border-transparent transition-all duration-300",
+        "safe-area-top sticky top-0 z-50 w-full border-b border-transparent transition-all duration-300",
         scrolled &&
           "border-slate-200/80 bg-[rgba(248,250,252,0.84)] backdrop-blur-2xl"
       )}
@@ -371,7 +371,11 @@ function MobileMenu({ open, children, onClose }: MobileMenuProps) {
   return createPortal(
     <div
       id="mobile-menu"
-      className="fixed inset-0 z-40 bg-[rgba(248,250,252,0.96)] px-4 pb-6 pt-20 backdrop-blur-2xl md:hidden"
+      className="safe-area-x fixed inset-0 z-40 bg-[rgba(248,250,252,0.96)] px-4 backdrop-blur-2xl md:hidden"
+      style={{
+        paddingTop: "calc(var(--safe-area-top) + 5rem)",
+        paddingBottom: "calc(var(--safe-area-bottom) + 1.5rem)",
+      }}
     >
       <button
         type="button"

@@ -23,7 +23,10 @@ export function CookieConsentBanner() {
   }
 
   return (
-    <div className="fixed inset-x-0 bottom-0 z-[65] border-t border-white/12 bg-slate-950/96 px-4 py-3 text-white shadow-[0_-12px_45px_rgba(2,6,23,0.44)] backdrop-blur-xl">
+    <div
+      className="safe-area-x fixed inset-x-0 bottom-0 z-[65] border-t border-white/12 bg-slate-950/96 px-4 py-3 text-white shadow-[0_-12px_45px_rgba(2,6,23,0.44)] backdrop-blur-xl"
+      style={{ paddingBottom: "calc(var(--safe-area-bottom) + 0.75rem)" }}
+    >
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-5">
         <p className="text-xs leading-6 text-slate-200 sm:text-sm">
           A VLservice usa cookies para melhorar sua experiência e proteger a

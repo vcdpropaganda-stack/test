@@ -36,7 +36,10 @@ export function SiteFooter() {
   return (
     <footer className="relative overflow-hidden border-t border-white/10 bg-slate-950 text-white">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(99,102,241,0.14),transparent_28%),radial-gradient(circle_at_bottom_right,rgba(59,130,246,0.12),transparent_24%)]" />
-      <div className="page-shell relative py-7 sm:py-10 lg:py-12">
+      <div
+        className="page-shell relative py-7 sm:py-10 lg:py-12"
+        style={{ paddingBottom: "calc(var(--safe-area-bottom) + 1.75rem)" }}
+      >
         <div className="grid gap-4 lg:grid-cols-[1.15fr_1.85fr] lg:gap-8">
           <div
             data-reveal
