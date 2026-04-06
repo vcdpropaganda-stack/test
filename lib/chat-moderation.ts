@@ -1,4 +1,4 @@
-const DIGIT_CONTACT_PATTERN = /(?:\+?\d[\d\s().\-_/\\|]{6,}\d)/g;
+const DIGIT_CONTACT_PATTERN = /(?:\+?\d[\d\s().,\-_/\\|:]{6,}\d)/g;
 const NUMBER_WORD_PATTERN =
   /\b(?:zero|um|uma|dois|duas|tres|três|quatro|cinco|seis|sete|oito|nove)\b/gi;
 const NUMBER_WORD_SEQUENCE_PATTERN =
