@@ -7,6 +7,7 @@ import {
   updateProviderAction,
   updateServiceModerationAction,
 } from "@/app/dashboard/admin/actions";
+import { getAuthEmailsByIds } from "@/lib/admin-auth-users";
 import { getProviderPlanLabel } from "@/lib/subscription";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
@@ -95,6 +96,7 @@ export default async function AdminDashboardPage({
         is_verified,
         plan,
         profile:profiles (
+          id,
           full_name,
           email
         ),
@@ -153,6 +155,20 @@ export default async function AdminDashboardPage({
     ...provider,
     profile: Array.isArray(provider.profile) ? provider.profile[0] ?? null : provider.profile,
     servicesCount: Array.isArray(provider.services) ? provider.services.length : 0,
+  }));
+  const recentUserRows = recentUsersResult.data ?? [];
+  const authEmailMap = await getAuthEmailsByIds([
+    ...providerRows.map((provider) => provider.profile?.id ?? ""),
+    ...recentUserRows.map((profile) => profile.id),
+  ]);
+  const providerRowsWithResolvedEmail = providerRows.map((provider) => ({
+    ...provider,
+    resolvedEmail:
+      authEmailMap.get(provider.profile?.id ?? "") ?? provider.profile?.email ?? null,
+  }));
+  const recentUserRowsWithResolvedEmail = recentUserRows.map((profile) => ({
+    ...profile,
+    resolvedEmail: authEmailMap.get(profile.id) ?? profile.email,
   }));
 
   const serviceRows = (servicesResult.data ?? []).map((service) => ({
@@ -268,12 +284,12 @@ export default async function AdminDashboardPage({
               </h2>
             </div>
             <div className="hidden rounded-full bg-primary-soft px-4 py-2 text-sm font-semibold text-primary-strong sm:inline-flex">
-              {providerRows.length} perfis carregados
+              {providerRowsWithResolvedEmail.length} perfis carregados
             </div>
           </div>
 
           <div className="mt-6 space-y-4">
-            {providerRows.map((provider) => (
+            {providerRowsWithResolvedEmail.map((provider) => (
               <article
                 key={provider.id}
                 className="rounded-[1.4rem] border border-border bg-surface p-4 sm:p-5"
@@ -299,7 +315,7 @@ export default async function AdminDashboardPage({
                     </div>
                     <p className="mt-2 text-sm leading-6 text-muted-strong">
                       {provider.profile?.full_name ?? "Prestador"} •{" "}
-                      {provider.profile?.email ?? "Sem e-mail"} •{" "}
+                      {provider.resolvedEmail ?? "Sem e-mail"} •{" "}
                       {provider.city ? `${provider.city}${provider.state ? `, ${provider.state}` : ""}` : "Localidade pendente"}
                     </p>
                     <p className="mt-2 text-sm text-muted-strong">
@@ -359,7 +375,7 @@ export default async function AdminDashboardPage({
           </div>
 
           <div className="mt-6 space-y-3">
-            {(recentUsersResult.data ?? []).map((profile) => (
+            {recentUserRowsWithResolvedEmail.map((profile) => (
               <article
                 key={profile.id}
                 className="rounded-[1.3rem] border border-border bg-surface px-4 py-3.5"
@@ -367,7 +383,9 @@ export default async function AdminDashboardPage({
                 <div className="flex items-center justify-between gap-4">
                   <div className="min-w-0">
                     <p className="truncate font-semibold text-slate-950">{profile.full_name}</p>
-                    <p className="truncate text-sm text-muted-strong">{profile.email}</p>
+                    <p className="truncate text-sm text-muted-strong">
+                      {profile.resolvedEmail}
+                    </p>
                   </div>
                   <div className="text-right">
                     <p className="rounded-full bg-primary-soft px-3 py-1 text-xs font-semibold text-primary-strong">
