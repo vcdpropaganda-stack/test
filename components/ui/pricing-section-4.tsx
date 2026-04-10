@@ -75,13 +75,6 @@ const plans: PricingPlan[] = [
   },
 ];
 
-function formatPriceLabel(value: number) {
-  return new Intl.NumberFormat("pt-BR", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  }).format(value);
-}
-
 function PricingSelector({
   selectedId,
   onChange,
@@ -173,8 +166,8 @@ export default function PricingSection4() {
           />
         </div>
 
-        <div className="mx-auto mt-12 grid w-full max-w-6xl gap-8 lg:grid-cols-[minmax(0,1.1fr)_320px] lg:items-center">
-          <div className="perspective-[2000px]">
+        <div className="mx-auto mt-12 flex w-full max-w-6xl justify-center">
+          <div className="w-full max-w-5xl perspective-[2000px]">
             <AnimatePresence mode="wait">
               <motion.div
                 key={selectedPlan.id}
@@ -322,43 +315,6 @@ export default function PricingSection4() {
                 </div>
               </motion.div>
             </AnimatePresence>
-          </div>
-
-          <div className="grid gap-3">
-            {plans.map((plan) => {
-              const active = plan.id === selectedPlanId;
-
-              return (
-                <button
-                  key={plan.id}
-                  type="button"
-                  onClick={() => setSelectedPlanId(plan.id)}
-                  className={cn(
-                    "rounded-[1.8rem] border px-5 py-5 text-left transition",
-                    active
-                      ? plan.id === "anual"
-                        ? "border-amber-300/34 bg-amber-300/10 shadow-[0_18px_40px_rgba(251,191,36,0.12)]"
-                        : "border-blue-400/26 bg-blue-400/10 shadow-[0_18px_40px_rgba(59,130,246,0.1)]"
-                      : "border-white/10 bg-white/5 hover:bg-white/8"
-                  )}
-                >
-                  <div className="flex items-start justify-between gap-3">
-                    <div>
-                      <p className="text-lg font-semibold text-white">{plan.name}</p>
-                      <p className="mt-1 text-sm text-white/56">{plan.period}</p>
-                    </div>
-                    {plan.id === "anual" ? (
-                      <span className="rounded-full border border-amber-300/34 bg-amber-300/14 px-2.5 py-1 text-[10px] font-semibold tracking-[0.18em] text-amber-100 uppercase">
-                        Prioridade
-                      </span>
-                    ) : null}
-                  </div>
-                  <p className="mt-4 text-3xl font-semibold tracking-[-0.04em] text-white">
-                    R$ {formatPriceLabel(plan.price)}
-                  </p>
-                </button>
-              );
-            })}
           </div>
         </div>
       </div>
