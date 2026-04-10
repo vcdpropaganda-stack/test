@@ -216,26 +216,26 @@ export default async function AdminDashboardPage({
 
   return (
     <main id="conteudo" className="page-shell py-10 sm:py-16">
-      <section className="overflow-hidden rounded-[2rem] border border-slate-200 bg-[linear-gradient(135deg,#020617,#111827_52%,#312e81)] p-6 text-white shadow-[0_24px_70px_rgba(15,23,42,0.18)] sm:p-8">
-        <div className="flex flex-wrap items-center justify-between gap-4">
+      <section className="overflow-hidden rounded-[1.75rem] border border-slate-200/80 bg-[linear-gradient(135deg,rgba(248,250,252,0.98),rgba(241,245,249,0.94)_55%,rgba(238,242,255,0.9))] p-5 text-slate-950 shadow-[0_18px_50px_rgba(15,23,42,0.08)] sm:p-6">
+        <div className="flex flex-wrap items-start justify-between gap-4">
           <div className="max-w-3xl">
-            <p className="text-sm font-semibold tracking-[0.24em] text-slate-300 uppercase">
+            <p className="inline-flex items-center rounded-full border border-slate-200 bg-white/80 px-3 py-1 text-[11px] font-semibold tracking-[0.22em] text-slate-500 uppercase">
               Admin e operação interna
             </p>
-            <h1 className="mt-3 font-sans text-3xl font-bold tracking-tight sm:text-5xl">
-              Controle de prestadores, anúncios e operação diária
+            <h1 className="mt-4 max-w-2xl font-sans text-2xl font-semibold tracking-[-0.04em] text-slate-950 sm:text-4xl">
+              Controle diário da plataforma
             </h1>
-            <p className="mt-4 max-w-2xl text-sm leading-7 text-slate-300 sm:text-base">
-              Use este painel para governança da plataforma, moderação do marketplace,
-              verificação de prestadores, priorização de anúncios e acompanhamento dos
-              agendamentos mais recentes.
+            <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-600 sm:text-[15px]">
+              Governe prestadores, anúncios, moderação e agendamentos em uma leitura
+              mais clara e objetiva da operação.
             </p>
           </div>
-          <div className="rounded-[1.6rem] border border-white/10 bg-white/8 px-5 py-4 text-sm text-slate-200 backdrop-blur">
-            <p className="font-semibold text-white">
-              Admin logado: {profileResult.data?.full_name ?? "Equipe interna"}
-            </p>
-            <p className="mt-1 text-slate-300">Leitura operacional com ações em tempo real</p>
+          <div className="rounded-full border border-slate-200 bg-white/75 px-4 py-2 text-sm text-slate-600 shadow-sm backdrop-blur">
+            <span className="font-medium text-slate-900">
+              {profileResult.data?.full_name ?? "Equipe interna"}
+            </span>
+            <span className="mx-2 text-slate-300">•</span>
+            <span>visão operacional em tempo real</span>
           </div>
         </div>
       </section>
