@@ -207,14 +207,14 @@ export async function getConversationListForViewer(
       status,
       created_at,
       updated_at,
-      service:services(title, slug),
-      client:profiles(full_name, avatar_url),
-      provider_profile:provider_profiles(
+      service:services!conversations_service_id_fkey(title, slug),
+      client:profiles!conversations_client_id_fkey(full_name, avatar_url),
+      provider_profile:provider_profiles!conversations_provider_profile_id_fkey(
         id,
         profile_id,
         display_name,
         whatsapp_number,
-        profile:profiles(full_name, avatar_url)
+        profile:profiles!provider_profiles_profile_id_fkey(full_name, avatar_url)
       )
     `
     )
@@ -359,14 +359,14 @@ export async function getConversationDetailForViewer(
       moderation_reason,
       client_id,
       provider_profile_id,
-      service:services(title, slug),
-      client:profiles(full_name, avatar_url),
-      provider_profile:provider_profiles(
+      service:services!conversations_service_id_fkey(title, slug),
+      client:profiles!conversations_client_id_fkey(full_name, avatar_url),
+      provider_profile:provider_profiles!conversations_provider_profile_id_fkey(
         id,
         profile_id,
         display_name,
         whatsapp_number,
-        profile:profiles(full_name, avatar_url)
+        profile:profiles!provider_profiles_profile_id_fkey(full_name, avatar_url)
       )
     `
     )
@@ -401,7 +401,7 @@ export async function getConversationDetailForViewer(
       kind,
       body,
       created_at,
-      sender:profiles(full_name, avatar_url)
+      sender:profiles!conversation_messages_sender_id_fkey(full_name, avatar_url)
     `
     )
     .eq("conversation_id", conversationId)

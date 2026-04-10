@@ -1331,13 +1331,23 @@ where id in (
   '30000000-0000-4000-8000-000000000002'::uuid,
   '30000000-0000-4000-8000-000000000003'::uuid,
   '30000000-0000-4000-8000-000000000004'::uuid,
-  '30000000-0000-4000-8000-000000000005'::uuid
+  '30000000-0000-4000-8000-000000000005'::uuid,
+  '30000000-0000-4000-8000-000000000006'::uuid,
+  '30000000-0000-4000-8000-000000000007'::uuid,
+  '30000000-0000-4000-8000-000000000008'::uuid,
+  '30000000-0000-4000-8000-000000000009'::uuid,
+  '30000000-0000-4000-8000-000000000010'::uuid
 )
 or booking_id in (
   '10000000-0000-4000-8000-000000000001'::uuid,
   '10000000-0000-4000-8000-000000000002'::uuid,
   '10000000-0000-4000-8000-000000000003'::uuid,
-  '10000000-0000-4000-8000-000000000008'::uuid
+  '10000000-0000-4000-8000-000000000004'::uuid,
+  '10000000-0000-4000-8000-000000000005'::uuid,
+  '10000000-0000-4000-8000-000000000006'::uuid,
+  '10000000-0000-4000-8000-000000000007'::uuid,
+  '10000000-0000-4000-8000-000000000008'::uuid,
+  '10000000-0000-4000-8000-000000000009'::uuid
 );
 
 with provider_refs as (
@@ -1358,9 +1368,12 @@ service_refs as (
   where slug in (
     'consultoria-digital-para-pequenos-negocios',
     'suporte-tecnico-residencial',
+    'instalacao-de-rede-e-wifi',
     'maquiagem-social-em-domicilio',
+    'escova-e-finalizacao-completa',
     'cartao-de-visita-vcd',
-    'limpeza-residencial-completa'
+    'limpeza-residencial-completa',
+    'marca-vcd'
   )
 )
 insert into public.conversations (
@@ -1433,6 +1446,56 @@ from (
       'closed'::public.conversation_status,
       timezone('utc', now()) - interval '7 day',
       timezone('utc', now()) - interval '5 day'
+    ),
+    (
+      '30000000-0000-4000-8000-000000000006'::uuid,
+      'instalacao-de-rede-e-wifi',
+      '10000000-0000-4000-8000-000000000004'::uuid,
+      '00000000-0000-4000-8000-000000000024'::uuid,
+      '00000000-0000-4000-8000-000000000012'::uuid,
+      'open'::public.conversation_status,
+      timezone('utc', now()) - interval '3 day 6 hour',
+      timezone('utc', now()) - interval '3 hour'
+    ),
+    (
+      '30000000-0000-4000-8000-000000000007'::uuid,
+      'escova-e-finalizacao-completa',
+      '10000000-0000-4000-8000-000000000005'::uuid,
+      '00000000-0000-4000-8000-000000000021'::uuid,
+      '00000000-0000-4000-8000-000000000013'::uuid,
+      'closed'::public.conversation_status,
+      timezone('utc', now()) - interval '1 day 8 hour',
+      timezone('utc', now()) - interval '1 day'
+    ),
+    (
+      '30000000-0000-4000-8000-000000000008'::uuid,
+      'limpeza-residencial-completa',
+      '10000000-0000-4000-8000-000000000006'::uuid,
+      '00000000-0000-4000-8000-000000000024'::uuid,
+      '00000000-0000-4000-8000-000000000011'::uuid,
+      'open'::public.conversation_status,
+      timezone('utc', now()) - interval '14 hour',
+      timezone('utc', now()) - interval '35 minute'
+    ),
+    (
+      '30000000-0000-4000-8000-000000000009'::uuid,
+      'escova-e-finalizacao-completa',
+      '10000000-0000-4000-8000-000000000007'::uuid,
+      '00000000-0000-4000-8000-000000000022'::uuid,
+      '00000000-0000-4000-8000-000000000013'::uuid,
+      'open'::public.conversation_status,
+      timezone('utc', now()) - interval '9 hour',
+      timezone('utc', now()) - interval '25 minute'
+    ),
+    (
+      '30000000-0000-4000-8000-000000000010'::uuid,
+      'marca-vcd',
+      '10000000-0000-4000-8000-000000000009'::uuid,
+      '00000000-0000-4000-8000-000000000021'::uuid,
+      '00000000-0000-4000-8000-000000000014'::uuid,
+      'open'::public.conversation_status,
+      timezone('utc', now()) - interval '22 hour',
+      timezone('utc', now()) - interval '40 minute'
     )
 ) as convo(
   id,
@@ -1618,8 +1681,322 @@ values
     'text',
     'Conte comigo. Quando quiser repetir o servico, me chama direto pela conversa da plataforma.',
     timezone('utc', now()) - interval '5 day'
+  ),
+  (
+    '31000000-0000-4000-8000-000000000021'::uuid,
+    '30000000-0000-4000-8000-000000000006'::uuid,
+    '00000000-0000-4000-8000-000000000024'::uuid,
+    'text',
+    'A instalacao anterior melhorou bastante, mas ainda queria revisar a distribuicao do wifi nas salas menores.',
+    timezone('utc', now()) - interval '3 day 6 hour'
+  ),
+  (
+    '31000000-0000-4000-8000-000000000022'::uuid,
+    '30000000-0000-4000-8000-000000000006'::uuid,
+    '00000000-0000-4000-8000-000000000012'::uuid,
+    'text',
+    'Claro. Posso ajustar os canais, medir sinal em cada ponto e deixar um mapa simples para a equipe.',
+    timezone('utc', now()) - interval '3 day 5 hour 35 minute'
+  ),
+  (
+    '31000000-0000-4000-8000-000000000023'::uuid,
+    '30000000-0000-4000-8000-000000000006'::uuid,
+    '00000000-0000-4000-8000-000000000024'::uuid,
+    'text',
+    'Perfeito. Preciso tambem de orientacao para o roteador da recepcao, porque o atendimento cai em alguns horarios.',
+    timezone('utc', now()) - interval '3 day 4 hour 50 minute'
+  ),
+  (
+    '31000000-0000-4000-8000-000000000024'::uuid,
+    '30000000-0000-4000-8000-000000000006'::uuid,
+    '00000000-0000-4000-8000-000000000012'::uuid,
+    'text',
+    'Fechado. Revisei o historico e levo os equipamentos certos para resolver isso de uma vez.',
+    timezone('utc', now()) - interval '3 hour'
+  ),
+  (
+    '31000000-0000-4000-8000-000000000025'::uuid,
+    '30000000-0000-4000-8000-000000000007'::uuid,
+    '00000000-0000-4000-8000-000000000021'::uuid,
+    'text',
+    'Precisei cancelar a escova porque uma reuniao entrou em cima da hora. Queria saber se consigo remarcar depois.',
+    timezone('utc', now()) - interval '1 day 8 hour'
+  ),
+  (
+    '31000000-0000-4000-8000-000000000026'::uuid,
+    '30000000-0000-4000-8000-000000000007'::uuid,
+    '00000000-0000-4000-8000-000000000013'::uuid,
+    'text',
+    'Sem problema. Posso segurar um novo horario para a semana que vem e manter o mesmo valor.',
+    timezone('utc', now()) - interval '1 day 7 hour 30 minute'
+  ),
+  (
+    '31000000-0000-4000-8000-000000000027'::uuid,
+    '30000000-0000-4000-8000-000000000007'::uuid,
+    '00000000-0000-4000-8000-000000000021'::uuid,
+    'text',
+    'Otimo. Assim que eu confirmar a agenda, volto por aqui para reabrir o atendimento.',
+    timezone('utc', now()) - interval '1 day 7 hour'
+  ),
+  (
+    '31000000-0000-4000-8000-000000000028'::uuid,
+    '30000000-0000-4000-8000-000000000007'::uuid,
+    '00000000-0000-4000-8000-000000000013'::uuid,
+    'text',
+    'Combinado. Ja deixei sua ficha separada para conseguirmos remarcar rapido.',
+    timezone('utc', now()) - interval '1 day'
+  ),
+  (
+    '31000000-0000-4000-8000-000000000029'::uuid,
+    '30000000-0000-4000-8000-000000000008'::uuid,
+    '00000000-0000-4000-8000-000000000024'::uuid,
+    'text',
+    'Quero alinhar a limpeza completa do sabado e combinar acesso ao condominio sem depender do porteiro.',
+    timezone('utc', now()) - interval '14 hour'
+  ),
+  (
+    '31000000-0000-4000-8000-000000000030'::uuid,
+    '30000000-0000-4000-8000-000000000008'::uuid,
+    '00000000-0000-4000-8000-000000000011'::uuid,
+    'text',
+    'Sem problema. Se voce me mandar o nome completo do visitante, ja deixo tudo pronto para entrada sem atraso.',
+    timezone('utc', now()) - interval '13 hour 20 minute'
+  ),
+  (
+    '31000000-0000-4000-8000-000000000031'::uuid,
+    '30000000-0000-4000-8000-000000000008'::uuid,
+    '00000000-0000-4000-8000-000000000024'::uuid,
+    'text',
+    'Perfeito. Tambem quero foco no quarto de hospedes e nas janelas da sala, porque vou receber visita.',
+    timezone('utc', now()) - interval '12 hour 45 minute'
+  ),
+  (
+    '31000000-0000-4000-8000-000000000032'::uuid,
+    '30000000-0000-4000-8000-000000000008'::uuid,
+    '00000000-0000-4000-8000-000000000011'::uuid,
+    'text',
+    'Anotado. Montei um roteiro de atendimento com essa prioridade e te atualizo quando estiver a caminho.',
+    timezone('utc', now()) - interval '35 minute'
+  ),
+  (
+    '31000000-0000-4000-8000-000000000033'::uuid,
+    '30000000-0000-4000-8000-000000000009'::uuid,
+    '00000000-0000-4000-8000-000000000022'::uuid,
+    'text',
+    'Queria uma escova mais alinhada para gravar videos da empresa. O horario confirmado continua valendo?',
+    timezone('utc', now()) - interval '9 hour'
+  ),
+  (
+    '31000000-0000-4000-8000-000000000034'::uuid,
+    '30000000-0000-4000-8000-000000000009'::uuid,
+    '00000000-0000-4000-8000-000000000013'::uuid,
+    'text',
+    'Continua sim. Posso fazer uma finalizacao com mais movimento ou uma linha mais polida, depende da imagem que voce quer passar.',
+    timezone('utc', now()) - interval '8 hour 20 minute'
+  ),
+  (
+    '31000000-0000-4000-8000-000000000035'::uuid,
+    '30000000-0000-4000-8000-000000000009'::uuid,
+    '00000000-0000-4000-8000-000000000022'::uuid,
+    'text',
+    'Prefiro algo mais limpo e profissional. Depois te mando a paleta da marca para alinhar com o visual.',
+    timezone('utc', now()) - interval '7 hour 35 minute'
+  ),
+  (
+    '31000000-0000-4000-8000-000000000036'::uuid,
+    '30000000-0000-4000-8000-000000000009'::uuid,
+    '00000000-0000-4000-8000-000000000013'::uuid,
+    'text',
+    'Perfeito. Ja deixei separado um acabamento mais natural e elegante para camera.',
+    timezone('utc', now()) - interval '25 minute'
+  ),
+  (
+    '31000000-0000-4000-8000-000000000037'::uuid,
+    '30000000-0000-4000-8000-000000000010'::uuid,
+    '00000000-0000-4000-8000-000000000021'::uuid,
+    'text',
+    'Quero estruturar a marca da clinica e sair desta primeira reuniao com direcionamento claro de posicionamento.',
+    timezone('utc', now()) - interval '22 hour'
+  ),
+  (
+    '31000000-0000-4000-8000-000000000038'::uuid,
+    '30000000-0000-4000-8000-000000000010'::uuid,
+    '00000000-0000-4000-8000-000000000014'::uuid,
+    'text',
+    'Excelente. Vou entrar com benchmarking, referencias visuais e uma proposta de voz de marca para facilitar a decisao.',
+    timezone('utc', now()) - interval '21 hour 10 minute'
+  ),
+  (
+    '31000000-0000-4000-8000-000000000039'::uuid,
+    '30000000-0000-4000-8000-000000000010'::uuid,
+    '00000000-0000-4000-8000-000000000021'::uuid,
+    'text',
+    'Perfeito. Minha principal duvida hoje e como comunicar mais premium sem parecer distante dos pacientes.',
+    timezone('utc', now()) - interval '20 hour 15 minute'
+  ),
+  (
+    '31000000-0000-4000-8000-000000000040'::uuid,
+    '30000000-0000-4000-8000-000000000010'::uuid,
+    '00000000-0000-4000-8000-000000000014'::uuid,
+    'text',
+    'Esse equilibrio da para construir bem. Vou te trazer caminhos de linguagem e identidade que mantenham proximidade e autoridade.',
+    timezone('utc', now()) - interval '40 minute'
   )
 on conflict (id) do update
 set
   body = excluded.body,
   created_at = excluded.created_at;
+
+do $$
+begin
+  if to_regclass('public.conversation_reads') is null then
+    return;
+  end if;
+
+  delete from public.conversation_reads
+  where conversation_id in (
+    '30000000-0000-4000-8000-000000000001'::uuid,
+    '30000000-0000-4000-8000-000000000002'::uuid,
+    '30000000-0000-4000-8000-000000000003'::uuid,
+    '30000000-0000-4000-8000-000000000004'::uuid,
+    '30000000-0000-4000-8000-000000000005'::uuid,
+    '30000000-0000-4000-8000-000000000006'::uuid,
+    '30000000-0000-4000-8000-000000000007'::uuid,
+    '30000000-0000-4000-8000-000000000008'::uuid,
+    '30000000-0000-4000-8000-000000000009'::uuid,
+    '30000000-0000-4000-8000-000000000010'::uuid
+  );
+
+  insert into public.conversation_reads (
+    conversation_id,
+    user_id,
+    last_read_at,
+    last_read_message_id
+  )
+  values
+    (
+      '30000000-0000-4000-8000-000000000001'::uuid,
+      '00000000-0000-4000-8000-000000000022'::uuid,
+      timezone('utc', now()) - interval '5 hour 50 minute',
+      '31000000-0000-4000-8000-000000000003'::uuid
+    ),
+    (
+      '30000000-0000-4000-8000-000000000001'::uuid,
+      '00000000-0000-4000-8000-000000000012'::uuid,
+      timezone('utc', now()) - interval '2 hour',
+      '31000000-0000-4000-8000-000000000004'::uuid
+    ),
+    (
+      '30000000-0000-4000-8000-000000000002'::uuid,
+      '00000000-0000-4000-8000-000000000022'::uuid,
+      timezone('utc', now()) - interval '18 hour 35 minute',
+      '31000000-0000-4000-8000-000000000007'::uuid
+    ),
+    (
+      '30000000-0000-4000-8000-000000000002'::uuid,
+      '00000000-0000-4000-8000-000000000012'::uuid,
+      timezone('utc', now()) - interval '90 minute',
+      '31000000-0000-4000-8000-000000000008'::uuid
+    ),
+    (
+      '30000000-0000-4000-8000-000000000003'::uuid,
+      '00000000-0000-4000-8000-000000000023'::uuid,
+      timezone('utc', now()) - interval '10 hour 50 minute',
+      '31000000-0000-4000-8000-000000000011'::uuid
+    ),
+    (
+      '30000000-0000-4000-8000-000000000003'::uuid,
+      '00000000-0000-4000-8000-000000000013'::uuid,
+      timezone('utc', now()) - interval '70 minute',
+      '31000000-0000-4000-8000-000000000012'::uuid
+    ),
+    (
+      '30000000-0000-4000-8000-000000000004'::uuid,
+      '00000000-0000-4000-8000-000000000023'::uuid,
+      timezone('utc', now()) - interval '14 hour 45 minute',
+      '31000000-0000-4000-8000-000000000015'::uuid
+    ),
+    (
+      '30000000-0000-4000-8000-000000000004'::uuid,
+      '00000000-0000-4000-8000-000000000014'::uuid,
+      timezone('utc', now()) - interval '50 minute',
+      '31000000-0000-4000-8000-000000000016'::uuid
+    ),
+    (
+      '30000000-0000-4000-8000-000000000005'::uuid,
+      '00000000-0000-4000-8000-000000000021'::uuid,
+      timezone('utc', now()) - interval '6 day 22 hour 30 minute',
+      '31000000-0000-4000-8000-000000000019'::uuid
+    ),
+    (
+      '30000000-0000-4000-8000-000000000005'::uuid,
+      '00000000-0000-4000-8000-000000000011'::uuid,
+      timezone('utc', now()) - interval '5 day',
+      '31000000-0000-4000-8000-000000000020'::uuid
+    ),
+    (
+      '30000000-0000-4000-8000-000000000006'::uuid,
+      '00000000-0000-4000-8000-000000000024'::uuid,
+      timezone('utc', now()) - interval '3 day 4 hour 50 minute',
+      '31000000-0000-4000-8000-000000000023'::uuid
+    ),
+    (
+      '30000000-0000-4000-8000-000000000006'::uuid,
+      '00000000-0000-4000-8000-000000000012'::uuid,
+      timezone('utc', now()) - interval '3 hour',
+      '31000000-0000-4000-8000-000000000024'::uuid
+    ),
+    (
+      '30000000-0000-4000-8000-000000000007'::uuid,
+      '00000000-0000-4000-8000-000000000021'::uuid,
+      timezone('utc', now()) - interval '1 day 7 hour',
+      '31000000-0000-4000-8000-000000000027'::uuid
+    ),
+    (
+      '30000000-0000-4000-8000-000000000007'::uuid,
+      '00000000-0000-4000-8000-000000000013'::uuid,
+      timezone('utc', now()) - interval '1 day',
+      '31000000-0000-4000-8000-000000000028'::uuid
+    ),
+    (
+      '30000000-0000-4000-8000-000000000008'::uuid,
+      '00000000-0000-4000-8000-000000000024'::uuid,
+      timezone('utc', now()) - interval '12 hour 45 minute',
+      '31000000-0000-4000-8000-000000000031'::uuid
+    ),
+    (
+      '30000000-0000-4000-8000-000000000008'::uuid,
+      '00000000-0000-4000-8000-000000000011'::uuid,
+      timezone('utc', now()) - interval '35 minute',
+      '31000000-0000-4000-8000-000000000032'::uuid
+    ),
+    (
+      '30000000-0000-4000-8000-000000000009'::uuid,
+      '00000000-0000-4000-8000-000000000022'::uuid,
+      timezone('utc', now()) - interval '7 hour 35 minute',
+      '31000000-0000-4000-8000-000000000035'::uuid
+    ),
+    (
+      '30000000-0000-4000-8000-000000000009'::uuid,
+      '00000000-0000-4000-8000-000000000013'::uuid,
+      timezone('utc', now()) - interval '25 minute',
+      '31000000-0000-4000-8000-000000000036'::uuid
+    ),
+    (
+      '30000000-0000-4000-8000-000000000010'::uuid,
+      '00000000-0000-4000-8000-000000000021'::uuid,
+      timezone('utc', now()) - interval '20 hour 15 minute',
+      '31000000-0000-4000-8000-000000000039'::uuid
+    ),
+    (
+      '30000000-0000-4000-8000-000000000010'::uuid,
+      '00000000-0000-4000-8000-000000000014'::uuid,
+      timezone('utc', now()) - interval '40 minute',
+      '31000000-0000-4000-8000-000000000040'::uuid
+    )
+  on conflict (conversation_id, user_id) do update
+  set
+    last_read_at = excluded.last_read_at,
+    last_read_message_id = excluded.last_read_message_id,
+    updated_at = timezone('utc', now());
+end $$;

@@ -68,11 +68,17 @@ Regra desta demo:
 | Booking de maquiagem | Fernanda + Carla | `open` | contratacao em andamento |
 | Booking de cartao de visita | Fernanda + VDP | `open` | entrega de design ativa |
 | Booking de limpeza concluida | Mariana + Ana | `closed` | historico e prova de uso real |
+| Booking de rede e wi-fi | Rafael + Bruno | `open` | suporte pos-servico e ajuste fino |
+| Escova cancelada | Mariana + Carla | `closed` | remarcacao e historico de cancelamento |
+| Limpeza futura | Rafael + Ana | `open` | alinhamento pre-servico |
+| Escova confirmada | Lucas + Carla | `open` | atendimento confirmado com briefing |
+| Marca da clinica | Mariana + VDP | `open` | descoberta e estrategia de branding |
 
 Observacao:
 
 - ha historico de mensagens suficiente para a sidebar de conversas e a tela detalhada parecerem vivas
-- a conversa fechada serve para demonstrar historico concluido
+- cada cliente e cada prestador aparece com mais de uma conversa para dar sensacao real de marketplace ativo
+- ha conversas abertas, fechadas, futuras, em execucao e de pos-servico
 
 ## Bookings Seedados
 

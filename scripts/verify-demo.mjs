@@ -35,6 +35,11 @@ const DEMO_CONVERSATION_IDS = [
   "30000000-0000-4000-8000-000000000003",
   "30000000-0000-4000-8000-000000000004",
   "30000000-0000-4000-8000-000000000005",
+  "30000000-0000-4000-8000-000000000006",
+  "30000000-0000-4000-8000-000000000007",
+  "30000000-0000-4000-8000-000000000008",
+  "30000000-0000-4000-8000-000000000009",
+  "30000000-0000-4000-8000-000000000010",
 ];
 
 const DEMO_BID_IDS = [
@@ -164,7 +169,7 @@ async function main() {
         `${conversationCount.rows[0]?.total ?? 0}/${DEMO_CONVERSATION_IDS.length} conversas encontradas`
       ),
       printCheck(
-        Number(messageCount.rows[0]?.total ?? 0) >= 20,
+        Number(messageCount.rows[0]?.total ?? 0) >= 40,
         "Demo chat history",
         `${messageCount.rows[0]?.total ?? 0} mensagens seedadas`
       ),
