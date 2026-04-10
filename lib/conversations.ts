@@ -33,6 +33,11 @@ type RawConversationMessageSender = RawMaybeArray<{
   avatar_url?: string | null;
 }>;
 
+type ConversationReadsRecord = {
+  conversation_id: string;
+  last_read_at: string | null;
+};
+
 export type ConversationViewerRole = "client" | "provider" | "admin";
 
 export type ConversationSummaryView = {
@@ -48,6 +53,7 @@ export type ConversationSummaryView = {
   lastMessagePreview: string;
   lastMessageAt: string;
   isLastMessageMine: boolean;
+  unreadCount: number;
 };
 
 export type ConversationMessageView = {
@@ -66,6 +72,8 @@ export type ConversationDetailView = {
   id: string;
   status: "open" | "closed";
   statusLabel: string;
+  moderationStatus: string;
+  moderationReason: string | null;
   serviceTitle: string;
   serviceSlug: string | null;
   counterpartName: string;
@@ -147,6 +155,33 @@ async function getProviderProfileIdForUser(
   return providerProfileResult.data?.id ?? null;
 }
 
+async function getConversationReadMap(
+  supabase: SupabaseClient,
+  viewerId: string,
+  conversationIds: string[]
+) {
+  if (conversationIds.length === 0) {
+    return new Map<string, string | null>();
+  }
+
+  const readsResult = await supabase
+    .from("conversation_reads")
+    .select("conversation_id, last_read_at")
+    .eq("user_id", viewerId)
+    .in("conversation_id", conversationIds);
+
+  if (readsResult.error) {
+    return new Map<string, string | null>();
+  }
+
+  return new Map<string, string | null>(
+    ((readsResult.data ?? []) as ConversationReadsRecord[]).map((record) => [
+      record.conversation_id,
+      record.last_read_at,
+    ])
+  );
+}
+
 export async function getConversationListForViewer(
   supabase: SupabaseClient,
   viewer: User,
@@ -216,14 +251,16 @@ export async function getConversationListForViewer(
   });
 
   const conversationIds = conversationRecords.map((conversation) => conversation.id);
-  const lastMessagesResult =
+  const [lastMessagesResult, readMap] = await Promise.all([
     conversationIds.length > 0
-      ? await supabase
+      ? supabase
           .from("conversation_messages")
           .select("conversation_id, sender_id, kind, body, created_at")
           .in("conversation_id", conversationIds)
           .order("created_at", { ascending: false })
-      : { data: [], error: null };
+      : Promise.resolve({ data: [], error: null }),
+    getConversationReadMap(supabase, viewer.id, conversationIds),
+  ]);
 
   const lastMessageMap = new Map<
     string,
@@ -234,6 +271,7 @@ export async function getConversationListForViewer(
       created_at: string;
     }
   >();
+  const unreadCountMap = new Map<string, number>();
 
   for (const message of lastMessagesResult.data ?? []) {
     if (!lastMessageMap.has(message.conversation_id)) {
@@ -244,17 +282,37 @@ export async function getConversationListForViewer(
         created_at: message.created_at,
       });
     }
+
+    const lastReadAt = readMap.get(message.conversation_id);
+    const isUnread =
+      message.sender_id !== viewer.id &&
+      (!lastReadAt || new Date(message.created_at).getTime() > new Date(lastReadAt).getTime());
+
+    if (isUnread) {
+      unreadCountMap.set(
+        message.conversation_id,
+        (unreadCountMap.get(message.conversation_id) ?? 0) + 1
+      );
+    }
   }
 
   return conversationRecords.map((conversation) => {
     const isProviderViewer =
       role === "provider" && conversation.providerProfile?.profile_id === viewer.id;
-    const counterpartName = isProviderViewer
-      ? conversation.client?.full_name ?? "Cliente"
-      : conversation.providerProfile?.display_name ?? "Prestador";
-    const counterpartAvatarUrl = isProviderViewer
-      ? conversation.client?.avatar_url ?? null
-      : conversation.providerLinkedProfile?.avatar_url ?? null;
+    const counterpartName =
+      role === "admin"
+        ? `${conversation.client?.full_name ?? "Cliente"} x ${
+            conversation.providerProfile?.display_name ?? "Prestador"
+          }`
+        : isProviderViewer
+          ? conversation.client?.full_name ?? "Cliente"
+          : conversation.providerProfile?.display_name ?? "Prestador";
+    const counterpartAvatarUrl =
+      role === "admin"
+        ? null
+        : isProviderViewer
+          ? conversation.client?.avatar_url ?? null
+          : conversation.providerLinkedProfile?.avatar_url ?? null;
     const lastMessage = lastMessageMap.get(conversation.id);
 
     return {
@@ -264,7 +322,8 @@ export async function getConversationListForViewer(
       serviceTitle: conversation.service?.title ?? "Conversa da plataforma",
       serviceSlug: conversation.service?.slug ?? null,
       counterpartName,
-      counterpartRoleLabel: isProviderViewer ? "Cliente" : "Prestador",
+      counterpartRoleLabel:
+        role === "admin" ? "Cliente e prestador" : isProviderViewer ? "Cliente" : "Prestador",
       counterpartAvatarUrl,
       counterpartInitials: getParticipantInitials(counterpartName),
       lastMessagePreview: getMessagePreviewLabel(
@@ -273,6 +332,7 @@ export async function getConversationListForViewer(
       ),
       lastMessageAt: lastMessage?.created_at ?? conversation.updated_at,
       isLastMessageMine: lastMessage?.sender_id === viewer.id,
+      unreadCount: unreadCountMap.get(conversation.id) ?? 0,
     } satisfies ConversationSummaryView;
   });
 }
@@ -282,12 +342,21 @@ export async function getConversationDetailForViewer(
   conversationId: string,
   viewer: User
 ) {
+  const viewerRoleResult = await supabase
+    .from("profiles")
+    .select("role")
+    .eq("id", viewer.id)
+    .maybeSingle();
+
+  const isAdmin = viewerRoleResult.data?.role === "admin";
   const conversationResult = await supabase
     .from("conversations")
     .select(
       `
       id,
       status,
+      moderation_status,
+      moderation_reason,
       client_id,
       provider_profile_id,
       service:services(title, slug),
@@ -319,7 +388,7 @@ export async function getConversationDetailForViewer(
   const isClient = conversationResult.data.client_id === viewer.id;
   const isProvider = providerProfile?.profile_id === viewer.id;
 
-  if (!isClient && !isProvider) {
+  if (!isClient && !isProvider && !isAdmin) {
     return null;
   }
 
@@ -376,12 +445,20 @@ export async function getConversationDetailForViewer(
     statusLabel: getConversationStatusLabel(
       conversationResult.data.status as "open" | "closed"
     ),
+    moderationStatus: conversationResult.data.moderation_status ?? "clear",
+    moderationReason: conversationResult.data.moderation_reason ?? null,
     serviceTitle: service?.title ?? "Conversa da plataforma",
     serviceSlug: service?.slug ?? null,
-    counterpartName,
-    counterpartRoleLabel: isClient ? "Prestador" : "Cliente",
-    counterpartAvatarUrl,
-    counterpartInitials: getParticipantInitials(counterpartName),
+    counterpartName: isAdmin
+      ? `${client?.full_name ?? "Cliente"} x ${providerProfile?.display_name ?? "Prestador"}`
+      : counterpartName,
+    counterpartRoleLabel: isAdmin ? "Cliente e prestador" : isClient ? "Prestador" : "Cliente",
+    counterpartAvatarUrl: isAdmin ? null : counterpartAvatarUrl,
+    counterpartInitials: getParticipantInitials(
+      isAdmin
+        ? `${client?.full_name ?? "Cliente"} ${providerProfile?.display_name ?? "Prestador"}`
+        : counterpartName
+    ),
     policyNote:
       "Por seguranca, numeros, WhatsApp e contatos externos sao mascarados automaticamente.",
     messages,
@@ -497,4 +574,29 @@ export async function ensureConversation({
   }
 
   return created.data.id;
+}
+
+export async function markConversationAsRead(
+  supabase: SupabaseClient,
+  conversationId: string,
+  userId: string
+) {
+  const readResult = await supabase.from("conversation_reads").upsert(
+    {
+      conversation_id: conversationId,
+      user_id: userId,
+      last_read_at: new Date().toISOString(),
+    },
+    {
+      onConflict: "conversation_id,user_id",
+    }
+  );
+
+  if (readResult.error) {
+    console.warn("markConversationAsRead skipped", {
+      conversationId,
+      userId,
+      error: readResult.error.message,
+    });
+  }
 }

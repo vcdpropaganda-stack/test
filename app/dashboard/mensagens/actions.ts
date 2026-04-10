@@ -2,11 +2,18 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { moderateOutgoingChatMessage } from "@/lib/chat-moderation";
+import { moderateConversationByAdmin, sendConversationMessage } from "@/lib/chat";
 import { SUPABASE_ENV_MISSING_MESSAGE, hasSupabaseEnv } from "@/lib/env";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
-async function getConversationParticipantContext(conversationId: string) {
+export async function sendConversationMessageAction(formData: FormData) {
+  const conversationId = String(formData.get("conversation_id") ?? "").trim();
+  const body = String(formData.get("body") ?? "");
+
+  if (!conversationId || !body.trim()) {
+    redirect("/dashboard/mensagens?message=Mensagem inválida.");
+  }
+
   if (!hasSupabaseEnv()) {
     redirect(`/login?message=${encodeURIComponent(SUPABASE_ENV_MISSING_MESSAGE)}`);
   }
@@ -20,81 +27,83 @@ async function getConversationParticipantContext(conversationId: string) {
     redirect("/login");
   }
 
-  const conversationResult = await supabase
-    .from("conversations")
-    .select("id, client_id, provider_profile_id, booking_id, status")
-    .eq("id", conversationId)
-    .single();
-
-  if (conversationResult.error || !conversationResult.data) {
-    redirect("/dashboard/mensagens?message=Conversa não encontrada.");
-  }
-
-  const providerResult = await supabase
-    .from("provider_profiles")
-    .select("id, profile_id, whatsapp_number")
-    .eq("id", conversationResult.data.provider_profile_id)
-    .maybeSingle();
-
-  const isClient = conversationResult.data.client_id === user.id;
-  const isProvider = providerResult.data?.profile_id === user.id;
-
-  if (!isClient && !isProvider) {
-    redirect("/dashboard?message=Acesso negado à conversa.");
-  }
-
-  return {
-    supabase,
-    user,
-    conversation: conversationResult.data,
-    providerProfile: providerResult.data ?? null,
-    isClient,
-    isProvider,
-  };
-}
-
-export async function sendConversationMessageAction(formData: FormData) {
-  const conversationId = String(formData.get("conversation_id") ?? "").trim();
-  const body = String(formData.get("body") ?? "")
-    .replace(/\r\n/g, "\n")
-    .replace(/\n{4,}/g, "\n\n\n")
-    .trim();
-
-  if (!conversationId || !body) {
-    redirect("/dashboard/mensagens?message=Mensagem inválida.");
-  }
-
-  const { supabase, user, conversation } = await getConversationParticipantContext(conversationId);
-
-  if (conversation.status === "closed") {
-    redirect(`/dashboard/mensagens/${conversationId}?message=Esta conversa foi encerrada.`);
-  }
-
-  const moderation = moderateOutgoingChatMessage(body);
-  const sanitizedBody = moderation.sanitizedBody.trim();
-
-  if (!sanitizedBody) {
-    redirect(`/dashboard/mensagens/${conversationId}?message=Mensagem inválida.`);
-  }
-
-  const { error } = await supabase.from("conversation_messages").insert({
-    conversation_id: conversationId,
-    sender_id: user.id,
-    kind: "text",
-    body: sanitizedBody,
-  });
-
-  if (error) {
+  try {
+    const result = await sendConversationMessage(supabase, user, conversationId, body);
+    revalidatePath(`/dashboard/mensagens/${conversationId}`);
+    revalidatePath("/dashboard/mensagens");
+    revalidatePath("/dashboard/admin");
+    if (result.moderation.wasRedacted) {
+      redirect(
+        `/dashboard/mensagens/${conversationId}?message=Detectamos telefone ou contato na mensagem e mascaramos automaticamente para proteger a conversa.`
+      );
+    }
+    redirect(`/dashboard/mensagens/${conversationId}`);
+  } catch (error) {
+    if (error instanceof Error && error.message === "conversation_not_found") {
+      redirect("/dashboard/mensagens?message=Conversa não encontrada.");
+    }
+    if (error instanceof Error && error.message === "conversation_forbidden") {
+      redirect("/dashboard?message=Acesso negado à conversa.");
+    }
+    if (error instanceof Error && error.message === "conversation_closed") {
+      redirect(`/dashboard/mensagens/${conversationId}?message=Esta conversa foi encerrada.`);
+    }
     redirect(`/dashboard/mensagens/${conversationId}?message=Não foi possível enviar a mensagem.`);
   }
+}
 
-  revalidatePath(`/dashboard/mensagens/${conversationId}`);
-  revalidatePath("/dashboard/mensagens");
-  if (moderation.wasRedacted) {
-    redirect(
-      `/dashboard/mensagens/${conversationId}?message=Detectamos telefone ou contato na mensagem e mascaramos automaticamente para proteger a conversa.`
-    );
+export async function updateConversationAdminAction(formData: FormData) {
+  const conversationId = String(formData.get("conversation_id") ?? "").trim();
+  const status = String(formData.get("status") ?? "").trim();
+  const moderationStatus = String(formData.get("moderation_status") ?? "clear").trim();
+  const reason = String(formData.get("reason") ?? "").trim();
+
+  if (!conversationId || !["open", "closed"].includes(status)) {
+    redirect("/dashboard/admin?message=Ação de conversa inválida.");
   }
 
-  redirect(`/dashboard/mensagens/${conversationId}`);
+  if (!["clear", "flagged", "restricted"].includes(moderationStatus) || !reason) {
+    redirect("/dashboard/admin?message=Informe um motivo e um status de moderação válidos.");
+  }
+
+  if (!hasSupabaseEnv()) {
+    redirect(`/login?message=${encodeURIComponent(SUPABASE_ENV_MISSING_MESSAGE)}`);
+  }
+
+  const supabase = await createSupabaseServerClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    redirect("/login");
+  }
+
+  const profileResult = await supabase
+    .from("profiles")
+    .select("role")
+    .eq("id", user.id)
+    .maybeSingle();
+
+  if (profileResult.data?.role !== "admin") {
+    redirect("/dashboard");
+  }
+
+  try {
+    await moderateConversationByAdmin(supabase, user.id, conversationId, {
+      status: status as "open" | "closed",
+      moderationStatus: moderationStatus as "clear" | "flagged" | "restricted",
+      reason,
+    });
+  } catch {
+    redirect("/dashboard/admin?message=Não foi possível atualizar a conversa.");
+  }
+
+  revalidatePath("/dashboard/admin");
+  revalidatePath("/dashboard/mensagens");
+  redirect(
+    `/dashboard/admin?message=${encodeURIComponent(
+      status === "closed" ? "Conversa encerrada com sucesso." : "Conversa reaberta com sucesso."
+    )}`
+  );
 }
