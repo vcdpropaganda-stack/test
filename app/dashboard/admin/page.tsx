@@ -2,14 +2,11 @@ import type { Metadata } from "next";
 import {
   Activity,
   ArrowRight,
-  BadgeCheck,
-  CalendarRange,
   MessageSquareText,
   ScrollText,
   ShieldCheck,
   Sparkles,
   UserCog,
-  Users2,
 } from "lucide-react";
 import { redirect } from "next/navigation";
 import Link from "next/link";
@@ -102,9 +99,6 @@ export default async function AdminDashboardPage({
 
   const [
     profilesCountResult,
-    servicesCountResult,
-    bookingsCountResult,
-    reviewsCountResult,
     profilesByRoleResult,
     providersResult,
     servicesResult,
@@ -115,9 +109,6 @@ export default async function AdminDashboardPage({
     auditLogsResult,
   ] = await Promise.all([
     supabase.from("profiles").select("id", { count: "exact", head: true }),
-    supabase.from("services").select("id", { count: "exact", head: true }),
-    supabase.from("bookings").select("id", { count: "exact", head: true }),
-    supabase.from("reviews").select("id", { count: "exact", head: true }),
     supabase.from("profiles").select("role"),
     supabase
       .from("provider_profiles")
@@ -238,32 +229,6 @@ export default async function AdminDashboardPage({
       : booking.provider_profile,
   }));
 
-  const stats = [
-    {
-      label: "Usuários totais",
-      value: profilesCountResult.count ?? 0,
-      hint: `${profileRoleBuckets.client ?? 0} clientes • ${profileRoleBuckets.provider ?? 0} prestadores • ${profileRoleBuckets.admin ?? 0} admins`,
-      icon: Users2,
-    },
-    {
-      label: "Serviços publicados",
-      value: servicesCountResult.count ?? 0,
-      hint: `${serviceRows.filter((service) => service.is_active).length} ativos na leitura atual`,
-      icon: Sparkles,
-    },
-    {
-      label: "Agendamentos",
-      value: bookingsCountResult.count ?? 0,
-      hint: `${bookingRows.filter((booking) => booking.status === "pending").length} pendentes na fila recente`,
-      icon: CalendarRange,
-    },
-    {
-      label: "Avaliações",
-      value: reviewsCountResult.count ?? 0,
-      hint: "Leitura consolidada da reputação do marketplace",
-      icon: BadgeCheck,
-    },
-  ];
   const normalizedQuery = normalizeSearchValue(q);
   const normalizedRoleFilter = String(role_filter ?? "all");
   const normalizedServiceFilter = String(service_filter ?? "all");

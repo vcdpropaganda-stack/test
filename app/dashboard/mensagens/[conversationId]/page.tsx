@@ -6,6 +6,7 @@ import {
   type ConversationViewerRole,
   getConversationDetailForViewer,
   getConversationListForViewer,
+  markConversationAsRead,
 } from "@/lib/conversations";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
@@ -46,6 +47,8 @@ export default async function ConversationDetailPage({
   if (!activeConversation) {
     redirect("/dashboard/mensagens?message=Acesso negado ou conversa não encontrada.");
   }
+
+  await markConversationAsRead(supabase, conversationId, user.id);
 
   return (
     <ChatShell

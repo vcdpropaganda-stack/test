@@ -1,6 +1,6 @@
 "use client";
 
-import { useDeferredValue, useEffect, useRef, useState } from "react";
+import { useDeferredValue, useEffect, useMemo, useRef, useState } from "react";
 import { format, isSameDay, isToday } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import Link from "next/link";
@@ -20,6 +20,7 @@ import {
   type ConversationSummaryView,
   type ConversationViewerRole,
 } from "@/lib/conversations";
+import { createSupabaseBrowserClient } from "@/lib/supabase/client";
 import { cn } from "@/lib/utils";
 
 type ChatShellProps = {
@@ -318,11 +319,106 @@ export function ChatShell({
   activeConversation,
   notice,
 }: ChatShellProps) {
+  const [liveConversations, setLiveConversations] = useState(conversations);
+  const [liveActiveConversation, setLiveActiveConversation] = useState(activeConversation ?? null);
   const [query, setQuery] = useState("");
   const deferredQuery = useDeferredValue(query.trim().toLocaleLowerCase("pt-BR"));
 
+  useEffect(() => {
+    setLiveConversations(conversations);
+  }, [conversations]);
+
+  useEffect(() => {
+    setLiveActiveConversation(activeConversation ?? null);
+  }, [activeConversation]);
+
+  useEffect(() => {
+    if (!liveActiveConversation?.id) {
+      return;
+    }
+
+    const activeConversationId = liveActiveConversation.id;
+    let ignore = false;
+    let supabase;
+
+    try {
+      supabase = createSupabaseBrowserClient();
+    } catch {
+      return;
+    }
+
+    async function refreshConversations() {
+      const response = await fetch("/api/chat/conversations", { cache: "no-store" });
+
+      if (!response.ok || ignore) {
+        return;
+      }
+
+      const data = (await response.json()) as {
+        conversations: ConversationSummaryView[];
+      };
+
+      if (!ignore) {
+        setLiveConversations(data.conversations);
+      }
+    }
+
+    async function refreshActiveConversation() {
+      const response = await fetch(`/api/chat/conversations/${activeConversationId}`, {
+        cache: "no-store",
+      });
+
+      if (!response.ok || ignore) {
+        return;
+      }
+
+      const data = (await response.json()) as {
+        conversation: ConversationDetailView;
+      };
+
+      if (!ignore) {
+        setLiveActiveConversation(data.conversation);
+      }
+    }
+
+    const channel = supabase
+      .channel(`chat-shell-${liveActiveConversation.id}`)
+      .on(
+        "postgres_changes",
+        {
+          event: "*",
+          schema: "public",
+          table: "conversation_messages",
+          filter: `conversation_id=eq.${activeConversationId}`,
+        },
+        () => {
+          void refreshConversations();
+          void refreshActiveConversation();
+        }
+      )
+      .on(
+        "postgres_changes",
+        {
+          event: "*",
+          schema: "public",
+          table: "conversations",
+          filter: `id=eq.${activeConversationId}`,
+        },
+        () => {
+          void refreshConversations();
+          void refreshActiveConversation();
+        }
+      )
+      .subscribe();
+
+    return () => {
+      ignore = true;
+      void supabase.removeChannel(channel);
+    };
+  }, [liveActiveConversation?.id]);
+
   const filteredConversations = deferredQuery
-    ? conversations.filter((conversation) =>
+    ? liveConversations.filter((conversation) =>
         [
           conversation.serviceTitle,
           conversation.counterpartName,
@@ -333,7 +429,32 @@ export function ChatShell({
           .toLocaleLowerCase("pt-BR")
           .includes(deferredQuery)
       )
-    : conversations;
+    : liveConversations;
+
+  const moderationBanner = useMemo(() => {
+    if (!liveActiveConversation?.moderationReason) {
+      return null;
+    }
+
+    if (liveActiveConversation.moderationStatus === "restricted") {
+      return {
+        className: "border-amber-200 bg-amber-50 text-amber-900",
+        text: `Conversa sob restrição administrativa: ${liveActiveConversation.moderationReason}`,
+      };
+    }
+
+    if (liveActiveConversation.moderationStatus === "flagged") {
+      return {
+        className: "border-rose-200 bg-rose-50 text-rose-900",
+        text: `Conversa sinalizada pela administração: ${liveActiveConversation.moderationReason}`,
+      };
+    }
+
+    return {
+      className: "border-emerald-200 bg-emerald-50 text-emerald-900",
+      text: `Atualização administrativa registrada: ${liveActiveConversation.moderationReason}`,
+    };
+  }, [liveActiveConversation]);
 
   return (
     <main id="conteudo" className="page-shell py-4 sm:py-6">
@@ -361,7 +482,7 @@ export function ChatShell({
                   </p>
                 </div>
                 <div className="rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
-                  {conversations.length} thread(s)
+                  {liveConversations.length} thread(s)
                 </div>
               </div>
 
@@ -377,7 +498,7 @@ export function ChatShell({
                 />
               </label>
 
-              {notice && !activeConversation ? (
+              {notice && !liveActiveConversation ? (
                 <div className="mt-4">
                   <Notice>{notice}</Notice>
                 </div>
@@ -387,7 +508,7 @@ export function ChatShell({
             <div className="flex-1 overflow-y-auto p-2 [content-visibility:auto]">
               {filteredConversations.length > 0 ? (
                 filteredConversations.map((conversation) => {
-                  const isActive = activeConversation?.id === conversation.id;
+                  const isActive = liveActiveConversation?.id === conversation.id;
 
                   return (
                     <Link
@@ -447,10 +568,10 @@ export function ChatShell({
                     <Search className="h-5 w-5" />
                   </div>
                   <p className="mt-4 text-base font-semibold text-slate-950">
-                    {conversations.length > 0 ? "Nenhuma conversa encontrada" : "Sua inbox esta vazia"}
+                    {liveConversations.length > 0 ? "Nenhuma conversa encontrada" : "Sua inbox esta vazia"}
                   </p>
                   <p className="mt-2 text-sm leading-7 text-slate-500">
-                    {conversations.length > 0
+                    {liveConversations.length > 0
                       ? "Tente outro termo de busca para localizar a thread certa."
                       : "Assim que um cliente ou prestador iniciar contato, a conversa aparece aqui."}
                   </p>
@@ -466,7 +587,25 @@ export function ChatShell({
             </div>
           </aside>
 
-          {activeConversation ? <ConversationThread activeConversation={activeConversation} notice={notice} /> : <EmptyThread />}
+          {liveActiveConversation ? (
+            <div className="flex min-h-0 flex-1 flex-col">
+              {moderationBanner ? (
+                <div className="px-3 pt-3 sm:px-5 sm:pt-4">
+                  <div
+                    className={cn(
+                      "rounded-[1.2rem] border px-4 py-3 text-sm",
+                      moderationBanner.className
+                    )}
+                  >
+                    {moderationBanner.text}
+                  </div>
+                </div>
+              ) : null}
+              <ConversationThread activeConversation={liveActiveConversation} notice={notice} />
+            </div>
+          ) : (
+            <EmptyThread />
+          )}
         </div>
       </div>
     </main>

@@ -319,6 +319,10 @@ create table if not exists public.conversations (
   client_id uuid not null references public.profiles(id) on delete cascade,
   provider_profile_id uuid not null references public.provider_profiles(id) on delete cascade,
   status public.conversation_status not null default 'open',
+  moderation_status text not null default 'clear',
+  moderation_reason text,
+  moderated_by uuid references public.profiles(id) on delete set null,
+  moderated_at timestamptz,
   created_at timestamptz not null default timezone('utc', now()),
   updated_at timestamptz not null default timezone('utc', now())
 );
@@ -656,11 +660,24 @@ create table if not exists public.conversation_messages (
   check (kind <> 'text' or body is not null)
 );
 
+create table if not exists public.conversation_reads (
+  conversation_id uuid not null references public.conversations(id) on delete cascade,
+  user_id uuid not null references public.profiles(id) on delete cascade,
+  last_read_at timestamptz not null default timezone('utc', now()),
+  last_read_message_id uuid references public.conversation_messages(id) on delete set null,
+  created_at timestamptz not null default timezone('utc', now()),
+  updated_at timestamptz not null default timezone('utc', now()),
+  primary key (conversation_id, user_id)
+);
+
 create index if not exists conversations_updated_at_idx
 on public.conversations(updated_at desc);
 
 create index if not exists conversation_messages_conversation_created_idx
 on public.conversation_messages(conversation_id, created_at);
+
+create index if not exists conversation_reads_user_updated_idx
+on public.conversation_reads(user_id, updated_at desc);
 
 create index if not exists jobs_status_expires_at_idx
 on public.jobs(status, expires_at desc);
@@ -696,6 +713,20 @@ create table if not exists public.email_logs (
   status text not null default 'queued',
   created_at timestamptz not null default timezone('utc', now())
 );
+
+create table if not exists public.admin_audit_logs (
+  id uuid primary key default gen_random_uuid(),
+  admin_user_id uuid not null references public.profiles(id) on delete cascade,
+  entity_type text not null,
+  entity_id uuid,
+  action text not null,
+  reason text,
+  metadata jsonb not null default '{}'::jsonb,
+  created_at timestamptz not null default timezone('utc', now())
+);
+
+create index if not exists admin_audit_logs_entity_created_idx
+on public.admin_audit_logs(entity_type, created_at desc);
 
 insert into storage.buckets (id, name, public)
 values ('service-images', 'service-images', true)
@@ -783,6 +814,12 @@ before update on public.conversations
 for each row
 execute function public.handle_updated_at();
 
+drop trigger if exists conversation_reads_set_updated_at on public.conversation_reads;
+create trigger conversation_reads_set_updated_at
+before update on public.conversation_reads
+for each row
+execute function public.handle_updated_at();
+
 drop trigger if exists jobs_set_updated_at on public.jobs;
 create trigger jobs_set_updated_at
 before update on public.jobs
@@ -860,11 +897,13 @@ alter table public.reviews enable row level security;
 alter table public.client_reviews enable row level security;
 alter table public.conversations enable row level security;
 alter table public.conversation_messages enable row level security;
+alter table public.conversation_reads enable row level security;
 alter table public.jobs enable row level security;
 alter table public.job_bids enable row level security;
 alter table public.job_bid_credit_purchases enable row level security;
 alter table public.whatsapp_request_charges enable row level security;
 alter table public.email_logs enable row level security;
+alter table public.admin_audit_logs enable row level security;
 alter table public.subscription_limits enable row level security;
 
 drop policy if exists "profiles_select_own_or_admin" on public.profiles;
@@ -1336,6 +1375,54 @@ with check (
         and (c.client_id = auth.uid() or pp.profile_id = auth.uid())
     )
   )
+);
+
+drop policy if exists "conversation_reads_related_read" on public.conversation_reads;
+create policy "conversation_reads_related_read"
+on public.conversation_reads
+for select
+using (
+  user_id = auth.uid()
+  or public.get_my_role() = 'admin'
+);
+
+drop policy if exists "conversation_reads_related_upsert" on public.conversation_reads;
+create policy "conversation_reads_related_upsert"
+on public.conversation_reads
+for insert
+with check (
+  user_id = auth.uid()
+  or public.get_my_role() = 'admin'
+);
+
+drop policy if exists "conversation_reads_related_update" on public.conversation_reads;
+create policy "conversation_reads_related_update"
+on public.conversation_reads
+for update
+using (
+  user_id = auth.uid()
+  or public.get_my_role() = 'admin'
+)
+with check (
+  user_id = auth.uid()
+  or public.get_my_role() = 'admin'
+);
+
+drop policy if exists "admin_audit_logs_admin_read" on public.admin_audit_logs;
+create policy "admin_audit_logs_admin_read"
+on public.admin_audit_logs
+for select
+using (
+  public.get_my_role() = 'admin'
+);
+
+drop policy if exists "admin_audit_logs_admin_insert" on public.admin_audit_logs;
+create policy "admin_audit_logs_admin_insert"
+on public.admin_audit_logs
+for insert
+with check (
+  public.get_my_role() = 'admin'
+  and admin_user_id = auth.uid()
 );
 
 drop policy if exists "whatsapp_request_charges_client_insert" on public.whatsapp_request_charges;

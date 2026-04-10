@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { DashboardChatWidget } from "@/components/chat/dashboard-chat-widget";
 import { ConfigurationNotice } from "@/components/shared/configuration-notice";
 import { hasSupabaseEnv } from "@/lib/env";
 
@@ -20,5 +21,10 @@ export default function DashboardLayout({
     );
   }
 
-  return children;
+  return (
+    <>
+      {children}
+      <DashboardChatWidget />
+    </>
+  );
 }

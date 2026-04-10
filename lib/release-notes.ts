@@ -10,6 +10,21 @@ export type ReleaseNote = {
 
 export const releaseNotes: ReleaseNote[] = [
   {
+    id: "2026-04-10-chat-admin-realtime",
+    versionLabel: "v2026.04.10",
+    title: "Chat global, admin operacional e realtime",
+    dateIso: "2026-04-10",
+    dateLabel: "10 de abril de 2026",
+    summary:
+      "Nova rodada de operação com chat flutuante, moderação administrativa, auditoria e atualização quase em tempo real das conversas.",
+    changes: [
+      "Chat global estilo WhatsApp nas áreas autenticadas do dashboard.",
+      "Inbox admin com filtros, moderação por motivo e trilha de auditoria.",
+      "Sincronização quase em tempo real das conversas com Supabase Realtime.",
+      "Persistência de leitura e base de governança para moderação de conversas.",
+    ],
+  },
+  {
     id: "2026-04-04-demo-ux",
     versionLabel: "v2026.04.04",
     title: "Demo interna, hardening visual e correções do hero",
